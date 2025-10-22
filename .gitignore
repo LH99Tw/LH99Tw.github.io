@@ -1,1 +1,76 @@
+# 민감한 개발 파일
 LAW.md
+
+# OS 생성 파일
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE 설정 파일
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 임시 파일 및 백업
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+
+# 로그 파일
+*.log
+logs/
+
+# 환경 설정 (민감한 정보 포함 가능)
+.env
+.env.local
+.env.*.local
+
+# Jekyll 관련 (빌드 결과물)
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Ruby/Gem 관련
+Gemfile.lock
+vendor/bundle/
+.bundle/
+
+# Node.js (만약 사용 시)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 개인 키 및 인증 파일
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# macOS
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk

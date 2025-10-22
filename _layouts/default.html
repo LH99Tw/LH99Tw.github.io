@@ -2,7 +2,6 @@
 <html lang="{{ page.lang | default: site.lang }}">
   {% include head.html %}
   <body>
-    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
     <div class="site-layout">
       {% include sidebar.html %}
       <div class="site-main">
@@ -12,5 +11,9 @@
         {% include footer.html %}
       </div>
     </div>
+    <script src="{{ '/assets/js/hits.js' | relative_url }}" defer></script>
+    {% if page.search_page %}
+      <script src="{{ '/assets/js/search.js' | relative_url }}" defer></script>
+    {% endif %}
   </body>
 </html>

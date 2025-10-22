@@ -6,12 +6,12 @@ lang: ko
 timezone: Asia/Seoul
 
 author:
-  name: "LH99Tw"
+  name: "이주한"
   email: "contact@example.com"
 github_username: "LH99Tw"
 
 profile:
-  name: "이현"
+  name: "이주한"
   bio: "기록하며 성장하는 개발자입니다."
   image: "/assets/images/profile-placeholder.svg"
 
@@ -27,6 +27,8 @@ exclude:
   - Gemfile.lock
   - README.md
   - LAW.md
+  - vendor/
+  - .bundle/
 
 defaults:
   - scope:
@@ -34,7 +36,7 @@ defaults:
       type: "posts"
     values:
       layout: post
-      author: "LH99Tw"
+      author: "이주한"
   - scope:
       path: ""
       type: "pages"

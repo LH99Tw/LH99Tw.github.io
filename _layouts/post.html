@@ -10,20 +10,53 @@ layout: default
         · {{ page.author | default: site.author.name | default: site.author }}
       {% endif %}
     </p>
+    {% if page.tags and page.tags.size > 0 %}
+      <ul class="post__tags">
+        {% for tag in page.tags %}
+          <li class="post__tag">{{ tag }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
   </header>
   <section class="post__content">
     {{ content }}
   </section>
-  <nav class="post__pagination">
-    {% if page.previous %}
-      <a class="post__pagination-link prev" href="{{ page.previous.url | relative_url }}">
-        ← {{ page.previous.title }}
-      </a>
-    {% endif %}
-    {% if page.next %}
-      <a class="post__pagination-link next" href="{{ page.next.url | relative_url }}">
-        {{ page.next.title }} →
-      </a>
-    {% endif %}
-  </nav>
+  {% assign primary_category = page.categories | first %}
+  {% if primary_category %}
+    {% assign category_posts = site.posts | where_exp: "post", "post.categories contains primary_category" | sort: 'date' | reverse %}
+    {% assign previous_post = nil %}
+    {% assign next_post = nil %}
+    {% assign previous_item = nil %}
+    {% assign capture_next = false %}
+    {% for cat_post in category_posts %}
+      {% if capture_next %}
+        {% assign next_post = cat_post %}
+        {% assign capture_next = false %}
+        {% break %}
+      {% endif %}
+      {% if cat_post.url == page.url %}
+        {% assign previous_post = previous_item %}
+        {% assign capture_next = true %}
+      {% endif %}
+      {% assign previous_item = cat_post %}
+    {% endfor %}
+  {% endif %}
+  {% if previous_post or next_post %}
+    <nav class="post__pagination" aria-label="카테고리 내 탐색">
+      {% if previous_post %}
+        <a class="post__pagination-link prev" href="{{ previous_post.url | relative_url }}">
+          <span class="post__pagination-label">이전 글</span>
+          <span class="post__pagination-title">{{ previous_post.title }}</span>
+          <span class="post__pagination-arrow">← 더 최근 글</span>
+        </a>
+      {% endif %}
+      {% if next_post %}
+        <a class="post__pagination-link next" href="{{ next_post.url | relative_url }}">
+          <span class="post__pagination-label">다음 글</span>
+          <span class="post__pagination-title">{{ next_post.title }}</span>
+          <span class="post__pagination-arrow">더 오래된 글 →</span>
+        </a>
+      {% endif %}
+    </nav>
+  {% endif %}
 </article>

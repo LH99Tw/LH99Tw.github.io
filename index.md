@@ -19,11 +19,20 @@ description: "LH99Tw의 개발 학습과 프로젝트를 기록하는 공간입�
       {% for post in site.posts limit:5 %}
         <li class="post-list__item">
           <a href="{{ post.url | relative_url }}" class="post-list__link">
-            <h3>{{ post.title }}</h3>
-            <time datetime="{{ post.date | date_to_xmlschema }}">
-              {{ post.date | date: "%Y.%m.%d" }}
-            </time>
+            <div class="post-list__header">
+              <h3>{{ post.title }}</h3>
+              <time datetime="{{ post.date | date_to_xmlschema }}">
+                {{ post.date | date: "%Y.%m.%d" }}
+              </time>
+            </div>
             <p>{{ post.description | default: post.excerpt | strip_html | truncate: 120 }}</p>
+            {% if post.tags and post.tags.size > 0 %}
+              <div class="post-list__tags">
+                {% for tag in post.tags %}
+                  <span class="post-list__tag">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
           </a>
         </li>
       {% endfor %}

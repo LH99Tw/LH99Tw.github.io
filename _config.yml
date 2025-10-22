@@ -1,0 +1,37 @@
+title: "LH99Tw Dev Blog"
+description: "Jekyll로 만드는 GitHub Pages 블로그 기록"
+url: "https://lh99tw.github.io"
+baseurl: ""
+lang: ko
+timezone: Asia/Seoul
+
+author:
+  name: "LH99Tw"
+  email: "contact@example.com"
+github_username: "LH99Tw"
+
+permalink: /blog/:year/:month/:day/:title/
+markdown: kramdown
+highlighter: rouge
+
+plugins:
+  - jekyll-seo-tag
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LAW.md
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+      author: "LH99Tw"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: default

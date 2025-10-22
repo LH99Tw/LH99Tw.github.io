@@ -1,19 +1,44 @@
 <footer class="site-footer">
   <div class="container site-footer__inner">
     <small class="site-footer__meta">&copy; {{ site.time | date: "%Y" }} {{ site.title }}.</small>
-    <a
-      class="site-footer__icon-link"
-      href="https://github.com/{{ site.github_username | default: 'LH99Tw' }}"
-      target="_blank"
-      rel="noopener"
-      aria-label="GitHub 프로필 열기"
-    >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path
-          d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.58.1.8-.25.8-.56 0-.28-.01-1.03-.02-2.03-3.2.69-3.87-1.54-3.87-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.07-.73.08-.71.08-.71 1.18.08 1.8 1.22 1.8 1.22 1.05 1.8 2.76 1.28 3.43.98.1-.76.41-1.28.74-1.58-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.19-3.07-.12-.29-.52-1.45.11-3.02 0 0 .97-.31 3.18 1.17.92-.26 1.9-.39 2.88-.39.98 0 1.96.13 2.88.39 2.21-1.48 3.18-1.17 3.18-1.17.63 1.57.23 2.73.11 3.02.74.8 1.19 1.82 1.19 3.07 0 4.4-2.7 5.37-5.26 5.65.42.36.8 1.08.8 2.18 0 1.57-.02 2.83-.02 3.21 0 .31.21.67.81.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"
-          fill="currentColor"
-        />
-      </svg>
-    </a>
+    <div class="site-footer__links">
+      <a
+        class="site-footer__icon-link"
+        href="https://www.threads.com/@hhannn999?hl=ko"
+        target="_blank"
+        rel="noopener"
+        aria-label="Threads 프로필 열기"
+      >
+        <img src="{{ '/assets/images/icon-threads.svg' | relative_url }}" alt="Threads 아이콘" class="site-footer__icon-image" loading="lazy" />
+      </a>
+      <a
+        class="site-footer__icon-link"
+        href="https://www.linkedin.com/in/juhan-lee-a45441354"
+        target="_blank"
+        rel="noopener"
+        aria-label="LinkedIn 프로필 열기"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M4.98 3.5a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2zM3 8.75h3.96V21H3V8.75zm7.47 0h3.8v1.68h.05c.53-.99 1.85-2.04 3.8-2.04 4.07 0 4.82 2.73 4.82 6.28V21h-3.96v-5.61c0-1.34-.03-3.06-1.86-3.06-1.86 0-2.15 1.45-2.15 2.95V21h-3.95V8.75z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
+      <a
+        class="site-footer__icon-link"
+        href="https://github.com/{{ site.github_username | default: 'LH99Tw' }}"
+        target="_blank"
+        rel="noopener"
+        aria-label="GitHub 프로필 열기"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.58.1.8-.25.8-.56 0-.28-.01-1.03-.02-2.03-3.2.69-3.87-1.54-3.87-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.07-.73.08-.71.08-.71 1.18.08 1.8 1.22 1.8 1.22 1.05 1.8 2.76 1.28 3.43.98.1-.76.41-1.28.74-1.58-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.19-3.07-.12-.29-.52-1.45.11-3.02 0 0 .97-.31 3.18 1.17.92-.26 1.9-.39 2.88-.39.98 0 1.96.13 2.88.39 2.21-1.48 3.18-1.17 3.18-1.17.63 1.57.23 2.73.11 3.02.74.8 1.19 1.82 1.19 3.07 0 4.4-2.7 5.37-5.26 5.65.42.36.8 1.08.8 2.18 0 1.57-.02 2.83-.02 3.21 0 .31.21.67.81.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
+    </div>
   </div>
 </footer>

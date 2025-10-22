@@ -163,6 +163,101 @@ a:focus {
   color: var(--muted-text);
 }
 
+/* 새로운 카테고리 시스템 스타일 */
+.sidebar__item--category {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.sidebar__category {
+  margin-bottom: 12px;
+}
+
+.sidebar__category-title {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 4px;
+}
+
+.sidebar__category-description {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted-text);
+  line-height: 1.4;
+}
+
+.sidebar__sub-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.sidebar__sub-item {
+  margin: 0;
+}
+
+.sidebar__sub-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  margin-left: 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  border-left: 2px solid transparent;
+}
+
+.sidebar__sub-link:hover {
+  background-color: rgba(79, 70, 229, 0.08);
+  border-left-color: var(--primary-color);
+}
+
+.sidebar__sub-title {
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.sidebar__sub-date {
+  font-size: 0.8rem;
+  color: var(--muted-text);
+  font-family: 'Courier New', monospace;
+}
+
+.sidebar__category-empty {
+  font-size: 0.85rem;
+  color: var(--muted-text);
+  font-style: italic;
+  margin-left: 8px;
+  padding: 8px;
+  background-color: rgba(107, 114, 128, 0.05);
+  border-radius: 4px;
+}
+
+.sidebar__manage {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.sidebar__manage-text {
+  font-size: 0.85rem;
+  margin: 0;
+  text-align: center;
+}
+
+.sidebar__manage-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar__manage-link:hover {
+  opacity: 0.8;
+}
+
 .site-main {
   display: flex;
   flex-direction: column;

@@ -10,6 +10,11 @@ author:
   email: "contact@example.com"
 github_username: "LH99Tw"
 
+profile:
+  name: "이현"
+  bio: "기록하며 성장하는 개발자입니다."
+  image: "/assets/images/profile-placeholder.svg"
+
 permalink: /blog/:year/:month/:day/:title/
 markdown: kramdown
 highlighter: rouge
@@ -35,3 +40,8 @@ defaults:
       type: "pages"
     values:
       layout: default
+  - scope:
+      path: "categories"
+      type: "pages"
+    values:
+      layout: category

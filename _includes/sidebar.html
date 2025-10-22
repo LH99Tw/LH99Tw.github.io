@@ -1,0 +1,45 @@
+<aside class="sidebar" aria-label="사이드바">
+  <div class="sidebar__profile">
+    {% assign profile_name = page.sidebar_name | default: site.profile.name | default: site.title %}
+    {% assign profile_bio = page.sidebar_bio | default: site.profile.bio %}
+    {% assign profile_image = page.sidebar_image | default: site.profile.image %}
+    {% if profile_image %}
+      <img
+        class="sidebar__avatar"
+        src="{{ profile_image | relative_url }}"
+        alt="{{ profile_name }} 프로필 이미지"
+        loading="lazy"
+      />
+    {% else %}
+      <div class="sidebar__avatar sidebar__avatar--placeholder" aria-hidden="true">
+        {{ profile_name | slice: 0, 1 }}
+      </div>
+    {% endif %}
+    <div class="sidebar__info">
+      <a class="sidebar__name" href="{{ '/' | relative_url }}">{{ profile_name }}</a>
+      {% if profile_bio %}
+        <p class="sidebar__bio">{{ profile_bio }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <hr class="sidebar__divider" />
+
+  <nav class="sidebar__section" aria-label="카테고리">
+    <h2 class="sidebar__heading">카테고리</h2>
+    {% assign category_pages = site.pages | where_exp: "item", "item.dir contains '/categories/'" | sort: "title" %}
+    <ul class="sidebar__list">
+      {% if category_pages.size > 0 %}
+        {% for cat in category_pages %}
+          <li class="sidebar__item">
+            <a href="{{ cat.url | relative_url }}" class="sidebar__link">
+              {{ cat.sidebar_label | default: cat.title }}
+            </a>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li class="sidebar__empty">등록된 카테고리가 없습니다.</li>
+      {% endif %}
+    </ul>
+  </nav>
+</aside>

@@ -1,0 +1,38 @@
+---
+layout: default
+---
+<section class="category">
+  <header class="category__header">
+    <h1 class="category__title">{{ page.title }}</h1>
+    {% if page.description %}
+      <p class="category__description">{{ page.description }}</p>
+    {% endif %}
+  </header>
+
+  {% assign category_handle_raw = page.category | default: page.title %}
+  {% assign category_handle = category_handle_raw | downcase %}
+  {% assign category_posts = site.posts | where_exp: "post", "post.categories contains category_handle_raw" %}
+  {% if category_posts.size == 0 %}
+    {% assign category_posts = site.posts | where_exp: "post", "post.categories contains category_handle" %}
+  {% endif %}
+
+  <ul class="post-list">
+    {% if category_posts.size > 0 %}
+      {% for post in category_posts %}
+        <li class="post-list__item">
+          <a href="{{ post.url | relative_url }}" class="post-list__link">
+            <h3>{{ post.title }}</h3>
+            <time datetime="{{ post.date | date_to_xmlschema }}">
+              {{ post.date | date: "%Y.%m.%d" }}
+            </time>
+            <p>{{ post.description | default: post.excerpt | strip_html | truncate: 120 }}</p>
+          </a>
+        </li>
+      {% endfor %}
+    {% else %}
+      <li class="post-list__empty">
+        등록된 포스트가 없습니다.
+      </li>
+    {% endif %}
+  </ul>
+</section>

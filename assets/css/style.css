@@ -596,45 +596,6 @@ a:focus {
   margin: 0;
 }
 
-.site-footer__stats {
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  margin-left: auto;
-  font-weight: 500;
-  color: var(--text-color);
-}
-
-.site-footer__stat-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  text-align: right;
-}
-
-.site-footer__stat-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-}
-
-.site-footer__stat-label {
-  color: var(--muted-text);
-}
-
-.site-footer__stat-value {
-  min-width: 40px;
-  text-align: right;
-  font-weight: 600;
-}
-
-.site-footer__separator {
-  width: 1px;
-  height: 34px;
-  background-color: rgba(79, 70, 229, 0.35);
-}
-
 .site-footer__icon-link {
   display: inline-flex;
   align-items: center;

@@ -13,6 +13,9 @@
     name="description"
     content="{{ page.description | default: page.excerpt | default: site.description | strip_html | strip_newlines | replace: '  ', ' ' }}"
   />
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/images/favicon.svg' | relative_url }}" />
+  <link rel="apple-touch-icon" href="{{ '/assets/images/favicon.svg' | relative_url }}" />
+  <meta name="theme-color" content="#4f46e5" />
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" />
   {% seo %}
 </head>

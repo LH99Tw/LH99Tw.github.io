@@ -9,6 +9,8 @@ author:
   name: "이주한"
   email: "contact@example.com"
 github_username: "LH99Tw"
+twitter_username: "LH99Tw"
+linkedin_username: "LH99Tw"
 
 profile:
   name: "이주한"
@@ -21,6 +23,8 @@ highlighter: rouge
 
 plugins:
   - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
 
 exclude:
   - Gemfile
@@ -37,13 +41,31 @@ defaults:
     values:
       layout: post
       author: "이주한"
+      image: "/assets/images/social-card.png"
+      seo:
+        type: "article"
   - scope:
       path: ""
       type: "pages"
     values:
       layout: default
+      image: "/assets/images/social-card.png"
+      seo:
+        type: "webpage"
   - scope:
       path: "categories"
       type: "pages"
     values:
       layout: category
+      image: "/assets/images/social-card.png"
+      seo:
+        type: "website"
+
+social:
+  name: "이주한"
+  links:
+    - "https://github.com/LH99Tw"
+
+logo: /assets/images/favicon.svg
+feed:
+  path: atom.xml

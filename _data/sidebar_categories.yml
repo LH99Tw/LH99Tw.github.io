@@ -1,0 +1,28 @@
+- id: programming
+  label: "프로그래밍"
+  default_open: true
+  items:
+    - id: ai
+      label: "AI"
+    - id: algorithm
+      label: "Algorithm"
+    - id: javascript
+      label: "JS"
+- id: finance
+  label: "금융"
+  items:
+    - id: investment-journal
+      label: "투자일지"
+    - id: investment-strategy
+      label: "투자전략"
+    - id: economy-note
+      label: "시장 메모"
+- id: daily
+  label: "일상"
+  items:
+    - id: routine
+      label: "루틴"
+    - id: hobby
+      label: "취미"
+    - id: journal
+      label: "일상 회고"

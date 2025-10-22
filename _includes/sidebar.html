@@ -27,21 +27,35 @@
 
   <hr class="sidebar__divider" />
 
-  <nav class="sidebar__section" aria-label="카테고리">
-    <h2 class="sidebar__heading">카테고리</h2>
-    {% assign category_pages = site.pages | where_exp: "item", "item.dir contains '/categories/'" | sort: "title" %}
-    <ul class="sidebar__list">
-      {% if category_pages.size > 0 %}
-        {% for cat in category_pages %}
-          <li class="sidebar__item">
-            <a href="{{ cat.url | relative_url }}" class="sidebar__link">
-              {{ cat.sidebar_label | default: cat.title }}
-            </a>
-          </li>
-        {% endfor %}
-      {% else %}
-        <li class="sidebar__empty">등록된 카테고리가 없습니다.</li>
-      {% endif %}
-    </ul>
-  </nav>
+  {% assign category_groups = site.data.sidebar_categories %}
+  {% if category_groups and category_groups.size > 0 %}
+    <nav class="sidebar__section" aria-label="카테고리">
+      {% for group in category_groups %}
+        {% assign is_open = group.default_open | default: false %}
+        <details class="sidebar__category" {% if is_open %}open{% endif %}>
+          <summary class="sidebar__toggle">
+            <span class="sidebar__heading">{{ group.label }}</span>
+            <span class="sidebar__chevron" aria-hidden="true"></span>
+          </summary>
+          {% if group.items and group.items.size > 0 %}
+            <ul class="sidebar__list sidebar__list--nested">
+              {% for item in group.items %}
+                {% assign item_page = site.pages | where: "category", item.id | first %}
+                {% assign item_url = item_page.url | default: item.url | default: '#' %}
+                <li class="sidebar__item sidebar__item--nested">
+                  <a href="{{ item_url | relative_url }}" class="sidebar__link sidebar__link--nested">
+                    {{ item.label }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="sidebar__empty sidebar__empty--nested">등록된 소분류가 없습니다.</p>
+          {% endif %}
+        </details>
+      {% endfor %}
+    </nav>
+  {% else %}
+    <p class="sidebar__empty">등록된 카테고리가 없습니다.</p>
+  {% endif %}
 </aside>

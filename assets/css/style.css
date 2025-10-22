@@ -50,12 +50,13 @@ a:focus {
 
 .site-layout {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  display: flex;
   background-color: var(--background);
 }
 
 .sidebar {
+  width: 280px;
+  flex: 0 0 280px;
   background-color: #ffffff;
   border-right: 1px solid var(--border-color);
   padding: 48px 32px;
@@ -166,6 +167,7 @@ a:focus {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  flex: 1;
 }
 
 .site-content {
@@ -173,6 +175,7 @@ a:focus {
   padding: 48px clamp(32px, 8vw, 80px);
   max-width: min(960px, 100%);
   width: 100%;
+  margin: 0 auto;
 }
 
 .container {
@@ -358,29 +361,25 @@ a:focus {
 }
 
 @media (max-width: 1024px) {
-  .site-layout {
-    grid-template-columns: 240px minmax(0, 1fr);
-  }
-
   .sidebar {
+    width: 240px;
+    flex-basis: 240px;
     padding: 36px 24px;
   }
 }
 
 @media (max-width: 820px) {
   .site-layout {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 
   .sidebar {
-    position: sticky;
-    top: 0;
+    position: static;
+    width: auto;
+    flex: none;
     border-right: none;
     border-bottom: 1px solid var(--border-color);
     padding: 24px 20px;
-    z-index: 10;
-    background-color: #ffffffee;
-    backdrop-filter: blur(8px);
   }
 
   .sidebar__profile {
@@ -401,7 +400,32 @@ a:focus {
   .site-content {
     padding: 32px 24px 48px;
   }
+
   .post__pagination {
     flex-direction: column;
+  }
+}
+
+@supports (display: grid) {
+  .site-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    width: auto;
+    flex: none;
+  }
+
+  @media (max-width: 1024px) {
+    .site-layout {
+      grid-template-columns: 240px minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 820px) {
+    .site-layout {
+      grid-template-columns: 1fr;
+    }
   }
 }

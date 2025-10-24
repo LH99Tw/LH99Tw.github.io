@@ -1,13 +1,13 @@
 ---
-title: "GitHub Blog 시작하기"
-description: "LH99Tw의 개발 학습과 프로젝트를 기록하는 공간입니다."
+title: "이주한's Gitblog"
+description: "AI & 금융 관련 포스팅"
 ---
 
 <section class="hero">
   <p class="hero__subtitle">Jekyll & GitHub Pages</p>
   <h1 class="hero__title">{{ site.title }}</h1>
   <p class="hero__description">
-    이 블로그는 학습 기록과 프로젝트 회고를 남기기 위한 공간입니다. 꾸준한 기록으로 성장 여정을 공유합니다.
+    AI와 금융에 관한 이야기를 다루는 공간입니다. 통찰과 기록을 꾸준히 공유합니다.
   </p>
   <a class="hero__cta" href="{{ '/#recent-posts' | relative_url }}">최근 포스트 보기</a>
 </section>

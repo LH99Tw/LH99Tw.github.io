@@ -18,3 +18,6 @@
 - 데이터 처리(Data Process): 데이터에 대한 산술적 혹은 논리적 연산을 수행 
 - 데이터 저장(Data Store) : 수행한 결과를 저장
 
+Clock cycle ?
+하드웨어는 1 나노 세컨드 - micro operation 작동 ...
+

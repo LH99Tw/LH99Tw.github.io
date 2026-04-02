@@ -44,6 +44,7 @@
   let searchedQuery = "";
   let searchPage = 1;
   const SEARCH_PAGE_SIZE = 5;
+  const PHONE_FIXED_HEIGHT = 456;
 
   // Always start in non-search mode UI.
   catTabs.classList.remove("cat-tabs--searching");
@@ -58,12 +59,7 @@
   }
 
   function syncWidgetHeight() {
-    const leftTop = contentLeft.getBoundingClientRect().top;
-    const blockBottom = catBlock.getBoundingClientRect().bottom;
-    const height = Math.round(blockBottom - leftTop);
-    if (height > 0) {
-      phone.style.height = `${height}px`;
-    }
+    phone.style.height = `${PHONE_FIXED_HEIGHT}px`;
   }
 
   function syncIndicator() {

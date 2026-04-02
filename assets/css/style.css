@@ -735,6 +735,7 @@ a {
 
 .iphone {
   width: 222px;
+  height: 456px;
   flex: 0 0 auto;
   min-height: 0;
   border-radius: var(--r-phone);

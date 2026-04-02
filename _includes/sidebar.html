@@ -1,93 +1,67 @@
 <aside class="sidebar" aria-label="사이드바">
+  {% assign profile_name = page.sidebar_name | default: site.profile.name | default: site.title %}
+  {% assign profile_bio = page.sidebar_bio | default: site.profile.bio %}
+  {% assign posting_count = site.posts | size %}
+  {% assign visitor_today = site.data.ga4_visitors.today | default: "-" %}
+  {% assign visitor_total = site.data.ga4_visitors.total | default: "-" %}
+
   <div class="sidebar__profile">
-    {% assign profile_name = page.sidebar_name | default: site.profile.name | default: site.title %}
-    {% assign profile_bio = page.sidebar_bio | default: site.profile.bio %}
-    {% assign profile_image = page.sidebar_image | default: site.profile.image %}
-    {% if profile_image %}
-      <img
-        class="sidebar__avatar"
-        src="{{ profile_image | relative_url }}"
-        alt="{{ profile_name }} 프로필 이미지"
-        loading="lazy"
-        width="112"
-        height="112"
-      />
-    {% else %}
-      <div class="sidebar__avatar sidebar__avatar--placeholder" aria-hidden="true">
-        {{ profile_name | slice: 0, 1 }}
-      </div>
+    <div class="sidebar__profile-name">{{ profile_name }}</div>
+    {% if profile_bio %}
+      <div class="sidebar__profile-bio">{{ profile_bio }}</div>
     {% endif %}
-    <div class="sidebar__info">
-      <a class="sidebar__name" href="{{ '/' | relative_url }}">{{ profile_name }}</a>
-      {% if profile_bio %}
-        <p class="sidebar__bio">{{ profile_bio }}</p>
-      {% endif %}
+    <div class="sidebar__profile-counters">
+      <div class="sidebar__profile-stat">
+        <span class="sidebar__profile-stat-label">Posting</span>
+        <strong class="sidebar__profile-stat-value">{{ posting_count }}</strong>
+      </div>
+      <div class="sidebar__profile-stat">
+        <span class="sidebar__profile-stat-label">Today</span>
+        <strong class="sidebar__profile-stat-value">{{ visitor_today }}</strong>
+      </div>
+      <div class="sidebar__profile-stat">
+        <span class="sidebar__profile-stat-label">Total</span>
+        <strong class="sidebar__profile-stat-value">{{ visitor_total }}</strong>
+      </div>
     </div>
   </div>
 
-  <hr class="sidebar__divider" />
+  <hr class="sidebar__sep" />
 
-  <div class="sidebar__utilities">
-    <div class="sidebar__quick-links">
-      <a class="sidebar__quick-link" href="{{ '/' | relative_url }}" aria-label="홈으로 이동">홈</a>
-      <a
-        class="sidebar__quick-link"
-        href="https://github.com/{{ site.github_username | default: 'LH99Tw' }}"
-        target="_blank"
-        rel="noopener"
-        aria-label="GitHub 열기"
-      >
-        GitHub
-      </a>
-    </div>
-    <form class="sidebar-search" action="{{ '/search/' | relative_url }}" method="get" role="search">
-      <label class="sidebar-search__label" for="sidebar-search-input">게시물 검색</label>
-      <input
-        id="sidebar-search-input"
-        class="sidebar-search__input"
-        type="search"
-        name="q"
-        placeholder="검색어를 입력하세요"
-        autocomplete="off"
-      />
-      <button class="sidebar-search__button" type="submit" aria-label="검색">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2"></circle>
-          <path d="m20 20-2.6-2.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-        </svg>
-      </button>
-    </form>
-  </div>
+  <nav class="sidebar__nav" aria-label="메인 네비게이션">
+    <a class="sidebar__link{% if page.url == '/' %} active{% endif %}" href="{{ '/' | relative_url }}">홈</a>
 
-  {% assign category_groups = site.data.sidebar_categories %}
-  {% if category_groups and category_groups.size > 0 %}
-    <nav class="sidebar__section" aria-label="카테고리">
-      {% for group in category_groups %}
-        {% assign is_open = group.default_open | default: false %}
-        <details class="sidebar__category" {% if is_open %}open{% endif %}>
-          <summary class="sidebar__toggle">
-            <span class="sidebar__heading">{{ group.label }}</span>
-            <span class="sidebar__chevron" aria-hidden="true"></span>
-          </summary>
-          {% if group.items and group.items.size > 0 %}
-            <ul class="sidebar__list sidebar__list--nested">
-              {% for item in group.items %}
-                {% assign item_page = site.pages | where: "category", item.id | first %}
-                {% assign item_url = item_page.url | default: item.url | default: '#' %}
-                <li class="sidebar__item sidebar__item--nested">
-                  <a href="{{ item_url | relative_url }}" class="sidebar__link sidebar__link--nested">
-                    {{ item.label }}
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            <p class="sidebar__empty sidebar__empty--nested">등록된 소분류가 없습니다.</p>
-          {% endif %}
-        </details>
+    <div class="sidebar__section-label">카테고리</div>
+    {% assign category_groups = site.data.sidebar_categories %}
+    {% for group in category_groups %}
+      {% assign is_open = group.default_open | default: false %}
+      {% for item in group.items %}
+        {% if page.category == item.id %}
+          {% assign is_open = true %}
+        {% endif %}
       {% endfor %}
-    </nav>
-  {% else %}
-    <p class="sidebar__empty">등록된 카테고리가 없습니다.</p>
-  {% endif %}
+
+      <details class="sidebar__cat" {% if is_open %}open{% endif %}>
+        <summary>{{ group.label }} <span class="sidebar__chevron" aria-hidden="true"></span></summary>
+        <ul class="sidebar__sub">
+          {% for item in group.items %}
+            {% assign item_page = site.pages | where: "category", item.id | first %}
+            {% if item_page %}
+              {% assign item_url = item_page.url %}
+            {% else %}
+              {% assign item_url = '/categories/' | append: item.id | append: '/' %}
+            {% endif %}
+            <li>
+              <a
+                href="{{ item_url | relative_url }}"
+                class="{% if page.category == item.id %}active{% endif %}"
+              >
+                {{ item.label }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    {% endfor %}
+  </nav>
 </aside>

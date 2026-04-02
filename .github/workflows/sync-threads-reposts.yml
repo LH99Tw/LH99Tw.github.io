@@ -1,0 +1,49 @@
+name: Sync Threads Reposts
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Install Playwright Browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Sync Reposts Data
+        env:
+          THREADS_USERNAME: hhannn001
+          THREADS_LIMIT: "6"
+          THREADS_OUTPUT_FILE: _data/threads_reposts.yml
+        run: npm run sync:threads-reposts
+
+      - name: Commit And Push
+        run: |
+          if git diff --quiet -- _data/threads_reposts.yml; then
+            echo "No repost changes detected."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _data/threads_reposts.yml
+          git commit -m "chore: sync Threads reposts data"
+          git push

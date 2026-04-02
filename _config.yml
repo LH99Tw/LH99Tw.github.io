@@ -9,11 +9,16 @@ author:
   name: "이주한"
   email: "contact@example.com"
 github_username: "LH99Tw"
+threads_username: "hhannn001"
+ga4:
+  measurement_id: "G-5L16WJXERM"
+  stream_id: "14296505656"
+  timezone: "Asia/Seoul"
+  first_date: "2024-01-01"
 
 profile:
   name: "이주한"
   bio: "기록하며 성장하는 개발자입니다."
-  image: "/assets/images/profile.jpg"
 
 permalink: /blog/:year/:month/:day/:title/
 markdown: kramdown
@@ -31,6 +36,7 @@ exclude:
   - LAW.md
   - vendor/
   - .bundle/
+  - chachayelmo.github.io-main/
 
 defaults:
   - scope:

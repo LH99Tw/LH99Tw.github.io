@@ -64,3 +64,7 @@ bundle exec jekyll serve --livereload
 - GitHub Pages 배포 정보: <https://docs.github.com/en/pages>
 
 이 가이드를 따라 환경을 구성하면 로컬에서 안전하게 블로그를 편집하고 미리볼 수 있습니다.
+
+
+eval "$(rbenv init - zsh)"
+bundle exec jekyll serve

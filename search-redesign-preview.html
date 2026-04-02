@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>검색 결과 재구성 시안</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/spoqa-han-sans@2.1.1/css/SpoqaHanSansNeo.min.css"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <style>
+      .search-v2 {
+        max-width: 980px;
+        margin: 12px auto 24px;
+        border: 1px solid var(--separator);
+        border-radius: var(--r-xl);
+        background: var(--surface);
+        box-shadow: var(--sh-xs);
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 260px;
+        position: relative;
+      }
+
+      .search-v2::before {
+        content: "";
+        position: absolute;
+        top: -120px;
+        right: -80px;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        background: radial-gradient(circle at center, rgba(187, 153, 129, 0.2), rgba(187, 153, 129, 0));
+        pointer-events: none;
+      }
+
+      .search-v2__main {
+        padding: 28px;
+      }
+
+      .search-v2__header {
+        border-bottom: 1px solid var(--separator);
+        padding-bottom: 18px;
+        margin-bottom: 6px;
+      }
+
+      .search-v2__eyebrow {
+        font-size: 0.69rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--brown-500);
+      }
+
+      .search-v2 h1 {
+        margin-top: 6px;
+        font-size: clamp(1.55rem, 2.1vw, 2.02rem);
+        line-height: 1.26;
+      }
+
+      .search-v2__lead {
+        margin-top: 4px;
+        color: var(--text-2);
+        font-size: 0.86rem;
+      }
+
+      .search-v2__query {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .search-v2__query input {
+        flex: 1;
+        min-width: 0;
+        height: 42px;
+        border-radius: 12px;
+        border: 1px solid rgba(187, 153, 129, 0.46);
+        background: #fff;
+        padding: 0 14px;
+        font-size: 0.88rem;
+        font-family: var(--font-sans);
+        color: var(--text-1);
+      }
+
+      .search-v2__query input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(83, 67, 64, 0.1);
+      }
+
+      .search-v2__query button {
+        height: 42px;
+        padding: 0 16px;
+        border-radius: 12px;
+        border: none;
+        background: var(--accent);
+        color: #fff;
+        font-family: var(--font-sans);
+        font-weight: 700;
+        font-size: 0.82rem;
+        cursor: pointer;
+        transition: transform 0.2s var(--ease-spring), background 0.2s;
+      }
+
+      .search-v2__query button:hover {
+        transform: translateY(-1px);
+        background: var(--brown-500);
+      }
+
+      .search-v2__chips {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+
+      .search-chip {
+        border-radius: 999px;
+        border: 1px solid var(--separator);
+        background: #fff;
+        color: var(--text-2);
+        padding: 5px 10px;
+        font-size: 0.71rem;
+        font-weight: 600;
+        transition: border-color 0.2s, background 0.2s, color 0.2s;
+      }
+
+      .search-chip--active {
+        border-color: rgba(122, 94, 87, 0.48);
+        background: var(--brown-50);
+        color: var(--accent);
+      }
+
+      .search-v2__list {
+        list-style: none;
+        margin: 2px 0 0;
+        padding: 0;
+      }
+
+      .result-line {
+        padding: 16px 2px 17px;
+        border-bottom: 1px solid var(--separator);
+        opacity: 0;
+        transform: translateY(8px);
+        animation: resultIn 0.5s var(--ease-out) forwards;
+        animation-delay: calc(var(--i) * 55ms);
+      }
+
+      .result-line:last-child {
+        border-bottom: none;
+      }
+
+      .result-line:hover {
+        background: linear-gradient(90deg, rgba(247, 242, 239, 0.7), rgba(247, 242, 239, 0));
+      }
+
+      .result-line__meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 7px;
+      }
+
+      .result-line__meta-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .result-line__badge {
+        display: inline-flex;
+        align-items: center;
+        height: 20px;
+        padding: 0 8px;
+        border-radius: 999px;
+        font-size: 0.64rem;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        font-weight: 700;
+        border: 1px solid rgba(122, 94, 87, 0.28);
+        background: rgba(247, 242, 239, 0.8);
+        color: var(--brown-700);
+      }
+
+      .result-line__meta time,
+      .result-line__score {
+        font-size: 0.69rem;
+        color: var(--text-3);
+      }
+
+      .result-line__title {
+        display: inline-block;
+        font-size: 1rem;
+        line-height: 1.4;
+        font-weight: 700;
+        color: var(--text-1);
+      }
+
+      .result-line__title:hover {
+        color: var(--accent);
+      }
+
+      .result-line__excerpt {
+        margin-top: 6px;
+        font-size: 0.82rem;
+        color: var(--text-2);
+        line-height: 1.62;
+      }
+
+      .result-line__tags {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .result-line__tag {
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(187, 153, 129, 0.32);
+        color: var(--accent);
+        background: #fff;
+        font-size: 0.69rem;
+        font-weight: 600;
+      }
+
+      .search-v2__aside {
+        border-left: 1px solid var(--separator);
+        background: linear-gradient(180deg, rgba(247, 242, 239, 0.75), rgba(247, 242, 239, 0.2));
+        padding: 24px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .aside-block h2 {
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-2);
+        margin-bottom: 9px;
+      }
+
+      .aside-block__stat {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+      }
+
+      .aside-block__stat strong {
+        font-size: 1.56rem;
+        line-height: 1;
+        color: var(--brown-900);
+      }
+
+      .aside-block__stat span {
+        font-size: 0.74rem;
+        color: var(--text-2);
+      }
+
+      .distribution {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 9px;
+      }
+
+      .distribution li {
+        display: grid;
+        grid-template-columns: 48px 1fr 24px;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.74rem;
+        color: var(--text-2);
+      }
+
+      .distribution__bar {
+        height: 6px;
+        background: rgba(187, 153, 129, 0.2);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .distribution__fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--brown-300), var(--brown-700));
+        border-radius: inherit;
+      }
+
+      .aside-hint {
+        border-top: 1px solid var(--separator);
+        padding-top: 12px;
+      }
+
+      .aside-hint p {
+        color: var(--text-2);
+        font-size: 0.75rem;
+        line-height: 1.56;
+      }
+
+      .aside-hint mark {
+        background: rgba(187, 153, 129, 0.28);
+        color: var(--brown-900);
+        border-radius: 4px;
+        padding: 0 4px;
+      }
+
+      @keyframes resultIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 1120px) {
+        .search-v2 {
+          grid-template-columns: 1fr;
+        }
+
+        .search-v2__aside {
+          border-left: none;
+          border-top: 1px solid var(--separator);
+          padding-top: 20px;
+        }
+      }
+
+      @media (max-width: 980px) {
+        .search-v2 {
+          margin-top: 6px;
+        }
+
+        .search-v2__main,
+        .search-v2__aside {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .search-v2__query {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .search-v2__query button {
+          height: 40px;
+        }
+
+        .result-line {
+          padding-top: 14px;
+          padding-bottom: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-layout">
+      <aside class="sidebar" aria-label="사이드바">
+        <div class="sidebar__profile">
+          <img
+            class="sidebar__avatar"
+            src="./assets/images/profile.jpg"
+            alt="이주한 프로필 이미지"
+            loading="lazy"
+            width="56"
+            height="56"
+          />
+          <div class="sidebar__profile-name">이주한</div>
+          <div class="sidebar__profile-bio">기록하며 성장하는 개발자입니다.</div>
+        </div>
+
+        <hr class="sidebar__sep" />
+
+        <nav class="sidebar__nav" aria-label="메인 네비게이션">
+          <a class="sidebar__link" href="./">홈</a>
+          <a class="sidebar__link active" href="./search/">검색 결과</a>
+          <div class="sidebar__section-label">카테고리</div>
+
+          <details class="sidebar__cat" open>
+            <summary>프로그래밍 <span class="sidebar__chevron" aria-hidden="true"></span></summary>
+            <ul class="sidebar__sub">
+              <li><a href="./categories/ai/">AI</a></li>
+              <li><a href="./categories/algorithm/">Algorithm</a></li>
+              <li><a href="./categories/javascript/">JS</a></li>
+            </ul>
+          </details>
+
+          <details class="sidebar__cat">
+            <summary>금융 <span class="sidebar__chevron" aria-hidden="true"></span></summary>
+            <ul class="sidebar__sub">
+              <li><a href="./categories/investment-journal/">투자일지</a></li>
+              <li><a href="./categories/investment-strategy/">투자전략</a></li>
+              <li><a href="./categories/economy-note/">시장 메모</a></li>
+            </ul>
+          </details>
+
+          <details class="sidebar__cat">
+            <summary>일상 <span class="sidebar__chevron" aria-hidden="true"></span></summary>
+            <ul class="sidebar__sub">
+              <li><a href="./categories/routine/">루틴</a></li>
+              <li><a href="./categories/hobby/">취미</a></li>
+              <li><a href="./categories/journal/">일기</a></li>
+            </ul>
+          </details>
+        </nav>
+      </aside>
+
+      <div class="main">
+        <section class="search-section" aria-label="검색">
+          <div class="search-wrap">
+            <form role="search">
+              <label class="visually-hidden" for="global-search-input-preview">검색</label>
+              <input
+                id="global-search-input-preview"
+                class="search-bar"
+                type="search"
+                placeholder="게시물을 검색하세요..."
+                value="아키텍처"
+              />
+              <button class="search-btn" type="submit" aria-label="검색">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="9" cy="9" r="5"></circle>
+                  <path d="m16 16-2.5-2.5" stroke-linecap="round"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <main id="main" class="site-content">
+          <section class="search-v2" aria-label="검색 결과 화면 시안">
+            <div class="search-v2__main">
+              <header class="search-v2__header">
+                <p class="search-v2__eyebrow">Search Workspace</p>
+                <h1>"아키텍처" 검색 결과</h1>
+                <p class="search-v2__lead">총 7개 결과 · 제목, 본문, 태그, 카테고리 기준</p>
+
+                <form class="search-v2__query" role="search">
+                  <label class="visually-hidden" for="query-input-preview">검색어</label>
+                  <input id="query-input-preview" type="search" value="아키텍처" />
+                  <button type="submit">다시 검색</button>
+                </form>
+
+                <div class="search-v2__chips" aria-label="결과 필터">
+                  <span class="search-chip search-chip--active">전체 7</span>
+                  <span class="search-chip">프로그래밍 4</span>
+                  <span class="search-chip">AI 2</span>
+                  <span class="search-chip">최근 30일</span>
+                </div>
+              </header>
+
+              <ol class="search-v2__list">
+                <li class="result-line" style="--i: 0">
+                  <div class="result-line__meta">
+                    <div class="result-line__meta-left">
+                      <span class="result-line__badge">Best Match</span>
+                      <time datetime="2026-04-02">2026.04.02</time>
+                    </div>
+                    <span class="result-line__score">일치도 98%</span>
+                  </div>
+                  <a class="result-line__title" href="./posts/2026-04-02-computer-architecture.html">
+                    컴퓨터 아키텍처 핵심 정리: 성능, 병목, 관찰 포인트
+                  </a>
+                  <p class="result-line__excerpt">
+                    파이프라이닝과 캐시 계층에서 실제 체감 성능이 갈리는 지점을 중심으로 정리했습니다. 검색어와 가장 직접적으로 일치하는 글입니다.
+                  </p>
+                  <div class="result-line__tags">
+                    <span class="result-line__tag">architecture</span>
+                    <span class="result-line__tag">cpu</span>
+                    <span class="result-line__tag">algorithm</span>
+                  </div>
+                </li>
+
+                <li class="result-line" style="--i: 1">
+                  <div class="result-line__meta">
+                    <div class="result-line__meta-left">
+                      <span class="result-line__badge">AI</span>
+                      <time datetime="2025-10-22">2025.10.22</time>
+                    </div>
+                    <span class="result-line__score">일치도 84%</span>
+                  </div>
+                  <a class="result-line__title" href="./categories/ai/">
+                    AI 개요 글 모음: 모델 구조를 이해하는 최소 프레임
+                  </a>
+                  <p class="result-line__excerpt">
+                    트랜스포머 구성 요소를 빠르게 훑고, 모델 선택 시 어떤 아키텍처 특성을 먼저 보는지 실전 관점으로 연결합니다.
+                  </p>
+                  <div class="result-line__tags">
+                    <span class="result-line__tag">ai</span>
+                    <span class="result-line__tag">transformer</span>
+                  </div>
+                </li>
+
+                <li class="result-line" style="--i: 2">
+                  <div class="result-line__meta">
+                    <div class="result-line__meta-left">
+                      <span class="result-line__badge">JS</span>
+                      <time datetime="2025-10-22">2025.10.22</time>
+                    </div>
+                    <span class="result-line__score">일치도 78%</span>
+                  </div>
+                  <a class="result-line__title" href="./categories/javascript/">
+                    JS 런타임 구조와 이벤트 루프를 한 번에 정리하기
+                  </a>
+                  <p class="result-line__excerpt">
+                    실행 컨텍스트, 큐, 마이크로태스크 우선순위를 구조적으로 묶어 설명합니다. 시스템 흐름을 잡을 때 참조하기 좋은 글입니다.
+                  </p>
+                  <div class="result-line__tags">
+                    <span class="result-line__tag">javascript</span>
+                    <span class="result-line__tag">runtime</span>
+                  </div>
+                </li>
+
+                <li class="result-line" style="--i: 3">
+                  <div class="result-line__meta">
+                    <div class="result-line__meta-left">
+                      <span class="result-line__badge">Algorithm</span>
+                      <time datetime="2025-10-22">2025.10.22</time>
+                    </div>
+                    <span class="result-line__score">일치도 70%</span>
+                  </div>
+                  <a class="result-line__title" href="./categories/algorithm/">
+                    알고리즘 메모: 복잡도와 자료구조 선택 기준
+                  </a>
+                  <p class="result-line__excerpt">
+                    시간 복잡도 자체보다 입력 패턴과 캐시 친화성까지 고려해서 선택하는 방식을 간단한 예시로 정리합니다.
+                  </p>
+                  <div class="result-line__tags">
+                    <span class="result-line__tag">algorithm</span>
+                    <span class="result-line__tag">data-structure</span>
+                  </div>
+                </li>
+              </ol>
+            </div>
+
+            <aside class="search-v2__aside" aria-label="검색 컨텍스트">
+              <section class="aside-block">
+                <h2>검색 요약</h2>
+                <div class="aside-block__stat">
+                  <strong>7</strong>
+                  <span>results</span>
+                </div>
+              </section>
+
+              <section class="aside-block">
+                <h2>카테고리 분포</h2>
+                <ul class="distribution">
+                  <li>
+                    <span>프로그래밍</span>
+                    <div class="distribution__bar"><div class="distribution__fill" style="width: 82%"></div></div>
+                    <span>4</span>
+                  </li>
+                  <li>
+                    <span>AI</span>
+                    <div class="distribution__bar"><div class="distribution__fill" style="width: 54%"></div></div>
+                    <span>2</span>
+                  </li>
+                  <li>
+                    <span>일상</span>
+                    <div class="distribution__bar"><div class="distribution__fill" style="width: 24%"></div></div>
+                    <span>1</span>
+                  </li>
+                </ul>
+              </section>
+
+              <section class="aside-hint">
+                <h2>팁</h2>
+                <p><mark>"아키텍처 + 캐시"</mark> 같이 두 키워드를 함께 검색하면 결과 정확도가 올라갑니다.</p>
+              </section>
+            </aside>
+          </section>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

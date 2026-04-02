@@ -15,6 +15,7 @@ layout: default
   {% if category_posts.size == 0 %}
     {% assign category_posts = site.posts | where_exp: "post", "post.categories contains category_handle" %}
   {% endif %}
+  {% assign category_posts = category_posts | sort: 'date' | reverse %}
 
   <ul class="post-list">
     {% if category_posts.size > 0 %}

@@ -1,0 +1,25 @@
+{
+  "name": "lh99tw.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sync:threads-reposts": "node ./scripts/sync-threads-reposts.mjs",
+    "sync:ga4-visitors": "node ./scripts/sync-ga4-visitors.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LH99Tw/LH99Tw.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/LH99Tw/LH99Tw.github.io/issues"
+  },
+  "homepage": "https://github.com/LH99Tw/LH99Tw.github.io#readme",
+  "devDependencies": {
+    "playwright": "^1.54.2"
+  }
+}

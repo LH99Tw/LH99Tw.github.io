@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>카테고리 — 이주한's Gitblog</title>
+
+  <!-- Spoqa Han Sans Neo -->
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/spoqa-han-sans@2.1.1/css/SpoqaHanSansNeo.min.css" />
+
+  <style>
+    /* ════════════════════════════════════════════════
+       DESIGN TOKENS  —  same as layout-preview
+    ════════════════════════════════════════════════ */
+    :root {
+      --bg:              #FFFFFF;
+      --sidebar-bg:      #F5F5F7;
+      --surface:         #FFFFFF;
+      --surface-hover:   rgba(0,0,0,0.04);
+      --text-1:          #1D1D1F;
+      --text-2:          #6E6E73;
+      --text-3:          #B0B0B5;
+      --separator:       rgba(0,0,0,0.08);
+
+      --brown-900:  #3A2A28;
+      --brown-700:  #534340;
+      --brown-500:  #7A5E57;
+      --brown-300:  #BB9981;
+      --brown-100:  #EDE3DC;
+      --brown-50:   #F7F2EF;
+
+      --accent:      var(--brown-700);
+      --accent-soft: var(--brown-300);
+      --accent-tint: var(--brown-50);
+
+      --r-xs:   5px;
+      --r-sm:   8px;
+      --r-md:   12px;
+      --r-lg:   14px;
+      --r-xl:   18px;
+      --r-2xl:  24px;
+
+      --sh-xs: 0 1px 2px rgba(0,0,0,0.06);
+      --sh-sm: 0 1px 4px rgba(0,0,0,0.07), 0 3px 8px rgba(0,0,0,0.04);
+
+      --sidebar-w: 216px;
+      --font-sans: 'Spoqa Han Sans Neo', 'Apple SD Gothic Neo', sans-serif;
+      --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-spring:cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-1);
+      min-height: 100vh;
+      display: flex;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ════════════════════════════════════════════════
+       SIDEBAR  (identical to layout-preview)
+    ════════════════════════════════════════════════ */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--separator);
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: none;
+    }
+    .sidebar::-webkit-scrollbar { display: none; }
+
+    .sidebar__profile {
+      padding: 28px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+    .sidebar__avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--brown-100);
+      box-shadow: 0 0 0 3px rgba(187,153,129,0.25);
+      transition: box-shadow 0.2s;
+    }
+    .sidebar__avatar:hover { box-shadow: 0 0 0 4px rgba(187,153,129,0.4); }
+    .sidebar__avatar--placeholder {
+      display: grid; place-items: center;
+      font-size: 1.4rem; font-weight: 800; color: var(--brown-700);
+    }
+    .sidebar__profile-name { font-size: 0.95rem; font-weight: 700; color: var(--text-1); line-height: 1.2; }
+    .sidebar__profile-bio  { font-size: 0.72rem; color: var(--text-2); line-height: 1.45; }
+
+    .sidebar__sep { border: none; border-top: 1px solid var(--separator); margin: 0 14px; }
+
+    .sidebar__nav {
+      padding: 10px 8px;
+      display: flex; flex-direction: column; gap: 1px; flex: 1;
+    }
+    .sidebar__link {
+      display: flex; align-items: center;
+      padding: 7px 10px;
+      border-radius: var(--r-sm);
+      font-size: 0.83rem; font-weight: 500; color: var(--text-1);
+      transition: background 0.15s, color 0.15s;
+    }
+    .sidebar__link:hover  { background: var(--surface-hover); }
+    .sidebar__link.active { background: rgba(83,67,64,0.09); color: var(--accent); font-weight: 600; }
+
+    .sidebar__section-label {
+      font-size: 0.67rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-3); padding: 12px 10px 4px;
+    }
+    .sidebar__cat { border-radius: var(--r-sm); }
+    .sidebar__cat summary {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 7px 10px;
+      font-size: 0.83rem; font-weight: 500; color: var(--text-1);
+      cursor: pointer; list-style: none;
+      border-radius: var(--r-sm);
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
+    }
+    .sidebar__cat summary::-webkit-details-marker { display: none; }
+    .sidebar__cat summary:hover { background: var(--surface-hover); }
+    .sidebar__cat[open] summary { color: var(--accent); font-weight: 600; }
+    .sidebar__chevron {
+      width: 9px; height: 9px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(-45deg);
+      transition: transform 0.2s var(--ease-out);
+      flex-shrink: 0; opacity: 0.6;
+    }
+    .sidebar__cat[open] .sidebar__chevron { transform: rotate(45deg); }
+    .sidebar__sub { list-style: none; padding: 2px 0 6px 8px; }
+    .sidebar__sub a {
+      display: block; padding: 5px 10px;
+      font-size: 0.78rem; color: var(--text-2);
+      border-radius: var(--r-xs);
+      transition: background 0.12s, color 0.12s;
+    }
+    .sidebar__sub a:hover  { background: var(--surface-hover); color: var(--accent); }
+    .sidebar__sub a.active { color: var(--accent); font-weight: 600; background: rgba(83,67,64,0.07); }
+
+    /* ════════════════════════════════════════════════
+       MAIN
+    ════════════════════════════════════════════════ */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: var(--bg);
+    }
+
+    /* ════════════════════════════════════════════════
+       CATEGORY PAGE HEADER
+    ════════════════════════════════════════════════ */
+    .cat-page-header {
+      padding: 36px 48px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .cat-page-header__title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text-1);
+      letter-spacing: -0.02em;
+    }
+
+    .cat-page-header__count {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-3);
+    }
+
+    /* ════════════════════════════════════════════════
+       FILTER TABS  (category.png style — horizontal pills under header)
+    ════════════════════════════════════════════════ */
+    .filter-row {
+      padding: 20px 48px 0;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border-bottom: 1px solid var(--separator);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filter-row::-webkit-scrollbar { display: none; }
+
+    .filter-tab {
+      padding: 10px 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      color: var(--text-2);
+      border: none;
+      background: none;
+      cursor: pointer;
+      position: relative;
+      white-space: nowrap;
+      transition: color 0.18s;
+      flex-shrink: 0;
+    }
+    .filter-tab:hover { color: var(--text-1); }
+    .filter-tab.active { color: var(--accent); }
+    .filter-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px 2px 0 0;
+    }
+
+    /* ════════════════════════════════════════════════
+       POST LIST
+    ════════════════════════════════════════════════ */
+    .post-list {
+      padding: 0 48px;
+      flex: 1;
+    }
+
+    /* ── Column header row ──────────────────────── */
+    .list-header {
+      display: grid;
+      grid-template-columns: 100px 1fr 80px;
+      padding: 8px 0;
+      background: var(--sidebar-bg);
+      border-top: 1px solid var(--separator);
+      border-bottom: 1px solid var(--separator);
+      margin-top: 20px;
+    }
+
+    .list-header span {
+      font-size: 0.67rem;
+      font-weight: 700;
+      color: var(--text-3);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0 12px;
+    }
+    .list-header span:first-child { padding-left: 0; }
+    .list-header span:nth-child(2) {
+      border-left: 1px solid var(--separator);
+    }
+    .list-header span:last-child { text-align: right; padding-right: 0; }
+
+    /* ── Grid row: cat | vert-sep | title | date ── */
+    .post-item {
+      display: grid;
+      grid-template-columns: 100px 1fr 80px;
+      align-items: center;
+      border-bottom: 1px solid var(--separator);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .post-item:last-child { border-bottom: none; }
+    .post-item:hover { background: var(--brown-50); }
+
+    .post-item__cat {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--brown-300);
+      padding: 13px 12px 13px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .post-item__title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-1);
+      padding: 13px 16px;
+      border-left: 1px solid var(--separator);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.15s;
+    }
+    .post-item:hover .post-item__title { color: var(--accent); }
+
+    .post-item__date {
+      font-size: 0.72rem;
+      color: var(--text-3);
+      padding: 13px 0 13px 8px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    /* ── Pagination ─────────────────────────────── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 28px 0 20px;
+    }
+
+    .page-btn {
+      min-width: 32px; height: 32px;
+      padding: 0 6px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--separator);
+      background: none;
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .page-btn:hover:not(:disabled) { border-color: var(--brown-300); color: var(--accent); }
+    .page-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+    .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* List fade-in */
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0);   }
+    }
+    #postRows { animation: panelIn 0.2s var(--ease-out); }
+
+    /* ════════════════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════════════════ */
+    .site-footer {
+      padding: 14px 48px;
+      border-top: 1px solid var(--separator);
+      background: var(--bg);
+      font-size: 0.78rem;
+      color: var(--text-2);
+      margin-top: auto;
+    }
+    .site-footer__inner {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    }
+    .site-footer__links { display: flex; align-items: center; gap: 6px; }
+    .site-footer__icon-link {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--separator);
+      color: var(--text-2);
+      transition: border-color 0.18s, color 0.18s, transform 0.18s var(--ease-spring);
+    }
+    .site-footer__icon-link:hover {
+      border-color: var(--brown-300); color: var(--accent); transform: translateY(-2px);
+    }
+    .site-footer__icon-link svg { width: 15px; height: 15px; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     SIDEBAR
+══════════════════════════════════════════════ -->
+<aside class="sidebar">
+
+  <div class="sidebar__profile">
+    <img
+      class="sidebar__avatar"
+      src="/assets/images/profile.jpg"
+      alt="이주한 프로필"
+      onerror="this.outerHTML='<div class=\'sidebar__avatar sidebar__avatar--placeholder\'>이</div>'"
+    />
+    <div class="sidebar__profile-name">이주한</div>
+    <div class="sidebar__profile-bio">기록하며 성장하는 개발자</div>
+  </div>
+
+  <hr class="sidebar__sep" />
+
+  <nav class="sidebar__nav">
+    <a class="sidebar__link" href="#">홈</a>
+
+    <div class="sidebar__section-label">카테고리</div>
+
+    <details class="sidebar__cat" open>
+      <summary>프로그래밍 <span class="sidebar__chevron"></span></summary>
+      <ul class="sidebar__sub">
+        <li><a href="#" class="active">AI</a></li>
+        <li><a href="#">Algorithm</a></li>
+        <li><a href="#">JS</a></li>
+      </ul>
+    </details>
+
+    <details class="sidebar__cat">
+      <summary>금융 <span class="sidebar__chevron"></span></summary>
+      <ul class="sidebar__sub">
+        <li><a href="#">투자일지</a></li>
+        <li><a href="#">투자전략</a></li>
+        <li><a href="#">시장 메모</a></li>
+      </ul>
+    </details>
+
+    <details class="sidebar__cat">
+      <summary>일상 <span class="sidebar__chevron"></span></summary>
+      <ul class="sidebar__sub">
+        <li><a href="#">루틴</a></li>
+        <li><a href="#">취미</a></li>
+        <li><a href="#">회고</a></li>
+      </ul>
+    </details>
+  </nav>
+
+</aside>
+
+
+<!-- ══════════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- ── Category Header ───────────────────────── -->
+  <div class="cat-page-header">
+    <h1 class="cat-page-header__title">프로그래밍</h1>
+    <span class="cat-page-header__count">12편</span>
+  </div>
+
+  <!-- ── Filter Tabs ───────────────────────────── -->
+  <div class="filter-row" id="filterRow">
+    <button class="filter-tab active" data-panel="all">전체</button>
+    <button class="filter-tab" data-panel="ai">AI</button>
+    <button class="filter-tab" data-panel="algo">Algorithm</button>
+    <button class="filter-tab" data-panel="js">JS</button>
+  </div>
+
+  <!-- ── Post List ─────────────────────────────── -->
+  <div class="post-list">
+
+    <!-- Column header row -->
+    <div class="list-header">
+      <span>카테고리</span>
+      <span>글 제목</span>
+      <span>날짜</span>
+    </div>
+
+    <!-- Rows rendered by JS -->
+    <div id="postRows"></div>
+
+    <!-- Pagination rendered by JS -->
+    <div class="pagination" id="pagination"></div>
+
+  </div><!-- /post-list -->
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <small>© 2025 이주한's Gitblog.</small>
+      <div class="site-footer__links">
+        <a class="site-footer__icon-link" href="https://www.threads.com/@hhannn001" target="_blank" rel="noopener" aria-label="Threads">
+          <svg viewBox="0 0 192 192" fill="currentColor"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.2328C81.6116 63.5383 90.6052 61.6848 97.2286 61.6848C97.3051 61.6848 97.3819 61.6848 97.4576 61.6855C105.375 61.7381 111.096 63.9468 114.492 68.2344C116.856 71.1288 118.434 75.1693 119.178 80.2373C114.08 79.4391 108.563 79.1524 102.667 79.4355C78.5353 80.6375 63.2867 94.1623 64.0454 113.059C64.4285 122.641 69.071 130.947 77.1755 136.571C83.9902 141.354 92.7218 143.705 101.795 143.238C113.661 142.622 122.877 137.899 129.169 129.151C133.916 122.528 136.86 114.087 138.014 103.487C143.675 106.931 147.853 111.779 149.805 117.744C152.978 127.475 153.109 143.226 140.251 156.124C128.989 167.43 115.386 172.488 95.7 172.596C73.7536 172.492 57.2366 165.649 46.5979 152.308C36.393 139.527 31.1 121.043 30.9192 97.4982C31.1 73.9527 36.393 55.4682 46.5979 42.6871C57.2366 29.3459 73.7536 22.5033 95.7 22.3985C117.837 22.5041 134.631 29.3791 145.608 42.8085C150.989 49.3986 155.059 57.9031 157.78 67.952L174.22 63.5983C170.896 51.0647 165.748 40.2137 158.786 31.1686C144.994 13.3514 124.588 4.15479 95.757 4.01172C66.9052 4.15479 46.2547 13.3962 32.7718 31.2734C20.9027 47.1399 14.6548 68.3721 14.4519 97.4982C14.6548 126.624 20.9027 147.856 32.7718 163.723C46.2547 181.6 66.9052 190.842 95.757 190.985C117.764 190.871 135.411 184.972 148.282 172.097C163.991 156.369 163.446 136.472 158.289 121.405C154.528 110.399 147.069 102.189 136.789 97.2804C135.994 94.1948 134.978 91.4564 133.773 89.0765C136.422 89.0765 138.997 89.0121 141.537 88.9883ZM103.068 126.218C94.3354 126.67 85.2503 122.957 84.8142 113.126C84.4787 105.426 89.8997 97.0244 103.502 96.3246C104.91 96.2519 106.289 96.2172 107.639 96.2172C112.764 96.2172 117.561 96.7564 121.961 97.7835C120.851 113.657 113.022 125.657 103.068 126.218Z"/></svg>
+        </a>
+        <a class="site-footer__icon-link" href="https://github.com/LH99Tw" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.58.1.8-.25.8-.56 0-.28-.01-1.03-.02-2.03-3.2.69-3.87-1.54-3.87-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.07-.73.08-.71.08-.71 1.18.08 1.8 1.22 1.8 1.22 1.05 1.8 2.76 1.28 3.43.98.1-.76.41-1.28.74-1.58-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.19-3.07-.12-.29-.52-1.45.11-3.02 0 0 .97-.31 3.18 1.17.92-.26 1.9-.39 2.88-.39.98 0 1.96.13 2.88.39 2.21-1.48 3.18-1.17 3.18-1.17.63 1.57.23 2.73.11 3.02.74.8 1.19 1.82 1.19 3.07 0 4.4-2.7 5.37-5.26 5.65.42.36.8 1.08.8 2.18 0 1.57-.02 2.83-.02 3.21 0 .31.21.67.81.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"/></svg>
+        </a>
+        <a class="site-footer__icon-link" href="https://www.linkedin.com/in/juhan-lee-a45441354" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /main -->
+
+<script>
+  /* ── Post data ───────────────────────────────── */
+  const ALL_POSTS = [
+    { cat: 'AI',        title: 'GPT-4o로 자동화 파이프라인 구축하기',       date: '2025.04.01' },
+    { cat: 'JS',        title: 'React 19 주요 변경사항 한눈에 보기',         date: '2025.03.30' },
+    { cat: 'Algorithm', title: '다이나믹 프로그래밍 핵심 패턴 정리',         date: '2025.03.29' },
+    { cat: 'AI',        title: 'RAG 아키텍처 이해와 실전 구현 가이드',       date: '2025.03.28' },
+    { cat: 'Algorithm', title: '그래프 탐색 BFS / DFS 완전 정복',            date: '2025.03.21' },
+    { cat: 'AI',        title: 'Claude API로 나만의 AI 어시스턴트 만들기',   date: '2025.03.20' },
+    { cat: 'JS',        title: 'TypeScript 5.x 새 기능 완전 정리',           date: '2025.03.19' },
+    { cat: 'Algorithm', title: '투 포인터 기법 활용 예제 모음',              date: '2025.03.13' },
+    { cat: 'JS',        title: 'Bun vs Node.js 실전 성능 비교',              date: '2025.03.11' },
+    { cat: 'AI',        title: 'Embedding 기반 시맨틱 검색 완전 정복',       date: '2025.03.05' },
+    { cat: 'JS',        title: 'Web Workers로 무거운 연산 처리하기',          date: '2025.03.04' },
+    { cat: 'AI',        title: 'LangChain 멀티 에이전트 시스템 설계',        date: '2025.02.28' },
+    { cat: 'Algorithm', title: '이분 탐색 응용 문제 5가지',                  date: '2025.02.20' },
+    { cat: 'JS',        title: '모던 CSS Grid 레이아웃 마스터하기',           date: '2025.02.14' },
+    { cat: 'AI',        title: 'Stable Diffusion XL 파인튜닝 실전 가이드',   date: '2025.02.10' },
+    { cat: 'Algorithm', title: '세그먼트 트리 구현과 활용',                  date: '2025.02.05' },
+    { cat: 'JS',        title: 'Vite vs Webpack 빌드 성능 완전 분석',        date: '2025.01.30' },
+    { cat: 'AI',        title: 'Whisper로 회의 자동 요약 시스템 구현',       date: '2025.01.22' },
+  ];
+
+  const PER_PAGE = 8;
+  let activeFilter = 'all';
+  let currentPage  = 1;
+
+  /* ── Filter map ───────────────────────────────── */
+  const FILTER_MAP = { all: null, ai: 'AI', algo: 'Algorithm', js: 'JS' };
+
+  function getFiltered() {
+    const cat = FILTER_MAP[activeFilter];
+    return cat ? ALL_POSTS.filter(p => p.cat === cat) : ALL_POSTS;
+  }
+
+  /* ── Render rows ─────────────────────────────── */
+  function renderRows() {
+    const posts = getFiltered();
+    const total = posts.length;
+    const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    const slice = posts.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+
+    const rowsEl = document.getElementById('postRows');
+    rowsEl.innerHTML = slice.map(p => `
+      <div class="post-item">
+        <span class="post-item__cat">${p.cat}</span>
+        <span class="post-item__title">${p.title}</span>
+        <span class="post-item__date">${p.date}</span>
+      </div>`).join('');
+
+    renderPagination(totalPages);
+  }
+
+  /* ── Render pagination ───────────────────────── */
+  function renderPagination(totalPages) {
+    const el = document.getElementById('pagination');
+    if (totalPages <= 1) { el.innerHTML = ''; return; }
+
+    let html = `<button class="page-btn" id="pgPrev" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+    }
+    html += `<button class="page-btn" id="pgNext" ${currentPage === totalPages ? 'disabled' : ''}>›</button>`;
+    el.innerHTML = html;
+  }
+
+  /* ── Pagination click ────────────────────────── */
+  document.getElementById('pagination').addEventListener('click', e => {
+    const btn = e.target.closest('.page-btn');
+    if (!btn || btn.disabled) return;
+    if (btn.id === 'pgPrev') currentPage--;
+    else if (btn.id === 'pgNext') currentPage++;
+    else currentPage = Number(btn.dataset.page);
+    renderRows();
+  });
+
+  /* ── Filter tab click ────────────────────────── */
+  document.getElementById('filterRow').addEventListener('click', e => {
+    const btn = e.target.closest('.filter-tab');
+    if (!btn) return;
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.panel;
+    currentPage  = 1;
+    renderRows();
+  });
+
+  /* ── Init ────────────────────────────────────── */
+  renderRows();
+</script>
+
+</body>
+</html>

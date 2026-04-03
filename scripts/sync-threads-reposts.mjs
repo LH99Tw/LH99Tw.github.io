@@ -37,6 +37,13 @@ function compact(text) {
     .trim();
 }
 
+function normalizeKey(text) {
+  return compact(text)
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+}
+
 function isNoise(line) {
   if (!line) return true;
   const normalized = line.toLowerCase().trim();
@@ -116,19 +123,43 @@ function pickBestCandidate(candidates, author) {
   let best = null;
   for (const candidate of candidates || []) {
     const text = compact(candidate.text);
-    if (text.length < 24 || text.length > 1800) continue;
+    if (text.length < 24 || text.length > 900) continue;
     const lines = splitLines(candidate.text);
+    if (lines.length > 36) continue;
     const body = pickBody(lines, author);
     if (!body) continue;
 
     const depth = Number.isFinite(candidate.depth) ? candidate.depth : 0;
-    const depthBonus = depth >= 7 && depth <= 12 ? 16 : 0;
-    const score = body.length + depthBonus;
+    const depthBonus = depth >= 4 && depth <= 8 ? 16 : 0;
+    const depthPenalty = depth * 7;
+    const score = body.length + depthBonus - depthPenalty;
     if (!best || score > best.score) {
       best = { score, body, lines };
     }
   }
   return best;
+}
+
+function dedupeItems(items, maxCount) {
+  const seenUrl = new Set();
+  const seenText = new Set();
+  const unique = [];
+
+  for (const item of items || []) {
+    const urlKey = compact(item.url || "");
+    const textKey = normalizeKey(item.text || "").slice(0, 160);
+
+    if (urlKey && seenUrl.has(urlKey)) continue;
+    if (textKey && seenText.has(textKey)) continue;
+
+    if (urlKey) seenUrl.add(urlKey);
+    if (textKey) seenText.add(textKey);
+    unique.push(item);
+
+    if (unique.length >= maxCount) break;
+  }
+
+  return unique;
 }
 
 function toYamlString(value) {
@@ -209,7 +240,7 @@ async function extractReposts() {
         return cards;
       }, limit);
 
-      const results = rawCards
+      const extracted = rawCards
         .map((item, index) => {
           const author = compact(item.author || `user_${index + 1}`);
           const best = pickBestCandidate(item.candidates || [], author);
@@ -224,9 +255,11 @@ async function extractReposts() {
           url: item.url,
           avatar_color: palette[index % palette.length],
         };
-      })
+        })
       .filter((item) => item.author && item.text)
-      .slice(0, limit);
+      .slice(0, limit * 3);
+
+    const results = dedupeItems(extracted, limit);
 
     if (results.length === 0) {
       throw new Error("No repost entries extracted from Threads page.");

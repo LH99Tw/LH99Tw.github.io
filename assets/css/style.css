@@ -369,26 +369,22 @@ a {
 }
 
 .social-item__icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 9px;
-  background: var(--sidebar-bg);
-  border: 1px solid var(--separator);
-  display: grid;
-  place-items: center;
-  transition: background 0.18s, box-shadow 0.18s, border-color 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  transition: transform 0.18s var(--ease-spring);
 }
 
 .social-item:hover .social-item__icon {
-  background: var(--brown-50);
-  border-color: var(--brown-100);
-  box-shadow: var(--sh-sm);
+  transform: scale(1.06);
 }
 
 .social-item__icon svg,
 .social-item__icon img {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 .social-item__label {

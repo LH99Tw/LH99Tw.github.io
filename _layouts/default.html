@@ -11,7 +11,7 @@
         <span class="sidebar-toggle__icon" aria-hidden="true"></span>
       </button>
       <div class="main">
-        {% unless page.hide_topbar %}
+        {% unless page.hide_topbar or page.layout == 'post' %}
           {% include topbar.html %}
         {% endunless %}
         <main id="main" class="site-content">

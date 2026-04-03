@@ -1,9 +1,12 @@
 ---
 title: "투자전략"
+description: "자산배분, 리스크 관리, 리밸런싱 전략을 정리한 카테고리입니다."
 layout: default
 category: investment-strategy
 category_board: true
 hide_topbar: true
+seo:
+  type: webpage
 ---
 
 {% assign board_posts = site.posts | where_exp: "post", "post.categories contains 'investment-strategy'" | sort: 'date' | reverse %}

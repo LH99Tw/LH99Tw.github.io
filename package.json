@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "sync:threads-reposts": "node ./scripts/sync-threads-reposts.mjs",
-    "sync:ga4-visitors": "node ./scripts/sync-ga4-visitors.mjs"
+    "sync:ga4-visitors": "node ./scripts/sync-ga4-visitors.mjs",
+    "seo:audit": "node ./scripts/seo-audit.cjs --build",
+    "seo:ci": "CI=true node ./scripts/seo-audit.cjs --build --ci"
   },
   "repository": {
     "type": "git",

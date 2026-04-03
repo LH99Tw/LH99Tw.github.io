@@ -32,10 +32,20 @@ plugins:
 exclude:
   - Gemfile
   - Gemfile.lock
+  - package.json
+  - package-lock.json
   - README.md
   - LAW.md
   - vendor/
+  - vendor/bundle/
   - .bundle/
+  - .github/
+  - .jekyll-cache/
+  - .jekyll-metadata
+  - .sass-cache/
+  - _site/
+  - node_modules/
+  - scripts/
   - chachayelmo.github.io-main/
 
 defaults:
@@ -45,7 +55,6 @@ defaults:
     values:
       layout: post
       author: "이주한"
-      image: "/assets/images/social-card.png"
       seo:
         type: "article"
   - scope:
@@ -53,7 +62,6 @@ defaults:
       type: "pages"
     values:
       layout: default
-      image: "/assets/images/social-card.png"
       seo:
         type: "webpage"
   - scope:
@@ -61,14 +69,15 @@ defaults:
       type: "pages"
     values:
       layout: category
-      image: "/assets/images/social-card.png"
       seo:
-        type: "website"
+        type: "webpage"
 
 social:
   name: "이주한"
   links:
     - "https://github.com/LH99Tw"
+
+logo: "/assets/images/mainpage/github.png"
 
 feed:
   path: atom.xml

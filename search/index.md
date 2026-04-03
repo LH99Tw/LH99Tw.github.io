@@ -2,6 +2,8 @@
 title: "검색 결과"
 description: "블로그 게시물 검색 결과 페이지"
 search_page: true
+seo:
+  type: webpage
 ---
 
 <section class="search-page">

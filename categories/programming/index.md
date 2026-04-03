@@ -1,8 +1,11 @@
 ---
 title: "프로그래밍"
+description: "AI, Algorithm, JavaScript 관련 학습 기록과 실전 적용 노트를 모아보는 카테고리입니다."
 layout: default
 category_board: true
 hide_topbar: true
+seo:
+  type: webpage
 ---
 
 {% assign ai_posts = site.posts | where_exp: "post", "post.categories contains 'ai'" %}

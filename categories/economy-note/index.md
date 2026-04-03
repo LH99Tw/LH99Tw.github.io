@@ -1,9 +1,12 @@
 ---
 title: "시장 메모"
+description: "금리, 물가, 고용 등 거시지표와 시장 해석 메모를 정리합니다."
 layout: default
 category: economy-note
 category_board: true
 hide_topbar: true
+seo:
+  type: webpage
 ---
 
 {% assign board_posts = site.posts | where_exp: "post", "post.categories contains 'economy-note'" | sort: 'date' | reverse %}

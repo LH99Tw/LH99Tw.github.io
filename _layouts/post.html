@@ -1,62 +1,357 @@
 ---
 layout: default
 ---
-<article class="post">
-  <header class="post__header">
-    <h1 class="post__title">{{ page.title }}</h1>
-    <p class="post__meta">
-      {{ page.date | date: "%Y.%m.%d" }}
-      {% if page.author or site.author %}
-        · {{ page.author | default: site.author.name | default: site.author }}
-      {% endif %}
-    </p>
-    {% if page.tags and page.tags.size > 0 %}
-      <ul class="post__tags">
-        {% for tag in page.tags %}
-          <li class="post__tag">{{ tag }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  </header>
-  <section class="post__content">
-    {{ content }}
-  </section>
+<div class="post-progress" aria-hidden="true">
+  <span class="post-progress__bar" id="postProgressBar"></span>
+</div>
+
+<div class="post-view">
   {% assign primary_category = page.categories | first %}
+  {% assign category_label = primary_category | replace: '-', ' ' %}
   {% if primary_category %}
-    {% assign category_posts = site.posts | where_exp: "post", "post.categories contains primary_category" | sort: 'date' | reverse %}
-    {% assign previous_post = nil %}
-    {% assign next_post = nil %}
-    {% assign previous_item = nil %}
-    {% assign capture_next = false %}
-    {% for cat_post in category_posts %}
-      {% if capture_next %}
-        {% assign next_post = cat_post %}
-        {% assign capture_next = false %}
-        {% break %}
-      {% endif %}
-      {% if cat_post.url == page.url %}
-        {% assign previous_post = previous_item %}
-        {% assign capture_next = true %}
-      {% endif %}
-      {% assign previous_item = cat_post %}
+    {% for group in site.data.sidebar_categories %}
+      {% for item in group.items %}
+        {% if item.id == primary_category %}
+          {% assign category_label = item.label %}
+        {% endif %}
+      {% endfor %}
     {% endfor %}
   {% endif %}
-  {% if previous_post or next_post %}
-    <nav class="post__pagination" aria-label="카테고리 내 탐색">
-      {% if previous_post %}
-        <a class="post__pagination-link prev" href="{{ previous_post.url | relative_url }}">
-          <span class="post__pagination-label">이전 글</span>
-          <span class="post__pagination-title">{{ previous_post.title }}</span>
-          <span class="post__pagination-arrow">← 더 최근 글</span>
-        </a>
+  <article class="post post--reader" id="postArticle">
+    <header class="post__header">
+      {% if primary_category %}
+        <p class="post__category-kicker">{{ category_label }}</p>
       {% endif %}
-      {% if next_post %}
-        <a class="post__pagination-link next" href="{{ next_post.url | relative_url }}">
-          <span class="post__pagination-label">다음 글</span>
-          <span class="post__pagination-title">{{ next_post.title }}</span>
-          <span class="post__pagination-arrow">더 오래된 글 →</span>
-        </a>
+      <h1 class="post__title">{{ page.title }}</h1>
+      <p class="post__meta">{{ page.date | date: "%Y.%m.%d" }}</p>
+    </header>
+    <section class="post__content" id="postContent">
+      {{ content }}
+    </section>
+    {% assign feed_posts = '' | split: '' %}
+    {% if primary_category %}
+      {% capture matched_sub_ids_raw %}
+        {% for group in site.data.sidebar_categories %}
+          {% for item in group.items %}
+            {% if item.label == category_label %}
+              {{ item.id }}|
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      {% endcapture %}
+      {% assign matched_sub_ids = matched_sub_ids_raw | split: '|' %}
+      {% for sub_id in matched_sub_ids %}
+        {% assign sub_id = sub_id | strip %}
+        {% unless sub_id == '' %}
+          {% assign label_posts = site.categories[sub_id] %}
+          {% if label_posts %}
+            {% assign feed_posts = feed_posts | concat: label_posts %}
+          {% endif %}
+        {% endunless %}
+      {% endfor %}
+      {% if feed_posts.size == 0 %}
+        {% assign fallback_posts = site.categories[primary_category] %}
+        {% if fallback_posts %}
+          {% assign feed_posts = fallback_posts %}
+        {% endif %}
       {% endif %}
-    </nav>
-  {% endif %}
-</article>
+      {% assign feed_posts = feed_posts | uniq | sort: 'date' | reverse %}
+    {% endif %}
+    {% if page.tags and page.tags.size > 0 %}
+      <footer class="post__tail" aria-label="태그">
+        <ul class="post__tags">
+          {% for tag in page.tags %}
+            <li class="post__tag">{{ tag }}</li>
+          {% endfor %}
+        </ul>
+      </footer>
+    {% endif %}
+    <div class="post__feed-divider" aria-hidden="true"></div>
+    <section class="post-feed" id="postFeed" aria-label="연관 글 목록">
+      <div class="post-feed__heading">
+        <h2 class="post-feed__title">
+          <span class="post-feed__category">{{ category_label | default: "최근 글" }}</span>
+          <strong class="post-feed__count" id="postFeedCount">{{ feed_posts.size }}개의 글</strong>
+        </h2>
+      </div>
+      <div class="post-feed__columns" aria-hidden="true">
+        <span>글 제목</span>
+        <span>작성일</span>
+      </div>
+      <ol class="post-feed__rows" id="postFeedRows"></ol>
+      <div class="post-feed__pager" id="postFeedPager" aria-label="목록 페이지 이동"></div>
+      <script type="application/json" id="postFeedData">
+        [
+          {% for related in feed_posts %}
+            {
+              "title": {{ related.title | jsonify }},
+              "url": {{ related.url | relative_url | jsonify }},
+              "dateLabel": {{ related.date | date: "%Y. %-m. %-d." | jsonify }},
+              "dateIso": {{ related.date | date_to_xmlschema | jsonify }}
+            }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      </script>
+    </section>
+  </article>
+
+  <aside class="post-outline" id="postOutline" aria-label="글 목차" hidden>
+    <div class="post-outline__card">
+      <h2>Contents</h2>
+      <nav>
+        <ol id="postOutlineList"></ol>
+      </nav>
+    </div>
+  </aside>
+</div>
+
+<script>
+  (() => {
+    const article = document.getElementById("postArticle");
+    const content = document.getElementById("postContent");
+    const progressBar = document.getElementById("postProgressBar");
+    const outline = document.getElementById("postOutline");
+    const outlineList = document.getElementById("postOutlineList");
+    const feedRoot = document.getElementById("postFeed");
+    const feedRows = document.getElementById("postFeedRows");
+    const feedPager = document.getElementById("postFeedPager");
+    const feedCount = document.getElementById("postFeedCount");
+    const feedDataNode = document.getElementById("postFeedData");
+    if (!article || !content || !progressBar || !outline || !outlineList) return;
+
+    const headings = Array.from(content.querySelectorAll("h2, h3, h4"));
+    const slugify = (text, idx) => {
+      const slug = String(text || "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\u3131-\u3163\uac00-\ud7a3\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
+      return slug || `section-${idx + 1}`;
+    };
+
+    if (headings.length > 0) {
+      const used = new Set();
+      headings.forEach((heading, index) => {
+        if (!heading.id) {
+          let id = slugify(heading.textContent, index);
+          let n = 2;
+          while (used.has(id) || document.getElementById(id)) {
+            id = `${id}-${n++}`;
+          }
+          heading.id = id;
+        }
+        used.add(heading.id);
+
+        const item = document.createElement("li");
+        item.className = `lv-${heading.tagName.toLowerCase()}`;
+        const link = document.createElement("a");
+        link.href = `#${heading.id}`;
+        link.textContent = heading.textContent;
+        item.appendChild(link);
+        outlineList.appendChild(item);
+      });
+      outline.hidden = false;
+    }
+
+    let targetRatio = 0;
+    let renderedRatio = 0;
+    let rafId = null;
+
+    const calcScrollRatio = () => {
+      const scrollTop = window.scrollY || window.pageYOffset;
+      const maxScroll = Math.max(
+        1,
+        (document.documentElement.scrollHeight || 0) - window.innerHeight
+      );
+      targetRatio = Math.max(0, Math.min(1, scrollTop / maxScroll));
+    };
+
+    const renderProgress = () => {
+      renderedRatio += (targetRatio - renderedRatio) * 0.18;
+      if (Math.abs(targetRatio - renderedRatio) < 0.001) {
+        renderedRatio = targetRatio;
+      }
+
+      progressBar.style.transform = `scaleX(${renderedRatio})`;
+      progressBar.style.height = `${2 + renderedRatio * 1.6}px`;
+
+      if (Math.abs(targetRatio - renderedRatio) > 0.001) {
+        rafId = window.requestAnimationFrame(renderProgress);
+      } else {
+        rafId = null;
+      }
+    };
+
+    const syncProgress = () => {
+      calcScrollRatio();
+      if (!rafId) {
+        rafId = window.requestAnimationFrame(renderProgress);
+      }
+    };
+
+    const links = Array.from(outlineList.querySelectorAll("a"));
+    if (headings.length > 0 && links.length > 0) {
+      links.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const href = link.getAttribute("href");
+          if (!href || !href.startsWith("#")) return;
+          const target = document.querySelector(href);
+          if (!target) return;
+          event.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          history.replaceState(null, "", href);
+        });
+      });
+
+      links[0].classList.add("active");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const id = entry.target.getAttribute("id");
+            links.forEach((link) => {
+              link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+            });
+          });
+        },
+        { rootMargin: "-22% 0px -66% 0px", threshold: [0, 1] }
+      );
+      headings.forEach((heading) => observer.observe(heading));
+    }
+
+    syncProgress();
+    window.addEventListener("scroll", syncProgress, { passive: true });
+    window.addEventListener("resize", syncProgress);
+
+    const initPostFeed = () => {
+      if (!feedRoot || !feedRows || !feedPager || !feedDataNode) return;
+
+      let posts = [];
+      try {
+        posts = JSON.parse(feedDataNode.textContent || "[]");
+      } catch (_error) {
+        posts = [];
+      }
+
+      const PAGE_SIZE = 5;
+      const PAGE_WINDOW_SIZE = 5;
+      const totalPages = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
+      let currentPage = 1;
+
+      if (feedCount) {
+        feedCount.textContent = `${posts.length}개의 글`;
+      }
+
+      const createRow = (post) => {
+        const row = document.createElement("li");
+        row.className = "post-feed__row";
+
+        if (!post) {
+          const filler = document.createElement("div");
+          filler.className = "post-feed__row-placeholder";
+          filler.setAttribute("aria-hidden", "true");
+          row.appendChild(filler);
+          return row;
+        }
+
+        const link = document.createElement("a");
+        link.className = "post-feed__row-link";
+        link.href = post.url;
+
+        const titleCell = document.createElement("span");
+        titleCell.className = "post-feed__title-cell";
+
+        const title = document.createElement("span");
+        title.className = "post-feed__title-text";
+        title.textContent = post.title;
+
+        titleCell.append(title);
+
+        const dateCell = document.createElement("time");
+        dateCell.className = "post-feed__date-cell";
+        dateCell.dateTime = post.dateIso || "";
+        dateCell.textContent = post.dateLabel || "";
+
+        link.append(titleCell, dateCell);
+        row.appendChild(link);
+        return row;
+      };
+
+      const createPageButton = (label, targetPage, options = {}) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "post-feed__page-btn";
+        button.textContent = label;
+
+        if (options.nav) {
+          button.classList.add("post-feed__page-btn--nav");
+        }
+        if (options.active) {
+          button.classList.add("is-active");
+          button.setAttribute("aria-current", "page");
+        }
+        if (options.disabled) {
+          button.disabled = true;
+        } else {
+          button.addEventListener("click", () => {
+            currentPage = targetPage;
+            render();
+          });
+        }
+        return button;
+      };
+
+      const renderRows = () => {
+        feedRows.innerHTML = "";
+        const startIndex = (currentPage - 1) * PAGE_SIZE;
+        const pageItems = posts.slice(startIndex, startIndex + PAGE_SIZE);
+        const fixedSize = posts.length >= PAGE_SIZE;
+        const rowCount = fixedSize ? PAGE_SIZE : pageItems.length;
+        for (let i = 0; i < rowCount; i += 1) {
+          feedRows.appendChild(createRow(pageItems[i]));
+        }
+      };
+
+      const renderPager = () => {
+        feedPager.innerHTML = "";
+
+        const prevBtn = createPageButton("‹", Math.max(1, currentPage - 1), {
+          nav: true,
+          disabled: currentPage === 1,
+        });
+        feedPager.appendChild(prevBtn);
+
+        let pageStart = Math.max(1, currentPage - Math.floor(PAGE_WINDOW_SIZE / 2));
+        let pageEnd = pageStart + PAGE_WINDOW_SIZE - 1;
+        if (pageEnd > totalPages) {
+          pageEnd = totalPages;
+          pageStart = Math.max(1, pageEnd - PAGE_WINDOW_SIZE + 1);
+        }
+
+        for (let page = pageStart; page <= pageEnd; page += 1) {
+          feedPager.appendChild(
+            createPageButton(String(page), page, { active: page === currentPage })
+          );
+        }
+
+        const nextBtn = createPageButton("›", Math.min(totalPages, currentPage + 1), {
+          nav: true,
+          disabled: currentPage === totalPages,
+        });
+        feedPager.appendChild(nextBtn);
+      };
+
+      const render = () => {
+        renderRows();
+        renderPager();
+      };
+
+      render();
+    };
+
+    initPostFeed();
+  })();
+</script>

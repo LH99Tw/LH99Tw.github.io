@@ -1,9 +1,12 @@
 ---
 title: "루틴"
+description: "생산성과 컨디션을 높이기 위한 루틴 실험 기록을 정리합니다."
 layout: default
 category: routine
 category_board: true
 hide_topbar: true
+seo:
+  type: webpage
 ---
 
 {% assign board_posts = site.posts | where_exp: "post", "post.categories contains 'routine'" | sort: 'date' | reverse %}

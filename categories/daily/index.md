@@ -1,8 +1,11 @@
 ---
 title: "일상"
+description: "루틴, 취미, 회고를 통해 성장 과정을 기록하는 일상 카테고리입니다."
 layout: default
 category_board: true
 hide_topbar: true
+seo:
+  type: webpage
 ---
 
 {% assign routine_posts = site.posts | where_exp: "post", "post.categories contains 'routine'" %}

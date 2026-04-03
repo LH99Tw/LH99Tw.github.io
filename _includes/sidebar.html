@@ -29,7 +29,14 @@
   <hr class="sidebar__sep" />
 
   <nav class="sidebar__nav" aria-label="메인 네비게이션">
-    <a class="sidebar__link{% if page.url == '/' %} active{% endif %}" href="{{ '/' | relative_url }}">홈</a>
+    <a class="sidebar__link sidebar__nav-link{% if page.url == '/' %} active{% endif %}" href="{{ '/' | relative_url }}" data-sidebar-nav>홈</a>
+    <a
+      class="sidebar__link sidebar__nav-link{% if page.url == '/profile/' %} active{% endif %}"
+      href="{{ '/profile/' | relative_url }}"
+      data-sidebar-nav
+    >
+      프로필
+    </a>
 
     <div class="sidebar__section-label">카테고리</div>
     {% assign category_groups = site.data.sidebar_categories %}
@@ -44,7 +51,7 @@
           {% assign is_active = true %}
         {% endif %}
       {% endfor %}
-      <a class="sidebar__link sidebar__link--group{% if is_active %} active{% endif %}" href="{{ group_url | relative_url }}">
+      <a class="sidebar__link sidebar__nav-link sidebar__link--group{% if is_active %} active{% endif %}" href="{{ group_url | relative_url }}" data-sidebar-nav>
         <span>{{ group.label }}</span>
         {% if is_active %}
           <span class="sidebar__group-arrow" aria-hidden="true">›</span>

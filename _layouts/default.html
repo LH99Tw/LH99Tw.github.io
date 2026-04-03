@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang }}">
   {% include head.html %}
-  <body class="{% if page.home_preview %}page-home{% endif %}">
+  <body
+    class="{% if page.home_preview %}page-home {% endif %}{% if page.profile_page %}page-profile{% endif %}"
+    data-sidebar-enabled="true"
+  >
     <div class="site-layout">
       {% include sidebar.html %}
+      <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="사이드바 닫기" aria-expanded="true">
+        <span class="sidebar-toggle__icon" aria-hidden="true"></span>
+      </button>
       <div class="main">
         {% unless page.hide_topbar %}
           {% include topbar.html %}
@@ -11,7 +17,9 @@
         <main id="main" class="site-content">
           {{ content }}
         </main>
-        {% include footer.html %}
+        {% unless page.hide_footer %}
+          {% include footer.html %}
+        {% endunless %}
       </div>
     </div>
     {% if page.search_page %}
@@ -23,5 +31,6 @@
     {% if page.category_board %}
       <script src="{{ '/assets/js/category-pager.js' | relative_url }}" defer></script>
     {% endif %}
+    <script src="{{ '/assets/js/sidebar-toggle.js' | relative_url }}" defer></script>
   </body>
 </html>

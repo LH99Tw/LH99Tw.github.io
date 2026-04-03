@@ -1,0 +1,174 @@
+---
+title: "프로필"
+description: "이주한 프로필 페이지"
+permalink: /profile/
+profile_page: true
+hide_topbar: true
+hide_footer: true
+---
+
+<div class="aboutpage">
+  <section class="about-hero" aria-label="프로필 하이라이트">
+    <button class="about-hero__nav about-hero__nav--prev" type="button" aria-label="이전 슬라이드" data-hero-prev></button>
+
+    <div class="about-hero__slides" data-hero-slides>
+      <article class="about-hero__slide is-active" data-hero-slide>
+        <div class="about-hero__brand">
+          <span class="about-hero__brand-mark">P</span>
+          <span class="about-hero__brand-text">Profile</span>
+        </div>
+        <h1>OPEN, SHARE, BUILD.</h1>
+        <p class="about-hero__lead">이주한의 개발 여정과 기록을 한 화면에서 확인하세요.</p>
+        <a href="https://github.com/LH99Tw" target="_blank" rel="noopener">GitHub 바로가기</a>
+      </article>
+
+      <article class="about-hero__slide" data-hero-slide>
+        <div class="about-hero__brand">
+          <span class="about-hero__brand-mark">E</span>
+          <span class="about-hero__brand-text">Engineering</span>
+        </div>
+        <h1>BUILD, TEST, ITERATE.</h1>
+        <p class="about-hero__lead">Backend, AI, Data 중심으로 실험하고 개선한 결과를 공유합니다.</p>
+        <a href="{{ '/categories/programming/' | relative_url }}">프로그래밍 글 보기</a>
+      </article>
+
+      <article class="about-hero__slide" data-hero-slide>
+        <div class="about-hero__brand">
+          <span class="about-hero__brand-mark">F</span>
+          <span class="about-hero__brand-text">Finance</span>
+        </div>
+        <h1>ANALYZE, RECORD, GROW.</h1>
+        <p class="about-hero__lead">거시경제와 투자 메모를 기술적 사고와 함께 정리합니다.</p>
+        <a href="{{ '/categories/finance/' | relative_url }}">금융 인사이트 보기</a>
+      </article>
+    </div>
+
+    <button class="about-hero__nav about-hero__nav--next" type="button" aria-label="다음 슬라이드" data-hero-next></button>
+
+    <div class="about-hero__dots" role="tablist" aria-label="슬라이드 선택">
+      <button class="is-active" type="button" aria-label="1번 슬라이드" data-hero-dot></button>
+      <button type="button" aria-label="2번 슬라이드" data-hero-dot></button>
+      <button type="button" aria-label="3번 슬라이드" data-hero-dot></button>
+    </div>
+  </section>
+
+  <section class="career-board" aria-label="커리어 보드">
+    <aside class="career-panel career-panel--identity">
+      <h2>CAREER</h2>
+      <div class="career-profile">
+        <img src="{{ '/assets/images/profile.png' | relative_url }}" alt="이주한 프로필 이미지" loading="lazy" />
+        <strong>이주한</strong>
+        <span>Backend · AI Engineer</span>
+      </div>
+      <dl class="career-facts">
+        <div><dt>생년월일</dt><dd></dd></div>
+        <div><dt>학력</dt><dd></dd></div>
+        <div><dt>이메일</dt><dd></dd></div>
+        <div><dt>관심분야</dt><dd></dd></div>
+      </dl>
+    </aside>
+
+    <div class="career-panel career-panel--history">
+      <article class="career-block">
+        <h3>학력과 교육이력</h3>
+        <ul class="career-list"></ul>
+        <p class="career-empty">내용 준비 중</p>
+      </article>
+
+      <article class="career-block">
+        <h3>경력</h3>
+        <ul class="career-list"></ul>
+        <p class="career-empty">내용 준비 중</p>
+      </article>
+
+      <article class="career-block">
+        <h3>활동</h3>
+        <ul class="career-list"></ul>
+        <p class="career-empty">내용 준비 중</p>
+      </article>
+
+      <article class="career-block">
+        <h3>논문</h3>
+        <ul class="career-list"></ul>
+      </article>
+
+      <article class="career-block">
+        <h3>자격증</h3>
+        <ul class="career-list"></ul>
+      </article>
+    </div>
+
+    <aside class="career-panel career-panel--extra">
+      <article class="career-block">
+        <h3>프로젝트</h3>
+        <ul class="career-projects">
+          <li><a href="https://github.com/LH99Tw/Snapocket-AI" target="_blank" rel="noopener">Snapocket</a></li>
+          <li><a href="https://github.com/LH99Tw/2025_CoupleMap" target="_blank" rel="noopener">CoupleMap</a></li>
+          <li><a href="https://github.com/LH99Tw/2025_DataMining" target="_blank" rel="noopener">대전 지하철 DCRNN</a></li>
+          <li><a href="https://github.com/LH99Tw/2025_Capstone_CodingRun" target="_blank" rel="noopener">CodingRun</a></li>
+        </ul>
+      </article>
+
+      <article class="career-block">
+        <h3>스킬셋</h3>
+        <div class="career-skills">
+          <span>Python</span><span>FastAPI</span><span>JavaScript</span><span>C++</span><span>Docker</span><span>GitHub Actions</span>
+        </div>
+      </article>
+
+      <article class="career-block">
+        <h3>연결</h3>
+        <ul class="career-links">
+          <li><a href="https://github.com/LH99Tw" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://www.threads.com/@hhannn001" target="_blank" rel="noopener">Threads</a></li>
+          <li><a href="mailto:contact@example.com">Email</a></li>
+        </ul>
+      </article>
+    </aside>
+  </section>
+</div>
+
+<script>
+  (() => {
+    const root = document.querySelector(".about-hero");
+    if (!root) return;
+
+    const slides = Array.from(root.querySelectorAll("[data-hero-slide]"));
+    const dots = Array.from(root.querySelectorAll("[data-hero-dot]"));
+    const next = root.querySelector("[data-hero-next]");
+    const prev = root.querySelector("[data-hero-prev]");
+    let index = 0;
+    let timer = null;
+
+    const show = (nextIndex) => {
+      index = (nextIndex + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle("is-active", i === index));
+      dots.forEach((dot, i) => dot.classList.toggle("is-active", i === index));
+    };
+
+    const play = () => {
+      window.clearInterval(timer);
+      timer = window.setInterval(() => show(index + 1), 4800);
+    };
+
+    next?.addEventListener("click", () => {
+      show(index + 1);
+      play();
+    });
+
+    prev?.addEventListener("click", () => {
+      show(index - 1);
+      play();
+    });
+
+    dots.forEach((dot, dotIndex) => {
+      dot.addEventListener("click", () => {
+        show(dotIndex);
+        play();
+      });
+    });
+
+    show(0);
+    play();
+  })();
+</script>

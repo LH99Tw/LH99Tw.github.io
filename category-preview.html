@@ -4,48 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>카테고리 — 이주한's Gitblog</title>
-
-  <!-- Spoqa Han Sans Neo -->
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/spoqa-han-sans@2.1.1/css/SpoqaHanSansNeo.min.css" />
 
   <style>
     /* ════════════════════════════════════════════════
-       DESIGN TOKENS  —  same as layout-preview
+       DESIGN TOKENS
     ════════════════════════════════════════════════ */
     :root {
-      --bg:              #FFFFFF;
-      --sidebar-bg:      #F5F5F7;
-      --surface:         #FFFFFF;
-      --surface-hover:   rgba(0,0,0,0.04);
-      --text-1:          #1D1D1F;
-      --text-2:          #6E6E73;
-      --text-3:          #B0B0B5;
-      --separator:       rgba(0,0,0,0.08);
+      --bg:           #FFFFFF;
+      --sidebar-bg:   #F5F5F7;
+      --surface:      #FFFFFF;
+      --surface-hover:rgba(0,0,0,0.04);
+      --text-1:       #1D1D1F;
+      --text-2:       #6E6E73;
+      --text-3:       #B0B0B5;
+      --separator:    rgba(0,0,0,0.08);
 
-      --brown-900:  #3A2A28;
-      --brown-700:  #534340;
-      --brown-500:  #7A5E57;
-      --brown-300:  #BB9981;
-      --brown-100:  #EDE3DC;
-      --brown-50:   #F7F2EF;
+      --brown-900: #3A2A28;
+      --brown-700: #534340;
+      --brown-500: #7A5E57;
+      --brown-300: #BB9981;
+      --brown-100: #EDE3DC;
+      --brown-50:  #F7F2EF;
 
-      --accent:      var(--brown-700);
-      --accent-soft: var(--brown-300);
-      --accent-tint: var(--brown-50);
-
-      --r-xs:   5px;
-      --r-sm:   8px;
-      --r-md:   12px;
-      --r-lg:   14px;
-      --r-xl:   18px;
-      --r-2xl:  24px;
-
+      --accent:       var(--brown-700);
+      --r-xs: 5px; --r-sm: 8px; --r-md: 12px;
+      --r-lg: 14px; --r-xl: 18px; --r-2xl: 24px;
       --sh-xs: 0 1px 2px rgba(0,0,0,0.06);
       --sh-sm: 0 1px 4px rgba(0,0,0,0.07), 0 3px 8px rgba(0,0,0,0.04);
 
-      --sidebar-w: 216px;
-      --font-sans: 'Spoqa Han Sans Neo', 'Apple SD Gothic Neo', sans-serif;
+      --sidebar-w:  216px;
+      --content-px: 48px;   /* horizontal padding for all main sections */
+      --col-cat:    110px;  /* fixed category column */
+      --col-date:   86px;   /* fixed date column */
+      --font-sans:  'Spoqa Han Sans Neo', 'Apple SD Gothic Neo', sans-serif;
       --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
       --ease-spring:cubic-bezier(0.34, 1.56, 0.64, 1);
     }
@@ -61,12 +54,13 @@
       display: flex;
       font-size: 14px;
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     a { text-decoration: none; color: inherit; }
 
     /* ════════════════════════════════════════════════
-       SIDEBAR  (identical to layout-preview)
+       SIDEBAR
     ════════════════════════════════════════════════ */
     .sidebar {
       width: var(--sidebar-w);
@@ -85,17 +79,12 @@
 
     .sidebar__profile {
       padding: 28px 18px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 10px;
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center; gap: 10px;
     }
     .sidebar__avatar {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: var(--brown-100);
+      width: 56px; height: 56px; border-radius: 50%;
+      object-fit: cover; background: var(--brown-100);
       box-shadow: 0 0 0 3px rgba(187,153,129,0.25);
       transition: box-shadow 0.2s;
     }
@@ -109,13 +98,10 @@
 
     .sidebar__sep { border: none; border-top: 1px solid var(--separator); margin: 0 14px; }
 
-    .sidebar__nav {
-      padding: 10px 8px;
-      display: flex; flex-direction: column; gap: 1px; flex: 1;
-    }
+    .sidebar__nav { padding: 10px 8px; display: flex; flex-direction: column; gap: 1px; flex: 1; }
+
     .sidebar__link {
-      display: flex; align-items: center;
-      padding: 7px 10px;
+      display: flex; align-items: center; padding: 7px 10px;
       border-radius: var(--r-sm);
       font-size: 0.83rem; font-weight: 500; color: var(--text-1);
       transition: background 0.15s, color 0.15s;
@@ -124,19 +110,16 @@
     .sidebar__link.active { background: rgba(83,67,64,0.09); color: var(--accent); font-weight: 600; }
 
     .sidebar__section-label {
-      font-size: 0.67rem; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--text-3); padding: 12px 10px 4px;
+      font-size: 0.67rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-3); padding: 12px 10px 4px;
     }
     .sidebar__cat { border-radius: var(--r-sm); }
     .sidebar__cat summary {
       display: flex; align-items: center; justify-content: space-between;
       padding: 7px 10px;
       font-size: 0.83rem; font-weight: 500; color: var(--text-1);
-      cursor: pointer; list-style: none;
-      border-radius: var(--r-sm);
-      transition: background 0.15s, color 0.15s;
-      user-select: none;
+      cursor: pointer; list-style: none; border-radius: var(--r-sm);
+      transition: background 0.15s, color 0.15s; user-select: none;
     }
     .sidebar__cat summary::-webkit-details-marker { display: none; }
     .sidebar__cat summary:hover { background: var(--surface-hover); }
@@ -153,123 +136,117 @@
     .sidebar__sub { list-style: none; padding: 2px 0 6px 8px; }
     .sidebar__sub a {
       display: block; padding: 5px 10px;
-      font-size: 0.78rem; color: var(--text-2);
-      border-radius: var(--r-xs);
+      font-size: 0.78rem; color: var(--text-2); border-radius: var(--r-xs);
       transition: background 0.12s, color 0.12s;
     }
     .sidebar__sub a:hover  { background: var(--surface-hover); color: var(--accent); }
     .sidebar__sub a.active { color: var(--accent); font-weight: 600; background: rgba(83,67,64,0.07); }
 
     /* ════════════════════════════════════════════════
-       MAIN
+       MAIN  —  min-width: 0 is critical for flex overflow
     ════════════════════════════════════════════════ */
     .main {
       flex: 1;
+      min-width: 0;          /* prevent flex child overflow */
       display: flex;
       flex-direction: column;
       min-height: 100vh;
       background: var(--bg);
+      overflow-x: hidden;
+    }
+
+    /* ── Shared horizontal inset ─────────────────── */
+    /* All direct children of .main use this mixin via padding */
+    .cat-page-header,
+    .filter-row,
+    .list-header,
+    .post-list {
+      padding-left: var(--content-px);
+      padding-right: var(--content-px);
     }
 
     /* ════════════════════════════════════════════════
        CATEGORY PAGE HEADER
     ════════════════════════════════════════════════ */
     .cat-page-header {
-      padding: 36px 48px 0;
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
+      padding-top: 36px;
+      padding-bottom: 0;
+      display: flex; align-items: baseline; gap: 12px;
     }
-
     .cat-page-header__title {
-      font-size: 1.55rem;
-      font-weight: 800;
-      color: var(--text-1);
-      letter-spacing: -0.02em;
+      font-size: 1.55rem; font-weight: 800;
+      color: var(--text-1); letter-spacing: -0.02em;
     }
-
     .cat-page-header__count {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-3);
+      font-size: 0.8rem; font-weight: 500; color: var(--text-3);
     }
 
     /* ════════════════════════════════════════════════
-       FILTER TABS  (category.png style — horizontal pills under header)
+       FILTER TABS
     ════════════════════════════════════════════════ */
     .filter-row {
-      padding: 20px 48px 0;
-      display: flex;
-      align-items: center;
-      gap: 0;
+      padding-top: 20px;
+      padding-bottom: 0;
+      display: flex; align-items: center;
       border-bottom: 1px solid var(--separator);
-      overflow-x: auto;
-      scrollbar-width: none;
+      overflow-x: auto; scrollbar-width: none;
     }
     .filter-row::-webkit-scrollbar { display: none; }
 
     .filter-tab {
       padding: 10px 18px;
-      font-size: 0.82rem;
-      font-weight: 600;
+      font-size: 0.82rem; font-weight: 600;
       font-family: var(--font-sans);
-      color: var(--text-2);
-      border: none;
-      background: none;
-      cursor: pointer;
-      position: relative;
-      white-space: nowrap;
-      transition: color 0.18s;
-      flex-shrink: 0;
+      color: var(--text-2); border: none; background: none;
+      cursor: pointer; position: relative; white-space: nowrap;
+      transition: color 0.18s; flex-shrink: 0;
     }
     .filter-tab:hover { color: var(--text-1); }
     .filter-tab.active { color: var(--accent); }
     .filter-tab.active::after {
-      content: '';
-      position: absolute;
+      content: ''; position: absolute;
       bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--accent);
+      height: 2px; background: var(--accent);
       border-radius: 2px 2px 0 0;
     }
 
     /* ════════════════════════════════════════════════
-       POST LIST
+       COLUMN HEADER  —  same grid as post rows
     ════════════════════════════════════════════════ */
-    .post-list {
-      padding: 0 48px;
-      flex: 1;
-    }
-
-    /* ── Column header row ──────────────────────── */
     .list-header {
       display: grid;
-      grid-template-columns: 100px 1fr 80px;
-      padding: 8px 0;
+      grid-template-columns: var(--col-cat) minmax(0, 1fr) var(--col-date);
+      padding-top: 0;
+      padding-bottom: 0;
       background: var(--sidebar-bg);
-      border-top: 1px solid var(--separator);
       border-bottom: 1px solid var(--separator);
-      margin-top: 20px;
     }
 
-    .list-header span {
-      font-size: 0.67rem;
-      font-weight: 700;
-      color: var(--text-3);
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      padding: 0 12px;
+    .list-header__cell {
+      font-size: 0.66rem; font-weight: 700;
+      color: var(--text-3); letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 8px 0;
     }
-    .list-header span:first-child { padding-left: 0; }
-    .list-header span:nth-child(2) {
-      border-left: 1px solid var(--separator);
-    }
-    .list-header span:last-child { text-align: right; padding-right: 0; }
+    /* align header cells to match post-item cell padding exactly */
+    .list-header__cell--cat   { padding-right: 14px; }
+    .list-header__cell--title { border-left: 1px solid var(--separator); padding-left: 16px; }
+    .list-header__cell--date  { padding-left: 12px; text-align: right; }
 
-    /* ── Grid row: cat | vert-sep | title | date ── */
+    /* ════════════════════════════════════════════════
+       POST LIST WRAPPER
+    ════════════════════════════════════════════════ */
+    .post-list {
+      flex: 1;
+      display: flex; flex-direction: column;
+      padding-top: 0; padding-bottom: 0;
+    }
+
+    /* ── Post row ────────────────────────────────── */
+    #postRows { flex: 1; }
+
     .post-item {
       display: grid;
-      grid-template-columns: 100px 1fr 80px;
+      grid-template-columns: var(--col-cat) minmax(0, 1fr) var(--col-date);
       align-items: center;
       border-bottom: 1px solid var(--separator);
       cursor: pointer;
@@ -279,85 +256,67 @@
     .post-item:hover { background: var(--brown-50); }
 
     .post-item__cat {
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: var(--brown-300);
-      padding: 13px 12px 13px 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 0.74rem; font-weight: 700; color: var(--brown-300);
+      padding: 14px 14px 14px 0;   /* no left, 14px right → gap before separator */
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
     .post-item__title {
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--text-1);
-      padding: 13px 16px;
+      font-size: 0.88rem; font-weight: 500; color: var(--text-1);
+      padding: 14px 12px 14px 16px; /* 16px left matches header */
       border-left: 1px solid var(--separator);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       transition: color 0.15s;
     }
     .post-item:hover .post-item__title { color: var(--accent); }
 
     .post-item__date {
-      font-size: 0.72rem;
-      color: var(--text-3);
-      padding: 13px 0 13px 8px;
-      text-align: right;
-      white-space: nowrap;
+      font-size: 0.72rem; color: var(--text-3);
+      padding: 14px 0 14px 12px;   /* 12px left matches header */
+      text-align: right; white-space: nowrap;
     }
 
     /* ── Pagination ─────────────────────────────── */
     .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       gap: 4px;
-      padding: 28px 0 20px;
+      padding: 28px var(--content-px) 20px;
+      /* pagination sits outside post-list's flex flow */
     }
 
     .page-btn {
-      min-width: 32px; height: 32px;
-      padding: 0 6px;
+      min-width: 32px; height: 32px; padding: 0 8px;
       border-radius: var(--r-sm);
       border: 1px solid var(--separator);
       background: none;
       font-family: var(--font-sans);
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--text-2);
+      font-size: 0.78rem; font-weight: 500; color: var(--text-2);
       cursor: pointer;
       transition: border-color 0.15s, color 0.15s, background 0.15s;
       display: inline-flex; align-items: center; justify-content: center;
+      line-height: 1;
     }
-    .page-btn:hover:not(:disabled) { border-color: var(--brown-300); color: var(--accent); }
+    .page-btn:hover { border-color: var(--brown-300); color: var(--accent); }
     .page-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      font-weight: 700;
+      background: var(--accent); border-color: var(--accent);
+      color: #fff; font-weight: 700;
     }
-    .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .page-btn.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
-    /* List fade-in */
-    @keyframes panelIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to   { opacity: 1; transform: translateY(0);   }
+    /* row fade-in on page change */
+    .rows-fade { animation: rowFade 0.18s var(--ease-out); }
+    @keyframes rowFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    #postRows { animation: panelIn 0.2s var(--ease-out); }
 
     /* ════════════════════════════════════════════════
        FOOTER
     ════════════════════════════════════════════════ */
     .site-footer {
-      padding: 14px 48px;
+      padding: 14px var(--content-px);
       border-top: 1px solid var(--separator);
-      background: var(--bg);
-      font-size: 0.78rem;
-      color: var(--text-2);
-      margin-top: auto;
+      font-size: 0.78rem; color: var(--text-2);
     }
     .site-footer__inner {
       display: flex; justify-content: space-between; align-items: center; gap: 12px;
@@ -365,10 +324,8 @@
     .site-footer__links { display: flex; align-items: center; gap: 6px; }
     .site-footer__icon-link {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 32px; height: 32px;
-      border-radius: var(--r-sm);
-      border: 1px solid var(--separator);
-      color: var(--text-2);
+      width: 32px; height: 32px; border-radius: var(--r-sm);
+      border: 1px solid var(--separator); color: var(--text-2);
       transition: border-color 0.18s, color 0.18s, transform 0.18s var(--ease-spring);
     }
     .site-footer__icon-link:hover {
@@ -383,23 +340,15 @@
      SIDEBAR
 ══════════════════════════════════════════════ -->
 <aside class="sidebar">
-
   <div class="sidebar__profile">
-    <img
-      class="sidebar__avatar"
-      src="/assets/images/profile.jpg"
-      alt="이주한 프로필"
-      onerror="this.outerHTML='<div class=\'sidebar__avatar sidebar__avatar--placeholder\'>이</div>'"
-    />
+    <img class="sidebar__avatar" src="/assets/images/profile.jpg" alt="이주한 프로필"
+      onerror="this.outerHTML='<div class=\'sidebar__avatar sidebar__avatar--placeholder\'>이</div>'" />
     <div class="sidebar__profile-name">이주한</div>
     <div class="sidebar__profile-bio">기록하며 성장하는 개발자</div>
   </div>
-
   <hr class="sidebar__sep" />
-
   <nav class="sidebar__nav">
     <a class="sidebar__link" href="#">홈</a>
-
     <div class="sidebar__section-label">카테고리</div>
 
     <details class="sidebar__cat" open>
@@ -410,7 +359,6 @@
         <li><a href="#">JS</a></li>
       </ul>
     </details>
-
     <details class="sidebar__cat">
       <summary>금융 <span class="sidebar__chevron"></span></summary>
       <ul class="sidebar__sub">
@@ -419,7 +367,6 @@
         <li><a href="#">시장 메모</a></li>
       </ul>
     </details>
-
     <details class="sidebar__cat">
       <summary>일상 <span class="sidebar__chevron"></span></summary>
       <ul class="sidebar__sub">
@@ -429,46 +376,41 @@
       </ul>
     </details>
   </nav>
-
 </aside>
-
 
 <!-- ══════════════════════════════════════════════
      MAIN
 ══════════════════════════════════════════════ -->
 <div class="main">
 
-  <!-- ── Category Header ───────────────────────── -->
+  <!-- ① Page header -->
   <div class="cat-page-header">
     <h1 class="cat-page-header__title">프로그래밍</h1>
-    <span class="cat-page-header__count">12편</span>
+    <span class="cat-page-header__count" id="postCount"></span>
   </div>
 
-  <!-- ── Filter Tabs ───────────────────────────── -->
+  <!-- ② Filter tabs -->
   <div class="filter-row" id="filterRow">
-    <button class="filter-tab active" data-panel="all">전체</button>
-    <button class="filter-tab" data-panel="ai">AI</button>
-    <button class="filter-tab" data-panel="algo">Algorithm</button>
-    <button class="filter-tab" data-panel="js">JS</button>
+    <button class="filter-tab active" data-filter="all">전체</button>
+    <button class="filter-tab" data-filter="ai">AI</button>
+    <button class="filter-tab" data-filter="algo">Algorithm</button>
+    <button class="filter-tab" data-filter="js">JS</button>
   </div>
 
-  <!-- ── Post List ─────────────────────────────── -->
+  <!-- ③ Column headers — same grid as post rows -->
+  <div class="list-header">
+    <span class="list-header__cell list-header__cell--cat">카테고리</span>
+    <span class="list-header__cell list-header__cell--title">글 제목</span>
+    <span class="list-header__cell list-header__cell--date">날짜</span>
+  </div>
+
+  <!-- ④ Post rows (JS-rendered) -->
   <div class="post-list">
-
-    <!-- Column header row -->
-    <div class="list-header">
-      <span>카테고리</span>
-      <span>글 제목</span>
-      <span>날짜</span>
-    </div>
-
-    <!-- Rows rendered by JS -->
     <div id="postRows"></div>
+  </div>
 
-    <!-- Pagination rendered by JS -->
-    <div class="pagination" id="pagination"></div>
-
-  </div><!-- /post-list -->
+  <!-- ⑤ Pagination (JS-rendered, outside post-list for clean separation) -->
+  <div class="pagination" id="pagination"></div>
 
   <!-- Footer -->
   <footer class="site-footer">
@@ -487,39 +429,38 @@
       </div>
     </div>
   </footer>
-
 </div><!-- /main -->
 
 <script>
-  /* ── Post data ───────────────────────────────── */
+  /* ── Data ────────────────────────────────────── */
   const ALL_POSTS = [
-    { cat: 'AI',        title: 'GPT-4o로 자동화 파이프라인 구축하기',       date: '2025.04.01' },
-    { cat: 'JS',        title: 'React 19 주요 변경사항 한눈에 보기',         date: '2025.03.30' },
-    { cat: 'Algorithm', title: '다이나믹 프로그래밍 핵심 패턴 정리',         date: '2025.03.29' },
-    { cat: 'AI',        title: 'RAG 아키텍처 이해와 실전 구현 가이드',       date: '2025.03.28' },
-    { cat: 'Algorithm', title: '그래프 탐색 BFS / DFS 완전 정복',            date: '2025.03.21' },
-    { cat: 'AI',        title: 'Claude API로 나만의 AI 어시스턴트 만들기',   date: '2025.03.20' },
-    { cat: 'JS',        title: 'TypeScript 5.x 새 기능 완전 정리',           date: '2025.03.19' },
-    { cat: 'Algorithm', title: '투 포인터 기법 활용 예제 모음',              date: '2025.03.13' },
-    { cat: 'JS',        title: 'Bun vs Node.js 실전 성능 비교',              date: '2025.03.11' },
-    { cat: 'AI',        title: 'Embedding 기반 시맨틱 검색 완전 정복',       date: '2025.03.05' },
-    { cat: 'JS',        title: 'Web Workers로 무거운 연산 처리하기',          date: '2025.03.04' },
-    { cat: 'AI',        title: 'LangChain 멀티 에이전트 시스템 설계',        date: '2025.02.28' },
-    { cat: 'Algorithm', title: '이분 탐색 응용 문제 5가지',                  date: '2025.02.20' },
-    { cat: 'JS',        title: '모던 CSS Grid 레이아웃 마스터하기',           date: '2025.02.14' },
-    { cat: 'AI',        title: 'Stable Diffusion XL 파인튜닝 실전 가이드',   date: '2025.02.10' },
-    { cat: 'Algorithm', title: '세그먼트 트리 구현과 활용',                  date: '2025.02.05' },
-    { cat: 'JS',        title: 'Vite vs Webpack 빌드 성능 완전 분석',        date: '2025.01.30' },
-    { cat: 'AI',        title: 'Whisper로 회의 자동 요약 시스템 구현',       date: '2025.01.22' },
+    { cat: 'AI',        title: 'GPT-4o로 자동화 파이프라인 구축하기',      date: '2025.04.01' },
+    { cat: 'JS',        title: 'React 19 주요 변경사항 한눈에 보기',        date: '2025.03.30' },
+    { cat: 'Algorithm', title: '다이나믹 프로그래밍 핵심 패턴 정리',        date: '2025.03.29' },
+    { cat: 'AI',        title: 'RAG 아키텍처 이해와 실전 구현 가이드',      date: '2025.03.28' },
+    { cat: 'Algorithm', title: '그래프 탐색 BFS / DFS 완전 정복',           date: '2025.03.21' },
+    { cat: 'AI',        title: 'Claude API로 나만의 AI 어시스턴트 만들기',  date: '2025.03.20' },
+    { cat: 'JS',        title: 'TypeScript 5.x 새 기능 완전 정리',          date: '2025.03.19' },
+    { cat: 'Algorithm', title: '투 포인터 기법 활용 예제 모음',             date: '2025.03.13' },
+    { cat: 'JS',        title: 'Bun vs Node.js 실전 성능 비교',             date: '2025.03.11' },
+    { cat: 'AI',        title: 'Embedding 기반 시맨틱 검색 완전 정복',      date: '2025.03.05' },
+    { cat: 'JS',        title: 'Web Workers로 무거운 연산 처리하기',         date: '2025.03.04' },
+    { cat: 'AI',        title: 'LangChain 멀티 에이전트 시스템 설계',       date: '2025.02.28' },
+    { cat: 'Algorithm', title: '이분 탐색 응용 문제 5가지',                 date: '2025.02.20' },
+    { cat: 'JS',        title: '모던 CSS Grid 레이아웃 마스터하기',          date: '2025.02.14' },
+    { cat: 'AI',        title: 'Stable Diffusion XL 파인튜닝 실전 가이드',  date: '2025.02.10' },
+    { cat: 'Algorithm', title: '세그먼트 트리 구현과 활용',                 date: '2025.02.05' },
+    { cat: 'JS',        title: 'Vite vs Webpack 빌드 성능 완전 분석',       date: '2025.01.30' },
+    { cat: 'AI',        title: 'Whisper로 회의 자동 요약 시스템 구현',      date: '2025.01.22' },
   ];
 
-  const PER_PAGE = 8;
+  const FILTER_MAP = { all: null, ai: 'AI', algo: 'Algorithm', js: 'JS' };
+  const PER_PAGE   = 8;
+
   let activeFilter = 'all';
   let currentPage  = 1;
 
-  /* ── Filter map ───────────────────────────────── */
-  const FILTER_MAP = { all: null, ai: 'AI', algo: 'Algorithm', js: 'JS' };
-
+  /* ── Helpers ─────────────────────────────────── */
   function getFiltered() {
     const cat = FILTER_MAP[activeFilter];
     return cat ? ALL_POSTS.filter(p => p.cat === cat) : ALL_POSTS;
@@ -527,20 +468,27 @@
 
   /* ── Render rows ─────────────────────────────── */
   function renderRows() {
-    const posts = getFiltered();
-    const total = posts.length;
+    const posts      = getFiltered();
+    const total      = posts.length;
     const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
     if (currentPage > totalPages) currentPage = totalPages;
 
     const slice = posts.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
     const rowsEl = document.getElementById('postRows');
-    rowsEl.innerHTML = slice.map(p => `
-      <div class="post-item">
-        <span class="post-item__cat">${p.cat}</span>
-        <span class="post-item__title">${p.title}</span>
-        <span class="post-item__date">${p.date}</span>
-      </div>`).join('');
+    rowsEl.className = 'rows-fade';
+    /* remove and re-add class to re-trigger animation */
+    void rowsEl.offsetWidth;
+    rowsEl.innerHTML = slice.map(p =>
+      `<div class="post-item">` +
+        `<span class="post-item__cat">${p.cat}</span>` +
+        `<span class="post-item__title">${p.title}</span>` +
+        `<span class="post-item__date">${p.date}</span>` +
+      `</div>`
+    ).join('');
+
+    /* update count label */
+    document.getElementById('postCount').textContent = total + '편';
 
     renderPagination(totalPages);
   }
@@ -550,31 +498,44 @@
     const el = document.getElementById('pagination');
     if (totalPages <= 1) { el.innerHTML = ''; return; }
 
-    let html = `<button class="page-btn" id="pgPrev" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+    const prevDisabled = currentPage === 1        ? ' disabled' : '';
+    const nextDisabled = currentPage === totalPages ? ' disabled' : '';
+
+    let html =
+      `<button class="page-btn${currentPage === 1 ? ' disabled' : ''}" data-action="prev"${prevDisabled}>‹</button>`;
+
     for (let i = 1; i <= totalPages; i++) {
-      html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+      html +=
+        `<button class="page-btn${i === currentPage ? ' active' : ''}" data-action="page" data-page="${i}">${i}</button>`;
     }
-    html += `<button class="page-btn" id="pgNext" ${currentPage === totalPages ? 'disabled' : ''}>›</button>`;
+
+    html +=
+      `<button class="page-btn${currentPage === totalPages ? ' disabled' : ''}" data-action="next"${nextDisabled}>›</button>`;
+
     el.innerHTML = html;
   }
 
-  /* ── Pagination click ────────────────────────── */
-  document.getElementById('pagination').addEventListener('click', e => {
+  /* ── Event: pagination ───────────────────────── */
+  document.getElementById('pagination').addEventListener('click', function(e) {
     const btn = e.target.closest('.page-btn');
-    if (!btn || btn.disabled) return;
-    if (btn.id === 'pgPrev') currentPage--;
-    else if (btn.id === 'pgNext') currentPage++;
-    else currentPage = Number(btn.dataset.page);
+    if (!btn || btn.classList.contains('disabled')) return;
+
+    const action = btn.dataset.action;
+    if      (action === 'prev') currentPage--;
+    else if (action === 'next') currentPage++;
+    else if (action === 'page') currentPage = Number(btn.dataset.page);
+
     renderRows();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  /* ── Filter tab click ────────────────────────── */
-  document.getElementById('filterRow').addEventListener('click', e => {
+  /* ── Event: filter tabs ──────────────────────── */
+  document.getElementById('filterRow').addEventListener('click', function(e) {
     const btn = e.target.closest('.filter-tab');
     if (!btn) return;
     document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    activeFilter = btn.dataset.panel;
+    activeFilter = btn.dataset.filter;
     currentPage  = 1;
     renderRows();
   });

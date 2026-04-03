@@ -1,6 +1,6 @@
 ---
 title: "이주한's Gitblog"
-description: "AI · 금융 · 일상 기록"
+description: "AI와 금융 인사이트를 기록하는 개발 블로그"
 home_preview: true
 ---
 

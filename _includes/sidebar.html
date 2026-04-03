@@ -34,34 +34,22 @@
     <div class="sidebar__section-label">카테고리</div>
     {% assign category_groups = site.data.sidebar_categories %}
     {% for group in category_groups %}
-      {% assign is_open = group.default_open | default: false %}
+      {% assign group_url = '/categories/' | append: group.id | append: '/' %}
+      {% assign is_active = false %}
+      {% if page.url == group_url %}
+        {% assign is_active = true %}
+      {% endif %}
       {% for item in group.items %}
         {% if page.category == item.id %}
-          {% assign is_open = true %}
+          {% assign is_active = true %}
         {% endif %}
       {% endfor %}
-
-      <details class="sidebar__cat" {% if is_open %}open{% endif %}>
-        <summary>{{ group.label }} <span class="sidebar__chevron" aria-hidden="true"></span></summary>
-        <ul class="sidebar__sub">
-          {% for item in group.items %}
-            {% assign item_page = site.pages | where: "category", item.id | first %}
-            {% if item_page %}
-              {% assign item_url = item_page.url %}
-            {% else %}
-              {% assign item_url = '/categories/' | append: item.id | append: '/' %}
-            {% endif %}
-            <li>
-              <a
-                href="{{ item_url | relative_url }}"
-                class="{% if page.category == item.id %}active{% endif %}"
-              >
-                {{ item.label }}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </details>
+      <a class="sidebar__link sidebar__link--group{% if is_active %} active{% endif %}" href="{{ group_url | relative_url }}">
+        <span>{{ group.label }}</span>
+        {% if is_active %}
+          <span class="sidebar__group-arrow" aria-hidden="true">›</span>
+        {% endif %}
+      </a>
     {% endfor %}
   </nav>
 </aside>

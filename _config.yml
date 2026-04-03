@@ -1,5 +1,5 @@
-title: "이주한's Gitblog ⭐️"
-description: "AI & 금융 관련 포스팅"
+title: "이주한 기술 블로그"
+description: "AI와 금융 인사이트를 기록하는 개발 블로그"
 url: "https://LH99Tw.github.io"
 baseurl: ""
 lang: ko
@@ -70,6 +70,5 @@ social:
   links:
     - "https://github.com/LH99Tw"
 
-logo: /assets/images/favicon.svg
 feed:
   path: atom.xml

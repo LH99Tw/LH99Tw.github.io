@@ -1,12 +1,14 @@
 ---
-title: "회고"
+title: "일상"
 layout: default
-category: journal
 category_board: true
 hide_topbar: true
 ---
 
-{% assign board_posts = site.posts | where_exp: "post", "post.categories contains 'journal'" | sort: 'date' | reverse %}
+{% assign routine_posts = site.posts | where_exp: "post", "post.categories contains 'routine'" %}
+{% assign hobby_posts = site.posts | where_exp: "post", "post.categories contains 'hobby'" %}
+{% assign journal_posts = site.posts | where_exp: "post", "post.categories contains 'journal'" %}
+{% assign board_posts = routine_posts | concat: hobby_posts | concat: journal_posts | uniq | sort: 'date' | reverse %}
 
 <section class="category-board" data-category-board data-per-page="8">
   <header class="cat-page-header">
@@ -15,10 +17,10 @@ hide_topbar: true
   </header>
 
   <nav class="filter-row" aria-label="카테고리 필터">
-    <a class="filter-tab" href="{{ '/categories/daily/' | relative_url }}">전체</a>
+    <a class="filter-tab active" href="{{ '/categories/daily/' | relative_url }}">전체</a>
     <a class="filter-tab" href="{{ '/categories/routine/' | relative_url }}">루틴</a>
     <a class="filter-tab" href="{{ '/categories/hobby/' | relative_url }}">취미</a>
-    <a class="filter-tab active" href="{{ '/categories/journal/' | relative_url }}">회고</a>
+    <a class="filter-tab" href="{{ '/categories/journal/' | relative_url }}">회고</a>
   </nav>
 
   <div class="category-board__list">
@@ -31,8 +33,16 @@ hide_topbar: true
     <div class="category-rows" data-category-rows>
       {% if board_posts.size > 0 %}
         {% for post in board_posts %}
+          {% assign row_label = '기타' %}
+          {% if post.categories contains 'routine' %}
+            {% assign row_label = '루틴' %}
+          {% elsif post.categories contains 'hobby' %}
+            {% assign row_label = '취미' %}
+          {% elsif post.categories contains 'journal' %}
+            {% assign row_label = '회고' %}
+          {% endif %}
           <a class="post-item" href="{{ post.url | relative_url }}">
-            <span class="post-item__cat">회고</span>
+            <span class="post-item__cat">{{ row_label }}</span>
             <span class="post-item__title">{{ post.title }}</span>
             <time class="post-item__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
           </a>

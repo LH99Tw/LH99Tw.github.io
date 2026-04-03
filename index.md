@@ -98,7 +98,7 @@ home_preview: true
       <div class="iphone__island"></div>
       <div class="iphone__screen">
         <div class="th-header">
-          <img src="{{ '/assets/images/icon-threads.svg' | relative_url }}" alt="" aria-hidden="true" />
+          <img src="{{ '/assets/images/mainpage/threads.png' | relative_url }}" alt="" aria-hidden="true" />
           <span class="th-header__title">@{{ site.threads_username | default: 'hhannn001' }} · reposts</span>
         </div>
 

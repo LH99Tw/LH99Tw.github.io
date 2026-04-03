@@ -15,17 +15,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "20"
 
       - name: Google Auth (OIDC)
         id: auth_oidc
         if: ${{ vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '' }}
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v3
         with:
           workload_identity_provider: "${{ vars.GCP_WIF_PROVIDER }}"
           service_account: "${{ vars.GCP_SERVICE_ACCOUNT }}"
@@ -35,7 +35,7 @@ jobs:
       - name: Google Auth (JSON Key Fallback)
         id: auth_json
         if: ${{ !(vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '') }}
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@v3
         with:
           credentials_json: "${{ secrets.GCP_SA_KEY }}"
           token_format: "access_token"

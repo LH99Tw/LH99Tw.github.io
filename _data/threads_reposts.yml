@@ -8,7 +8,7 @@
   avatar_color: "#EDE3DC"
 
 - author: "bizmentor_kr"
-  time: "1일"
+  time: "2일"
   text: "구글 리서치의 TimesFM, 지금 GitHub 트렌딩 3위입니다. 시계열 예측을 위한 파운데이션 모델로, 별도 학습 없이 사전 훈련된 모델로 바로 예측이 가능합니다. JAX와 PyTorch 모두 지원하고, Apple Silicon 포함 다양한 환경에서 동작합니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@bizmentor_kr/post/DWnlpvQkwNu"

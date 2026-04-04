@@ -27,17 +27,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@kgaroo_music/post/DWn8J_imnLD"
   avatar_color: "#E5E5EA"
-
-- author: "sejong_airc"
-  time: "2일"
-  text: "AI Threads LLM의 지능을 높이려면 더 똑똑한 스승이나 방대한 외부 데이터가 반드시 필요하다는 믿음. 그 견고한 상식이 오늘부로 무너졌습니다. 모델이 스스로 내뱉은 설익은 출력물만으로도 성능을 폭발적으로 끌어올릴 수 있다는 사실이 증명되었기 때문입니다. 외부의 개입 없는 자가 증류, 'SSD(Simple Self-Distillation)'가 가져온 충격적인 결과입니다."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@sejong_airc/post/DWnyDUGkkRO"
-  avatar_color: "#F5F5F5"
-
-- author: "choi.openai"
-  time: "3일"
-  text: "애플 실리콘 사용자들에게 정말 엄청난 소식입니다. Ollama가 애플의 머신러닝 프레임워크인 MLX의 지원을 받아 Apple Silicon 환경에서 가장 빠른 속도로 구동되도록 대규모 업데이트를 진행했습니다. 이제 \"OpenClaw\" 같은 개인 비서나 \"Claude Code\", \"Codex\" 등 강력한 코딩 에이전트를 맥(Mac)에서 훨씬 가볍고 빠르게 돌릴 수 있게 되었습니다."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@choi.openai/post/DWlYZZcEeLb"
-  avatar_color: "#EDE3DC"

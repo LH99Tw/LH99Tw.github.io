@@ -1,7 +1,7 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
 - author: "devcraft0416"
-  time: "4시간"
+  time: "10시간"
   text: "@devcraft0416님에게 남긴 답글 지금 해외 개발자 커뮤니티인 해커뉴스에서 난리 난 오픈소스가 하나 있어요. 'TurboQuant-WASM'이라는 건데요. 이름이 좀 어렵지만 핵심은 간단합니다. 구글의 AI 압축 기술(벡터 양자화)을 가져와서, 웹어셈블리(WASM)라는 기술을 통해 아예 **웹 브라우저 안에서 AI가 돌아가게** 만든 거예요."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@devcraft0416/post/DWu_EnrjZVZ"
@@ -27,3 +27,17 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@tilnote/post/DWp1GgmklX7"
   avatar_color: "#E5E5EA"
+
+- author: "kgaroo_music"
+  time: "3일"
+  text: "@kgaroo_music님에게 남긴 답글 말 그대로 “녹화만 하면 알아서 영상이 완성되는” 방향으로 설계되어 있습니다. 이 버전은 단순한 클론을 넘어서서, Screen Studio의 줌 동작을 거의 프레임 단위로 재현하고, 오디오 트랙 분리, 커서 애니메이션 처리, 웹캠 오버레이의 반응형 스케일링 같은 기능까지 추가되어 있습니다. macOS뿐 아니라 Windows에서도 네이티브로 동작합니다."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@kgaroo_music/post/DWn8J_imnLD"
+  avatar_color: "#F5F5F5"
+
+- author: "sejong_airc"
+  time: "3일"
+  text: "AI Threads LLM의 지능을 높이려면 더 똑똑한 스승이나 방대한 외부 데이터가 반드시 필요하다는 믿음. 그 견고한 상식이 오늘부로 무너졌습니다. 모델이 스스로 내뱉은 설익은 출력물만으로도 성능을 폭발적으로 끌어올릴 수 있다는 사실이 증명되었기 때문입니다. 외부의 개입 없는 자가 증류, 'SSD(Simple Self-Distillation)'가 가져온 충격적인 결과입니다."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@sejong_airc/post/DWnyDUGkkRO"
+  avatar_color: "#EDE3DC"

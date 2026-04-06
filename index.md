@@ -106,16 +106,19 @@ seo:
 
         {% assign avatar_palette = "#EDE3DC|#E8E0DA|#F0ECE8|#E5E5EA|#F5F5F5" | split: "|" %}
         {% assign threads_reposts = site.data.threads_reposts | default: empty %}
-        {% if threads_reposts.size > 0 %}
-          {% for item in threads_reposts limit: 6 %}
-            {% assign color_index = forloop.index0 | modulo: avatar_palette.size %}
-            {% assign avatar_color = item.avatar_color | default: avatar_palette[color_index] %}
-            <div class="th-post">
-              <div class="th-post__meta">
-                <div class="th-post__avatar" style="background: {{ avatar_color }}"></div>
-                <span class="th-post__name">{{ item.author | default: "threads_user" }}</span>
-                <span class="th-post__time">{{ item.time | default: "now" }}</span>
-              </div>
+        {% assign threads_limit = 6 %}
+        {% for i in (1..threads_limit) %}
+          {% assign item_index = forloop.index0 %}
+          {% assign item = threads_reposts[item_index] %}
+          {% assign color_index = item_index | modulo: avatar_palette.size %}
+          {% assign avatar_color = item.avatar_color | default: avatar_palette[color_index] %}
+          <div class="th-post">
+            <div class="th-post__meta">
+              <div class="th-post__avatar" style="background: {{ avatar_color }}"></div>
+              <span class="th-post__name">{{ item.author | default: "threads" }}</span>
+              <span class="th-post__time">{{ item.time | default: "syncing" }}</span>
+            </div>
+            {% if item %}
               {% assign item_text = item.text | default: "리포스트 데이터를 추가하면 이 영역에 표시됩니다." | truncate: 72 %}
               {% if item.url %}
                 <p class="th-post__text"><a href="{{ item.url }}" target="_blank" rel="noopener">{{ item_text }}</a></p>
@@ -123,19 +126,12 @@ seo:
                 <p class="th-post__text">{{ item_text }}</p>
               {% endif %}
               <div class="th-post__repost">↻ {{ item.repost_label | default: site.profile.name | default: "이주한" }}이 리포스트</div>
-            </div>
-          {% endfor %}
-        {% else %}
-          <div class="th-post">
-            <div class="th-post__meta">
-              <div class="th-post__avatar"></div>
-              <span class="th-post__name">threads</span>
-              <span class="th-post__time">today</span>
-            </div>
-            <p class="th-post__text">_data/threads_reposts.yml 파일에 항목을 추가하면 이 영역에 표시됩니다.</p>
-            <div class="th-post__repost">↻ 리포스트 목록 대기중</div>
+            {% else %}
+              <p class="th-post__text">리포스트 동기화 중입니다. 잠시 후 최신 글이 표시됩니다.</p>
+              <div class="th-post__repost">↻ 리포스트 목록 대기중</div>
+            {% endif %}
           </div>
-        {% endif %}
+        {% endfor %}
       </div>
       <div class="iphone__home"></div>
     </div>

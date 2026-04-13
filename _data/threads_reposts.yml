@@ -1,7 +1,7 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
 - author: "choi.openai"
-  time: "3일"
+  time: "4일"
   text: "Meta 연구진이 평면(2D)으로 인식된 객체를 실제 3D 공간 좌표로 변환해주는 'Boxer' 모델을 오픈소스로 발표했습니다. 일전에 공개된 SAM 3 같은 비전 모델들이 2D로 물체를 찾아내면, 해당 모델이 초고속으로 물체의 3D 위치와 부피를 계산해 냅니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@choi.openai/post/DW6d0c7jzpw"
@@ -15,7 +15,7 @@
   avatar_color: "#E8E0DA"
 
 - author: "qjc.ai"
-  time: "6일"
+  time: "2026-04-06"
   text: "NousResearch가 Hermes Agent를 공개했습니다. \"스스로 학습하는 AI 에이전트\"가 나왔어요. 오픈소스, MIT 라이선스."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@qjc.ai/post/DWycqJIk264"

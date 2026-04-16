@@ -3,7 +3,6 @@ import type {
   DraftInput,
   EditorApi,
   GitCommitPushInput,
-  PRInput,
   UpdateInput
 } from "../shared/types";
 
@@ -17,7 +16,6 @@ const api: EditorApi & { workspaceRoot: () => Promise<string> } = {
   validateDraft: (input: DraftInput) => ipcRenderer.sendSync("editor:validate-draft", input),
   gitStatus: () => ipcRenderer.invoke("editor:git-status"),
   gitCommitPush: (input: GitCommitPushInput) => ipcRenderer.invoke("editor:git-commit-push", input),
-  createPullRequest: (input: PRInput) => ipcRenderer.invoke("editor:create-pr", input),
   getBlogCss: () => ipcRenderer.invoke("editor:get-blog-css"),
   workspaceRoot: () => ipcRenderer.invoke("editor:workspace-root")
 };

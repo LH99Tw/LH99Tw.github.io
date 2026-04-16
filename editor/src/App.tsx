@@ -3,6 +3,7 @@ import Sidebar from "./features/sidebar/Sidebar";
 import EditorPane from "./features/editor/EditorPane";
 import PreviewPane from "./features/preview/PreviewPane";
 import GitPanel from "./features/git/GitPanel";
+import { editorApi } from "./lib/editor-api";
 import type {
   CategoryGroup,
   GitStatus,
@@ -90,9 +91,6 @@ export default function App() {
   const [gitStatus, setGitStatus] = useState<GitStatus | null>(null);
   const [selectedGitFiles, setSelectedGitFiles] = useState<string[]>([]);
   const [commitMessage, setCommitMessage] = useState<string>("post: update content");
-  const [branchSlug, setBranchSlug] = useState<string>("");
-  const [prTitle, setPrTitle] = useState<string>("editor: update posts");
-  const [prBody, setPrBody] = useState<string>("자동 생성된 로컬 에디터 변경사항입니다.");
   const [busy, setBusy] = useState<boolean>(false);
   const [toast, setToast] = useState<ToastState | null>(null);
   const [showGitFlow, setShowGitFlow] = useState<boolean>(false);
@@ -124,7 +122,7 @@ export default function App() {
   );
 
   const loadCategories = async (): Promise<void> => {
-    const data = await window.editorApi.getCategories();
+    const data = await editorApi.getCategories();
     setCategories(data);
 
     if (!activeCategoryId) {
@@ -134,12 +132,12 @@ export default function App() {
   };
 
   const loadPosts = async (): Promise<void> => {
-    const data = await window.editorApi.listPosts();
+    const data = await editorApi.listPosts();
     setPosts(data);
   };
 
   const refreshGitStatus = async (): Promise<void> => {
-    const status = await window.editorApi.gitStatus();
+    const status = await editorApi.gitStatus();
     setGitStatus(status);
     setSelectedGitFiles((prev) => {
       const changed = status.changedFiles.map((file) => file.path);
@@ -151,9 +149,9 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        const root = await window.editorApi.workspaceRoot();
+        const root = await editorApi.workspaceRoot();
         setWorkspaceRoot(root);
-        const cssText = await window.editorApi.getBlogCss();
+        const cssText = await editorApi.getBlogCss();
         setBlogCssText(cssText);
         await loadCategories();
         await loadPosts();
@@ -171,7 +169,7 @@ export default function App() {
       return;
     }
 
-    const result = window.editorApi.validateDraft({
+    const result = editorApi.validateDraft({
       title: draft.frontMatter.title,
       description: draft.frontMatter.description,
       categories: draft.frontMatter.categories,
@@ -189,7 +187,7 @@ export default function App() {
   const handleSelectPost = async (filePath: string): Promise<void> => {
     try {
       setBusy(true);
-      const doc = await window.editorApi.readPost(filePath);
+      const doc = await editorApi.readPost(filePath);
       setDraft(toDraft(doc));
       setSelectedFilePath(filePath);
       setShowGitFlow(false);
@@ -218,7 +216,7 @@ export default function App() {
     try {
       setBusy(true);
       if (draft.isNew) {
-        const created = await window.editorApi.createPost({
+        const created = await editorApi.createPost({
           title: draft.frontMatter.title,
           description: draft.frontMatter.description,
           categories: draft.frontMatter.categories,
@@ -231,9 +229,8 @@ export default function App() {
         setSelectedFilePath(created.filePath);
         await loadPosts();
         setCommitMessage(`post: add ${created.frontMatter.title}`);
-        setPrTitle(`post: add ${created.frontMatter.title}`);
       } else {
-        const updated = await window.editorApi.updatePost({
+        const updated = await editorApi.updatePost({
           filePath: draft.filePath!,
           frontMatter: draft.frontMatter,
           body: draft.body
@@ -241,7 +238,6 @@ export default function App() {
         setDraft(toDraft(updated));
         await loadPosts();
         setCommitMessage(`post: update ${updated.frontMatter.title}`);
-        setPrTitle(`post: update ${updated.frontMatter.title}`);
       }
 
       await refreshGitStatus();
@@ -261,7 +257,7 @@ export default function App() {
 
     try {
       setBusy(true);
-      await window.editorApi.deletePost(draft.filePath);
+      await editorApi.deletePost(draft.filePath);
       setDraft(null);
       setSelectedFilePath("");
       setShowGitFlow(false);
@@ -286,31 +282,14 @@ export default function App() {
   const handleCommitPush = async (): Promise<void> => {
     try {
       setBusy(true);
-      const result = await window.editorApi.gitCommitPush({
+      const result = await editorApi.gitCommitPush({
         files: selectedGitFiles,
-        message: commitMessage,
-        branchSlug
+        message: commitMessage
       });
       await refreshGitStatus();
       showToast(`Push 완료: ${result.branch} (${result.commitHash.slice(0, 7)})`, "success");
     } catch (error) {
       showToast(error instanceof Error ? error.message : "커밋/푸시 중 오류가 발생했습니다.", "error");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const handleCreatePr = async (): Promise<void> => {
-    try {
-      setBusy(true);
-      const result = await window.editorApi.createPullRequest({
-        title: prTitle,
-        body: prBody,
-        draft: true
-      });
-      showToast(`Draft PR 생성: ${result.url}`, "success");
-    } catch (error) {
-      showToast(error instanceof Error ? error.message : "PR 생성 중 오류가 발생했습니다.", "error");
     } finally {
       setBusy(false);
     }
@@ -420,23 +399,14 @@ export default function App() {
               gitStatus={gitStatus}
               selectedFiles={selectedGitFiles}
               commitMessage={commitMessage}
-              branchSlug={branchSlug}
-              prTitle={prTitle}
-              prBody={prBody}
               busy={busy}
               onToggleFile={handleToggleGitFile}
               onCommitMessage={setCommitMessage}
-              onBranchSlug={setBranchSlug}
-              onPrTitle={setPrTitle}
-              onPrBody={setPrBody}
               onRefresh={() => {
                 void refreshGitStatus();
               }}
               onCommitPush={() => {
                 void handleCommitPush();
-              }}
-              onCreatePr={() => {
-                void handleCreatePr();
               }}
               onClose={() => setShowGitFlow(false)}
             />

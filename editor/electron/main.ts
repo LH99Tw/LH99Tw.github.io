@@ -4,7 +4,7 @@ import fsp from "node:fs/promises";
 import { app, BrowserWindow, dialog, ipcMain } from "electron";
 import { BlogService } from "./services/blog-service";
 import { GitService } from "./services/git-service";
-import type { DraftInput, GitCommitPushInput, PRInput, UpdateInput } from "../shared/types";
+import type { DraftInput, GitCommitPushInput, UpdateInput } from "../shared/types";
 
 const isDev = !app.isPackaged;
 
@@ -74,8 +74,6 @@ app.whenReady().then(() => {
   ipcMain.handle("editor:git-status", async () => gitService.status());
 
   ipcMain.handle("editor:git-commit-push", async (_event, input: GitCommitPushInput) => gitService.commitPush(input));
-
-  ipcMain.handle("editor:create-pr", async (_event, input: PRInput) => gitService.createPullRequest(input));
 
   ipcMain.handle("editor:workspace-root", async () => workspaceRoot);
 

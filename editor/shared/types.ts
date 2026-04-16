@@ -79,15 +79,12 @@ export interface GitStatus {
   isGitRepo: boolean;
   currentBranch: string;
   changedFiles: GitChangedFile[];
-  ghInstalled: boolean;
-  ghAuthenticated: boolean;
   message?: string;
 }
 
 export interface GitCommitPushInput {
   files: string[];
   message: string;
-  branchSlug?: string;
 }
 
 export interface GitPushResult {
@@ -95,17 +92,6 @@ export interface GitPushResult {
   commitHash: string;
   pushed: boolean;
   createdBranch: boolean;
-}
-
-export interface PRInput {
-  title: string;
-  body: string;
-  base?: string;
-  draft?: boolean;
-}
-
-export interface PRResult {
-  url: string;
 }
 
 export interface EditorApi {
@@ -118,6 +104,5 @@ export interface EditorApi {
   validateDraft: (input: DraftInput) => ValidationResult;
   gitStatus: () => Promise<GitStatus>;
   gitCommitPush: (input: GitCommitPushInput) => Promise<GitPushResult>;
-  createPullRequest: (input: PRInput) => Promise<PRResult>;
   getBlogCss: () => Promise<string>;
 }

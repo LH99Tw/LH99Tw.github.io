@@ -1857,6 +1857,24 @@ body.page-profile.sidebar-nav-exit .sidebar {
   margin: 14px 0;
 }
 
+.post__content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 18px auto;
+}
+
+.post__content figure {
+  margin: 18px auto;
+}
+
+.post__content figcaption {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-2);
+}
+
 .post__content ul,
 .post__content ol {
   padding-left: 20px;

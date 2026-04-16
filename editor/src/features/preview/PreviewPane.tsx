@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
+import hljs from "highlight.js";
+import highlightCss from "highlight.js/styles/github-dark.css?inline";
 
 interface PreviewPaneProps {
   body: string;
@@ -9,6 +11,17 @@ interface PreviewPaneProps {
 }
 
 marked.setOptions({ breaks: true, gfm: true });
+
+const renderer = new marked.Renderer();
+renderer.code = ({ text, lang }) => {
+  const normalizedLang = lang?.trim().toLowerCase();
+  const highlighted = normalizedLang && hljs.getLanguage(normalizedLang)
+    ? hljs.highlight(text, { language: normalizedLang }).value
+    : hljs.highlightAuto(text).value;
+
+  const className = normalizedLang ? `hljs language-${normalizedLang}` : "hljs";
+  return `<pre><code class="${className}">${highlighted}</code></pre>`;
+};
 
 function normalizeAssetPaths(html: string, workspaceRoot: string): string {
   if (!workspaceRoot) return html;
@@ -21,9 +34,9 @@ function normalizeAssetPaths(html: string, workspaceRoot: string): string {
 
 export default function PreviewPane({ body, blogCssText, workspaceRoot }: PreviewPaneProps) {
   const srcDoc = useMemo(() => {
-    const rendered = marked.parse(body || "", { async: false }) as string;
+    const rendered = marked.parse(body || "", { async: false, renderer }) as string;
     const sanitized = DOMPurify.sanitize(rendered, {
-      ADD_ATTR: ["style", "width", "height", "loading"]
+      ADD_ATTR: ["style", "width", "height", "loading", "class"]
     });
     const normalizedHtml = normalizeAssetPaths(sanitized, workspaceRoot);
 
@@ -62,6 +75,7 @@ export default function PreviewPane({ body, blogCssText, workspaceRoot }: Previe
       }
     </style>
     <style>${blogCssText}</style>
+    <style>${highlightCss}</style>
     <style>
       .preview-post.post--reader {
         --post-reader-shift: 0;
@@ -70,6 +84,11 @@ export default function PreviewPane({ body, blogCssText, workspaceRoot }: Previe
       .preview-post .post__header {
         min-height: auto !important;
         padding-top: 0 !important;
+      }
+      .preview-post .post__content pre code.hljs {
+        display: block;
+        padding: 0;
+        background: transparent;
       }
     </style>
   </head>

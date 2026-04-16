@@ -3,6 +3,24 @@ export interface CategoryItem {
   label: string;
 }
 
+export interface CategoryCreateInput {
+  groupId: string;
+  id: string;
+  label: string;
+}
+
+export interface CategoryUpdateInput {
+  groupId: string;
+  categoryId: string;
+  nextId: string;
+  nextLabel: string;
+}
+
+export interface CategoryDeleteInput {
+  groupId: string;
+  categoryId: string;
+}
+
 export interface CategoryGroup {
   id: string;
   label: string;
@@ -96,6 +114,9 @@ export interface GitPushResult {
 
 export interface EditorApi {
   getCategories: () => Promise<CategoryGroup[]>;
+  createCategory: (input: CategoryCreateInput) => Promise<CategoryGroup[]>;
+  updateCategory: (input: CategoryUpdateInput) => Promise<CategoryGroup[]>;
+  deleteCategory: (input: CategoryDeleteInput) => Promise<CategoryGroup[]>;
   listPosts: (categoryId?: string) => Promise<PostSummary[]>;
   readPost: (filePath: string) => Promise<PostDocument>;
   createPost: (input: DraftInput) => Promise<PostDocument>;

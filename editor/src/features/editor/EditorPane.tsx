@@ -89,6 +89,20 @@ export default function EditorPane({
     });
   };
 
+  const insertCodeFence = (): void => {
+    withEditor((view) => {
+      const { from, to } = view.state.selection.main;
+      const selected = view.state.sliceDoc(from, to);
+      const codeBody = selected || 'print("Hello World!")';
+      const snippet = `\n\`\`\`python\n${codeBody}\n\`\`\`\n`;
+
+      view.dispatch({
+        changes: { from, to, insert: snippet },
+        selection: { anchor: from + 4, head: from + 10 }
+      });
+    });
+  };
+
   const prefixLine = (prefix: string): void => {
     withEditor((view) => {
       const { from } = view.state.selection.main;
@@ -104,7 +118,17 @@ export default function EditorPane({
   };
 
   if (!draft) {
-    return <section className="editor-pane editor-pane--empty">좌측에서 글을 선택하거나 새 글을 만드세요.</section>;
+    return (
+      <section className="editor-pane editor-pane--empty" aria-label="빈 상태">
+        <div className="editor-empty-state">
+          <p className="editor-empty-state__emoji" aria-hidden="true">🫧</p>
+          <p className="editor-empty-state__title">아직 선택된 글이 없어요</p>
+          <p className="editor-empty-state__desc">
+            좌측에서 글을 선택하거나 <strong>+ New</strong>로 새 글을 시작해보세요.
+          </p>
+        </div>
+      </section>
+    );
   }
 
   const saveButtonLabel = busy
@@ -117,64 +141,6 @@ export default function EditorPane({
 
   return (
     <section className="editor-pane" aria-label="에디터">
-      <header className="editor-toolbar">
-        <div className="editor-toolbar__left">
-          <button type="button" className="icon-btn" title="Undo" onClick={() => withEditor((view) => undo(view))}>
-            ↶
-          </button>
-          <button type="button" className="icon-btn" title="Redo" onClick={() => withEditor((view) => redo(view))}>
-            ↷
-          </button>
-          <span className="toolbar-sep" />
-
-          <button type="button" className="icon-btn icon-btn--text" title="Heading 1" onClick={() => prefixLine(headingPrefix(1))}>
-            Hn
-          </button>
-          <button type="button" className="icon-btn icon-btn--text" title="Heading 2" onClick={() => prefixLine(headingPrefix(2))}>
-            H2
-          </button>
-          <button type="button" className="icon-btn icon-btn--text" title="Heading 3" onClick={() => prefixLine(headingPrefix(3))}>
-            H3
-          </button>
-
-          <button type="button" className="icon-btn" title="Bold" onClick={() => insertAroundSelection("**")}>B</button>
-          <button type="button" className="icon-btn" title="Italic" onClick={() => insertAroundSelection("*")}>I</button>
-          <button type="button" className="icon-btn" title="Strike" onClick={() => insertAroundSelection("~~")}>S</button>
-          <button type="button" className="icon-btn" title="Underline" onClick={() => insertAroundSelection("<u>", "</u>")}>U</button>
-          <button type="button" className="icon-btn" title="Code" onClick={() => insertAroundSelection("`")}>{"</>"}</button>
-          <button type="button" className="icon-btn" title="Link" onClick={() => insertAroundSelection("[", "](https://)")}>🔗</button>
-          <button type="button" className="icon-btn" title="Image" onClick={() => insertAtCursor("\n![alt](https://)\n")}>🖼</button>
-          <button
-            type="button"
-            className="icon-btn"
-            title="Table"
-            onClick={() => insertAtCursor("\n| 항목 | 값 |\n| --- | --- |\n| A | B |\n")}
-          >
-            ▦
-          </button>
-          <button type="button" className="icon-btn" title="Checklist" onClick={() => prefixLine("- [ ] ")}>
-            ☑
-          </button>
-          <button type="button" className="icon-btn" title="Quote" onClick={() => prefixLine("> ")}>
-            ❝
-          </button>
-        </div>
-
-        <div className="editor-toolbar__right">
-          <button type="button" className="btn" onClick={onDelete} disabled={busy || draft.isNew}>
-            삭제
-          </button>
-          <button
-            type="button"
-            className="btn btn--solid"
-            onClick={onSave}
-            disabled={busy || hasErrors || saveState === "saved"}
-          >
-            {saveButtonLabel}
-          </button>
-        </div>
-      </header>
-
       <div className="editor-meta">
         <label>
           제목
@@ -234,6 +200,66 @@ export default function EditorPane({
           />
         </label>
       </div>
+
+      <header className="editor-toolbar">
+        <div className="editor-toolbar__spacer" />
+
+        <div className="editor-toolbar__center">
+          <button type="button" className="icon-btn" title="Undo" onClick={() => withEditor((view) => undo(view))}>
+            ↶
+          </button>
+          <button type="button" className="icon-btn" title="Redo" onClick={() => withEditor((view) => redo(view))}>
+            ↷
+          </button>
+          <span className="toolbar-sep" />
+
+          <button type="button" className="icon-btn icon-btn--text" title="Heading 1" onClick={() => prefixLine(headingPrefix(1))}>
+            Hn
+          </button>
+          <button type="button" className="icon-btn icon-btn--text" title="Heading 2" onClick={() => prefixLine(headingPrefix(2))}>
+            H2
+          </button>
+          <button type="button" className="icon-btn icon-btn--text" title="Heading 3" onClick={() => prefixLine(headingPrefix(3))}>
+            H3
+          </button>
+
+          <button type="button" className="icon-btn" title="Bold" onClick={() => insertAroundSelection("**")}>B</button>
+          <button type="button" className="icon-btn" title="Italic" onClick={() => insertAroundSelection("*")}>I</button>
+          <button type="button" className="icon-btn" title="Strike" onClick={() => insertAroundSelection("~~")}>S</button>
+          <button type="button" className="icon-btn" title="Underline" onClick={() => insertAroundSelection("<u>", "</u>")}>U</button>
+          <button type="button" className="icon-btn" title="Code Block" onClick={insertCodeFence}>{"</>"}</button>
+          <button type="button" className="icon-btn" title="Link" onClick={() => insertAroundSelection("[", "](https://)")}>🔗</button>
+          <button type="button" className="icon-btn" title="Image" onClick={() => insertAtCursor("\n![alt](https://)\n")}>🖼</button>
+          <button
+            type="button"
+            className="icon-btn"
+            title="Table"
+            onClick={() => insertAtCursor("\n| 항목 | 값 |\n| --- | --- |\n| A | B |\n")}
+          >
+            ▦
+          </button>
+          <button type="button" className="icon-btn" title="Checklist" onClick={() => prefixLine("- [ ] ")}>
+            ☑
+          </button>
+          <button type="button" className="icon-btn" title="Quote" onClick={() => prefixLine("> ")}>
+            ❝
+          </button>
+        </div>
+
+        <div className="editor-toolbar__right">
+          <button type="button" className="btn" onClick={onDelete} disabled={busy || draft.isNew}>
+            삭제
+          </button>
+          <button
+            type="button"
+            className="btn btn--solid"
+            onClick={onSave}
+            disabled={busy || hasErrors || saveState === "saved"}
+          >
+            {saveButtonLabel}
+          </button>
+        </div>
+      </header>
 
       <CodeMirror
         className="editor-cm"

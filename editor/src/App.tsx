@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import Sidebar from "./features/sidebar/Sidebar";
+import CategoryManager from "./features/sidebar/CategoryManager";
 import EditorPane from "./features/editor/EditorPane";
 import PreviewPane from "./features/preview/PreviewPane";
 import GitPanel from "./features/git/GitPanel";
+import { editorApi } from "./lib/editor-api";
 import type {
   CategoryGroup,
   GitStatus,
@@ -93,6 +95,7 @@ export default function App() {
   const [busy, setBusy] = useState<boolean>(false);
   const [toast, setToast] = useState<ToastState | null>(null);
   const [showGitFlow, setShowGitFlow] = useState<boolean>(false);
+  const [showCategoryManager, setShowCategoryManager] = useState<boolean>(false);
   const [isPreviewMode, setIsPreviewMode] = useState<boolean>(false);
   const [blogCssText, setBlogCssText] = useState<string>("");
   const [saveState, setSaveState] = useState<"idle" | "dirty" | "saved">("idle");
@@ -120,8 +123,18 @@ export default function App() {
     [categories]
   );
 
+  const postCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const post of posts) {
+      for (const category of post.categories) {
+        counts[category] = (counts[category] ?? 0) + 1;
+      }
+    }
+    return counts;
+  }, [posts]);
+
   const loadCategories = async (): Promise<void> => {
-    const data = await window.editorApi.getCategories();
+    const data = await editorApi.getCategories();
     setCategories(data);
 
     if (!activeCategoryId) {
@@ -131,12 +144,12 @@ export default function App() {
   };
 
   const loadPosts = async (): Promise<void> => {
-    const data = await window.editorApi.listPosts();
+    const data = await editorApi.listPosts();
     setPosts(data);
   };
 
   const refreshGitStatus = async (): Promise<void> => {
-    const status = await window.editorApi.gitStatus();
+    const status = await editorApi.gitStatus();
     setGitStatus(status);
     setSelectedGitFiles((prev) => {
       const changed = status.changedFiles.map((file) => file.path);
@@ -148,9 +161,9 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        const root = await window.editorApi.workspaceRoot();
+        const root = await editorApi.workspaceRoot();
         setWorkspaceRoot(root);
-        const cssText = await window.editorApi.getBlogCss();
+        const cssText = await editorApi.getBlogCss();
         setBlogCssText(cssText);
         await loadCategories();
         await loadPosts();
@@ -168,7 +181,7 @@ export default function App() {
       return;
     }
 
-    const result = window.editorApi.validateDraft({
+    const result = editorApi.validateDraft({
       title: draft.frontMatter.title,
       description: draft.frontMatter.description,
       categories: draft.frontMatter.categories,
@@ -186,7 +199,7 @@ export default function App() {
   const handleSelectPost = async (filePath: string): Promise<void> => {
     try {
       setBusy(true);
-      const doc = await window.editorApi.readPost(filePath);
+      const doc = await editorApi.readPost(filePath);
       setDraft(toDraft(doc));
       setSelectedFilePath(filePath);
       setShowGitFlow(false);
@@ -215,7 +228,7 @@ export default function App() {
     try {
       setBusy(true);
       if (draft.isNew) {
-        const created = await window.editorApi.createPost({
+        const created = await editorApi.createPost({
           title: draft.frontMatter.title,
           description: draft.frontMatter.description,
           categories: draft.frontMatter.categories,
@@ -229,7 +242,7 @@ export default function App() {
         await loadPosts();
         setCommitMessage(`post: add ${created.frontMatter.title}`);
       } else {
-        const updated = await window.editorApi.updatePost({
+        const updated = await editorApi.updatePost({
           filePath: draft.filePath!,
           frontMatter: draft.frontMatter,
           body: draft.body
@@ -256,7 +269,7 @@ export default function App() {
 
     try {
       setBusy(true);
-      await window.editorApi.deletePost(draft.filePath);
+      await editorApi.deletePost(draft.filePath);
       setDraft(null);
       setSelectedFilePath("");
       setShowGitFlow(false);
@@ -281,7 +294,7 @@ export default function App() {
   const handleCommitPush = async (): Promise<void> => {
     try {
       setBusy(true);
-      const result = await window.editorApi.gitCommitPush({
+      const result = await editorApi.gitCommitPush({
         files: selectedGitFiles,
         message: commitMessage
       });
@@ -316,6 +329,88 @@ export default function App() {
     }
   };
 
+  const getFallbackCategoryId = (nextCategories: CategoryGroup[]): string => nextCategories[0]?.items[0]?.id ?? "";
+
+  const handleCreateCategory = async (input: { groupId: string; id: string; label: string }): Promise<void> => {
+    try {
+      setBusy(true);
+      const nextCategories = await editorApi.createCategory(input);
+      setCategories(nextCategories);
+      setActiveCategoryId(input.id.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-_]/g, ""));
+      showToast("카테고리를 추가했습니다.", "success");
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "카테고리 생성 중 오류가 발생했습니다.", "error");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleUpdateCategory = async (input: {
+    groupId: string;
+    categoryId: string;
+    nextId: string;
+    nextLabel: string;
+  }): Promise<void> => {
+    try {
+      setBusy(true);
+      const normalizedNextId = input.nextId.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-_]/g, "");
+      const nextCategories = await editorApi.updateCategory(input);
+      setCategories(nextCategories);
+      await loadPosts();
+
+      if (activeCategoryId === input.categoryId) {
+        setActiveCategoryId(normalizedNextId);
+      }
+
+      setDraft((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          frontMatter: {
+            ...prev.frontMatter,
+            categories: prev.frontMatter.categories.map((category) => (category === input.categoryId ? normalizedNextId : category))
+          }
+        };
+      });
+
+      showToast("카테고리를 수정했습니다.", "success");
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "카테고리 수정 중 오류가 발생했습니다.", "error");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleDeleteCategory = async (input: { groupId: string; categoryId: string }): Promise<void> => {
+    try {
+      setBusy(true);
+      const nextCategories = await editorApi.deleteCategory(input);
+      setCategories(nextCategories);
+      await loadPosts();
+
+      if (activeCategoryId === input.categoryId) {
+        setActiveCategoryId(getFallbackCategoryId(nextCategories));
+      }
+
+      setDraft((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          frontMatter: {
+            ...prev.frontMatter,
+            categories: prev.frontMatter.categories.filter((category) => category !== input.categoryId)
+          }
+        };
+      });
+
+      showToast("카테고리를 삭제했습니다.", "success");
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : "카테고리 삭제 중 오류가 발생했습니다.", "error");
+    } finally {
+      setBusy(false);
+    }
+  };
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "s") {
@@ -344,26 +439,26 @@ export default function App() {
         searchQuery={searchQuery}
         onSearchQuery={setSearchQuery}
         onSelectCategory={handleSelectCategory}
-        onSelectPost={(filePath) => {
-          void handleSelectPost(filePath);
-        }}
-        onCreateDraft={handleCreateDraft}
-      />
+          onSelectPost={(filePath) => {
+            void handleSelectPost(filePath);
+          }}
+          onCreateDraft={handleCreateDraft}
+          onOpenCategoryManager={() => setShowCategoryManager(true)}
+        />
 
       <main className="app-main">
         <header className="app-main__header">
-          <div>
-            <h2>{activeCategoryLabel || "Category"}</h2>
-            <p>{workspaceRoot}</p>
-          </div>
-          <div className="app-main__actions">
-            <button type="button" className="btn" onClick={() => void handleOpenGitFlow()} disabled={busy}>
-              커밋
-            </button>
-            <button type="button" className="btn" onClick={() => setIsPreviewMode((prev) => !prev)}>
-              {isPreviewMode ? "편집 모드" : "Preview 모드"}
-            </button>
-          </div>
+          <div className="app-main__header-spacer" aria-hidden="true" />
+          {draft ? (
+            <div className="app-main__actions">
+              <button type="button" className="btn" onClick={() => void handleOpenGitFlow()} disabled={busy}>
+                커밋
+              </button>
+              <button type="button" className="btn" onClick={() => setIsPreviewMode((prev) => !prev)}>
+                {isPreviewMode ? "편집 모드" : "Preview 모드"}
+              </button>
+            </div>
+          ) : null}
         </header>
 
         <div className="app-main__editor-grid">
@@ -408,6 +503,23 @@ export default function App() {
                 void handleCommitPush();
               }}
               onClose={() => setShowGitFlow(false)}
+            />
+          </div>
+        </div>
+      )}
+
+      {showCategoryManager && (
+        <div className="git-overlay" role="dialog" aria-modal="true" aria-label="카테고리 관리">
+          <div className="git-overlay__sheet">
+            <CategoryManager
+              categories={categories}
+              postCounts={postCounts}
+              activeCategoryId={activeCategoryId}
+              busy={busy}
+              onClose={() => setShowCategoryManager(false)}
+              onCreateCategory={handleCreateCategory}
+              onUpdateCategory={handleUpdateCategory}
+              onDeleteCategory={handleDeleteCategory}
             />
           </div>
         </div>

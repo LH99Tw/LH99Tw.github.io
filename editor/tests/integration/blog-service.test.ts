@@ -74,4 +74,41 @@ describe("BlogService integration", () => {
     expect(csPosts.length).toBe(1);
     expect(aiPosts.length).toBe(0);
   });
+
+  it("creates, updates, and guards category deletion", async () => {
+    const createdCategories = await service.createCategory({
+      groupId: "programming",
+      id: "reading-note",
+      label: "독서노트"
+    });
+
+    expect(createdCategories[0].items.some((item) => item.id === "reading-note")).toBe(true);
+
+    await service.createPost({
+      title: "카테고리 리네임 테스트 제목",
+      description: "카테고리 리네임 테스트를 위한 충분히 긴 설명 텍스트입니다.",
+      categories: ["reading-note"],
+      tags: ["test"],
+      body: "본문"
+    });
+
+    const updatedCategories = await service.updateCategory({
+      groupId: "programming",
+      categoryId: "reading-note",
+      nextId: "book-note",
+      nextLabel: "북노트"
+    });
+
+    expect(updatedCategories[0].items.some((item) => item.id === "book-note")).toBe(true);
+
+    const bookPosts = await service.listPosts("book-note");
+    expect(bookPosts.length).toBe(1);
+
+    await expect(
+      service.deleteCategory({
+        groupId: "programming",
+        categoryId: "book-note"
+      })
+    ).rejects.toThrow("삭제할 수 없습니다");
+  });
 });

@@ -4,7 +4,14 @@ import fsp from "node:fs/promises";
 import { app, BrowserWindow, dialog, ipcMain } from "electron";
 import { BlogService } from "./services/blog-service";
 import { GitService } from "./services/git-service";
-import type { DraftInput, GitCommitPushInput, UpdateInput } from "../shared/types";
+import type {
+  CategoryCreateInput,
+  CategoryDeleteInput,
+  CategoryUpdateInput,
+  DraftInput,
+  GitCommitPushInput,
+  UpdateInput
+} from "../shared/types";
 
 const isDev = !app.isPackaged;
 
@@ -56,6 +63,12 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   ipcMain.handle("editor:get-categories", async () => blogService.getCategories());
+
+  ipcMain.handle("editor:create-category", async (_event, input: CategoryCreateInput) => blogService.createCategory(input));
+
+  ipcMain.handle("editor:update-category", async (_event, input: CategoryUpdateInput) => blogService.updateCategory(input));
+
+  ipcMain.handle("editor:delete-category", async (_event, input: CategoryDeleteInput) => blogService.deleteCategory(input));
 
   ipcMain.handle("editor:list-posts", async (_event, categoryId?: string) => blogService.listPosts(categoryId));
 

@@ -11,7 +11,10 @@ import {
   validateFrontMatter
 } from "../../shared/editor-utils";
 import type {
+  CategoryCreateInput,
+  CategoryDeleteInput,
   CategoryGroup,
+  CategoryUpdateInput,
   DraftInput,
   PostDocument,
   PostSummary,
@@ -46,14 +49,91 @@ export class BlogService {
   }
 
   async getCategories(): Promise<CategoryGroup[]> {
-    const raw = await fs.readFile(this.categoryDataFile, "utf8");
-    const parsed = yaml.load(raw);
+    return this.readCategoriesFile();
+  }
 
-    if (!Array.isArray(parsed)) {
-      throw new Error("카테고리 설정 파일 형식이 올바르지 않습니다.");
+  async createCategory(input: CategoryCreateInput): Promise<CategoryGroup[]> {
+    const categories = await this.readCategoriesFile();
+    const group = categories.find((item) => item.id === input.groupId);
+    const normalizedId = normalizeCategoryId(input.id);
+    const normalizedLabel = input.label.trim();
+
+    if (!group) {
+      throw new Error("대상 그룹을 찾을 수 없습니다.");
+    }
+    if (!normalizedLabel) {
+      throw new Error("카테고리 이름을 입력하세요.");
+    }
+    if (!normalizedId) {
+      throw new Error("카테고리 ID를 입력하세요.");
+    }
+    if (categories.some((categoryGroup) => categoryGroup.items.some((item) => item.id === normalizedId))) {
+      throw new Error("이미 존재하는 카테고리 ID입니다.");
     }
 
-    return parsed as CategoryGroup[];
+    group.items.push({ id: normalizedId, label: normalizedLabel });
+    group.items.sort((a, b) => a.label.localeCompare(b.label, "ko"));
+
+    await this.writeCategoriesFile(categories);
+    return categories;
+  }
+
+  async updateCategory(input: CategoryUpdateInput): Promise<CategoryGroup[]> {
+    const categories = await this.readCategoriesFile();
+    const group = categories.find((item) => item.id === input.groupId);
+    const target = group?.items.find((item) => item.id === input.categoryId);
+    const nextId = normalizeCategoryId(input.nextId);
+    const nextLabel = input.nextLabel.trim();
+
+    if (!group || !target) {
+      throw new Error("수정할 카테고리를 찾을 수 없습니다.");
+    }
+    if (!nextLabel) {
+      throw new Error("카테고리 이름을 입력하세요.");
+    }
+    if (!nextId) {
+      throw new Error("카테고리 ID를 입력하세요.");
+    }
+    if (
+      nextId !== input.categoryId &&
+      categories.some((categoryGroup) => categoryGroup.items.some((item) => item.id === nextId))
+    ) {
+      throw new Error("이미 존재하는 카테고리 ID입니다.");
+    }
+
+    target.id = nextId;
+    target.label = nextLabel;
+    group.items.sort((a, b) => a.label.localeCompare(b.label, "ko"));
+
+    if (nextId !== input.categoryId) {
+      await this.replaceCategoryIdInPosts(input.categoryId, nextId);
+    }
+
+    await this.writeCategoriesFile(categories);
+    return categories;
+  }
+
+  async deleteCategory(input: CategoryDeleteInput): Promise<CategoryGroup[]> {
+    const categories = await this.readCategoriesFile();
+    const group = categories.find((item) => item.id === input.groupId);
+
+    if (!group) {
+      throw new Error("대상 그룹을 찾을 수 없습니다.");
+    }
+
+    const usageCount = await this.countPostsForCategory(input.categoryId);
+    if (usageCount > 0) {
+      throw new Error(`이 카테고리를 사용하는 글 ${usageCount}개가 있어 삭제할 수 없습니다.`);
+    }
+
+    const nextItems = group.items.filter((item) => item.id !== input.categoryId);
+    if (nextItems.length === group.items.length) {
+      throw new Error("삭제할 카테고리를 찾을 수 없습니다.");
+    }
+
+    group.items = nextItems;
+    await this.writeCategoriesFile(categories);
+    return categories;
   }
 
   async listPosts(categoryId?: string): Promise<PostSummary[]> {
@@ -184,6 +264,54 @@ export class BlogService {
 
     return { trashedPath: toRelative(this.workspaceRoot, target) };
   }
+
+  private async readCategoriesFile(): Promise<CategoryGroup[]> {
+    const raw = await fs.readFile(this.categoryDataFile, "utf8");
+    const parsed = yaml.load(raw);
+
+    if (!Array.isArray(parsed)) {
+      throw new Error("카테고리 설정 파일 형식이 올바르지 않습니다.");
+    }
+
+    return parsed as CategoryGroup[];
+  }
+
+  private async writeCategoriesFile(categories: CategoryGroup[]): Promise<void> {
+    const nextYaml = yaml.dump(categories, {
+      lineWidth: 120,
+      noRefs: true,
+      sortKeys: false
+    });
+    await fs.writeFile(this.categoryDataFile, nextYaml, "utf8");
+  }
+
+  private async countPostsForCategory(categoryId: string): Promise<number> {
+    const posts = await this.listPosts(categoryId);
+    return posts.length;
+  }
+
+  private async replaceCategoryIdInPosts(previousId: string, nextId: string): Promise<void> {
+    const entries = await fs.readdir(this.postsDir, { withFileTypes: true });
+    const files = entries.filter((entry) => entry.isFile() && entry.name.endsWith(".md"));
+
+    await Promise.all(
+      files.map(async (entry) => {
+        const absolutePath = path.join(this.postsDir, entry.name);
+        const content = await fs.readFile(absolutePath, "utf8");
+        const parsed = matter(content);
+        const data = parsed.data as Record<string, unknown>;
+        const categories = Array.isArray(data.categories) ? [...(data.categories as string[])] : [];
+
+        if (!categories.includes(previousId)) {
+          return;
+        }
+
+        data.categories = categories.map((category) => (category === previousId ? nextId : category));
+        const nextSource = matter.stringify(parsed.content, data);
+        await fs.writeFile(absolutePath, nextSource, "utf8");
+      })
+    );
+  }
 }
 
 async function exists(targetPath: string): Promise<boolean> {
@@ -193,4 +321,8 @@ async function exists(targetPath: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+function normalizeCategoryId(value: string): string {
+  return value.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-_]/g, "");
 }

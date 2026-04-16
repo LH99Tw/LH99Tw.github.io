@@ -11,6 +11,7 @@ interface SidebarProps {
   onSelectCategory: (categoryId: string) => void;
   onSelectPost: (filePath: string) => void;
   onCreateDraft: () => void;
+  onOpenCategoryManager: () => void;
 }
 
 export default function Sidebar({
@@ -22,7 +23,8 @@ export default function Sidebar({
   onSearchQuery,
   onSelectCategory,
   onSelectPost,
-  onCreateDraft
+  onCreateDraft,
+  onOpenCategoryManager
 }: SidebarProps) {
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
@@ -203,6 +205,12 @@ export default function Sidebar({
           })}
         </nav>
       )}
+
+      <div className="editor-sidebar__footer">
+        <button type="button" className="btn editor-sidebar__manage-btn" onClick={onOpenCategoryManager}>
+          카테고리 관리
+        </button>
+      </div>
     </aside>
   );
 }

@@ -3,7 +3,6 @@ import Sidebar from "./features/sidebar/Sidebar";
 import EditorPane from "./features/editor/EditorPane";
 import PreviewPane from "./features/preview/PreviewPane";
 import GitPanel from "./features/git/GitPanel";
-import { editorApi } from "./lib/editor-api";
 import type {
   CategoryGroup,
   GitStatus,
@@ -122,7 +121,7 @@ export default function App() {
   );
 
   const loadCategories = async (): Promise<void> => {
-    const data = await editorApi.getCategories();
+    const data = await window.editorApi.getCategories();
     setCategories(data);
 
     if (!activeCategoryId) {
@@ -132,12 +131,12 @@ export default function App() {
   };
 
   const loadPosts = async (): Promise<void> => {
-    const data = await editorApi.listPosts();
+    const data = await window.editorApi.listPosts();
     setPosts(data);
   };
 
   const refreshGitStatus = async (): Promise<void> => {
-    const status = await editorApi.gitStatus();
+    const status = await window.editorApi.gitStatus();
     setGitStatus(status);
     setSelectedGitFiles((prev) => {
       const changed = status.changedFiles.map((file) => file.path);
@@ -149,9 +148,9 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        const root = await editorApi.workspaceRoot();
+        const root = await window.editorApi.workspaceRoot();
         setWorkspaceRoot(root);
-        const cssText = await editorApi.getBlogCss();
+        const cssText = await window.editorApi.getBlogCss();
         setBlogCssText(cssText);
         await loadCategories();
         await loadPosts();
@@ -169,7 +168,7 @@ export default function App() {
       return;
     }
 
-    const result = editorApi.validateDraft({
+    const result = window.editorApi.validateDraft({
       title: draft.frontMatter.title,
       description: draft.frontMatter.description,
       categories: draft.frontMatter.categories,
@@ -187,7 +186,7 @@ export default function App() {
   const handleSelectPost = async (filePath: string): Promise<void> => {
     try {
       setBusy(true);
-      const doc = await editorApi.readPost(filePath);
+      const doc = await window.editorApi.readPost(filePath);
       setDraft(toDraft(doc));
       setSelectedFilePath(filePath);
       setShowGitFlow(false);
@@ -216,7 +215,7 @@ export default function App() {
     try {
       setBusy(true);
       if (draft.isNew) {
-        const created = await editorApi.createPost({
+        const created = await window.editorApi.createPost({
           title: draft.frontMatter.title,
           description: draft.frontMatter.description,
           categories: draft.frontMatter.categories,
@@ -230,7 +229,7 @@ export default function App() {
         await loadPosts();
         setCommitMessage(`post: add ${created.frontMatter.title}`);
       } else {
-        const updated = await editorApi.updatePost({
+        const updated = await window.editorApi.updatePost({
           filePath: draft.filePath!,
           frontMatter: draft.frontMatter,
           body: draft.body
@@ -257,7 +256,7 @@ export default function App() {
 
     try {
       setBusy(true);
-      await editorApi.deletePost(draft.filePath);
+      await window.editorApi.deletePost(draft.filePath);
       setDraft(null);
       setSelectedFilePath("");
       setShowGitFlow(false);
@@ -282,7 +281,7 @@ export default function App() {
   const handleCommitPush = async (): Promise<void> => {
     try {
       setBusy(true);
-      const result = await editorApi.gitCommitPush({
+      const result = await window.editorApi.gitCommitPush({
         files: selectedGitFiles,
         message: commitMessage
       });

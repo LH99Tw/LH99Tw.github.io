@@ -1998,7 +1998,7 @@ body.page-profile.sidebar-nav-exit .sidebar {
   width: min(100%, 1220px);
   margin: 8px auto 24px;
   display: grid;
-  grid-template-columns: minmax(0, 860px) 250px;
+  grid-template-columns: minmax(0, 980px) 250px;
   gap: 34px;
   align-items: start;
 }

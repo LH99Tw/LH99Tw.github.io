@@ -45,7 +45,6 @@ export default function EditorPane({
 }: EditorPaneProps) {
   const viewRef = useRef<EditorView | null>(null);
   const [tagsInput, setTagsInput] = useState<string>("");
-  const [showInfoPanel, setShowInfoPanel] = useState<boolean>(false);
 
   const hasErrors = validation.errors.length > 0;
   const selectedCategory = useMemo(() => draft?.frontMatter.categories[0] ?? "", [draft?.frontMatter.categories]);
@@ -162,14 +161,6 @@ export default function EditorPane({
         </div>
 
         <div className="editor-toolbar__right">
-          <button
-            type="button"
-            className={`icon-btn icon-btn--text ${showInfoPanel ? "is-active" : ""}`}
-            title="문서 정보"
-            onClick={() => setShowInfoPanel((prev) => !prev)}
-          >
-            Info
-          </button>
           <button type="button" className="btn" onClick={onDelete} disabled={busy || draft.isNew}>
             삭제
           </button>
@@ -184,62 +175,10 @@ export default function EditorPane({
         </div>
       </header>
 
-      {showInfoPanel && (
-        <div className="editor-meta editor-meta--floating">
-          <label>
-            설명
-            <input
-              value={draft.frontMatter.description}
-              onChange={(event) =>
-                onUpdateFrontMatter({
-                  ...draft.frontMatter,
-                  description: event.target.value
-                })
-              }
-            }
-          />
-        </label>
+      <div className="editor-meta">
         <label>
-            카테고리
-            <select
-              value={selectedCategory}
-              onChange={(event) =>
-                onUpdateFrontMatter({
-                  ...draft.frontMatter,
-                  categories: event.target.value ? [event.target.value] : []
-                })
-              }
-            >
-              <option value="">카테고리 선택</option>
-              {categoryOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="editor-meta__wide">
-            태그 (쉼표 구분)
-            <input
-              value={tagsInput}
-              onChange={(event) => {
-                const nextRaw = event.target.value;
-                setTagsInput(nextRaw);
-                onUpdateFrontMatter({
-                  ...draft.frontMatter,
-                  tags: updateTextList(nextRaw)
-                });
-              }}
-            />
-          </label>
-        </div>
-      )}
-
-      <div className="editor-canvas">
-        <div className="editor-canvas__inner">
+          제목
           <input
-            className="editor-title-input"
-            placeholder="무제"
             value={draft.frontMatter.title}
             onChange={(event) =>
               onUpdateFrontMatter({
@@ -248,19 +187,64 @@ export default function EditorPane({
               })
             }
           />
-
-          <CodeMirror
-            className="editor-cm"
-            value={draft.body}
-            height="100%"
-            extensions={[markdown()]}
-            onCreateEditor={(view) => {
-              viewRef.current = view;
+        </label>
+        <label>
+          설명
+          <input
+            value={draft.frontMatter.description}
+            onChange={(event) =>
+              onUpdateFrontMatter({
+                ...draft.frontMatter,
+                description: event.target.value
+              })
+            }
+          />
+        </label>
+        <label>
+          카테고리
+          <select
+            value={selectedCategory}
+            onChange={(event) =>
+              onUpdateFrontMatter({
+                ...draft.frontMatter,
+                categories: event.target.value ? [event.target.value] : []
+              })
+            }
+          >
+            <option value="">카테고리 선택</option>
+            {categoryOptions.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          태그 (쉼표 구분)
+          <input
+            value={tagsInput}
+            onChange={(event) => {
+              const nextRaw = event.target.value;
+              setTagsInput(nextRaw);
+              onUpdateFrontMatter({
+                ...draft.frontMatter,
+                tags: updateTextList(nextRaw)
+              });
             }}
-            onChange={(value) => onUpdateBody(value)}
           />
         </label>
       </div>
+
+      <CodeMirror
+        className="editor-cm"
+        value={draft.body}
+        height="100%"
+        extensions={[markdown()]}
+        onCreateEditor={(view) => {
+          viewRef.current = view;
+        }}
+        onChange={(value) => onUpdateBody(value)}
+      />
 
       <footer className="editor-validation">
         {draft.filePath && <span className="editor-validation__path">{draft.filePath}</span>}

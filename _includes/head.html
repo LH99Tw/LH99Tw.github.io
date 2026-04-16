@@ -15,14 +15,34 @@
   />
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" />
   {% feed_meta %}
+  {% seo %}
   {% if site.ga4.measurement_id %}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga4.measurement_id }}"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag("js", new Date());
-      gtag("config", "{{ site.ga4.measurement_id }}");
+      gtag("config", "{{ site.ga4.measurement_id }}", { send_page_view: false });
+
+      function trackPageView() {
+        gtag("event", "page_view", {
+          page_title: document.title || "",
+          page_location: window.location.href,
+          page_path: window.location.pathname + window.location.search
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", trackPageView, { once: true });
+      } else {
+        trackPageView();
+      }
+
+      window.addEventListener("pageshow", function(event) {
+        if (event.persisted) {
+          trackPageView();
+        }
+      });
     </script>
   {% endif %}
-  {% seo %}
 </head>

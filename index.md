@@ -42,7 +42,8 @@ seo:
       {% assign program_algo_posts = site.posts | where_exp: "post", "post.categories contains 'algorithm'" %}
       {% assign program_cs_posts = site.posts | where_exp: "post", "post.categories contains 'cs'" %}
       {% assign program_js_posts = site.posts | where_exp: "post", "post.categories contains 'javascript'" %}
-      {% assign programming_posts = program_ai_posts | concat: program_algo_posts | concat: program_cs_posts | concat: program_js_posts | uniq | sort: 'date' | reverse %}
+      {% assign program_project_posts = site.posts | where_exp: "post", "post.categories contains 'project'" %}
+      {% assign programming_posts = program_ai_posts | concat: program_algo_posts | concat: program_cs_posts | concat: program_js_posts | concat: program_project_posts | uniq | sort: 'date' | reverse %}
       <div class="cat-panel active" id="panel-programming">
         {% if programming_posts.size > 0 %}
           {% for post in programming_posts limit: 5 %}

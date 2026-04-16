@@ -17,12 +17,33 @@ layout: default
       {% endfor %}
     {% endfor %}
   {% endif %}
+  {% assign display_title = page.title %}
+  {% assign display_category_kicker = category_label %}
+  {% assign title_subcategory = '' %}
+  {% if page.title and page.title != '' %}
+    {% assign title_head = page.title | slice: 0, 1 %}
+    {% if title_head == '[' and page.title contains ']' %}
+      {% assign bracket_token = page.title | split: ']' | first %}
+      {% assign title_subcategory = bracket_token | remove_first: '[' | strip %}
+      {% assign parsed_title = page.title | remove_first: bracket_token | remove_first: ']' | strip %}
+      {% if parsed_title != '' %}
+        {% assign display_title = parsed_title %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  {% if title_subcategory != '' %}
+    {% if display_category_kicker and display_category_kicker != '' %}
+      {% assign display_category_kicker = display_category_kicker | append: ' / ' | append: title_subcategory %}
+    {% else %}
+      {% assign display_category_kicker = title_subcategory %}
+    {% endif %}
+  {% endif %}
   <article class="post post--reader" id="postArticle">
     <header class="post__header">
-      {% if primary_category %}
-        <p class="post__category-kicker">{{ category_label }}</p>
+      {% if display_category_kicker and display_category_kicker != '' %}
+        <p class="post__category-kicker">{{ display_category_kicker }}</p>
       {% endif %}
-      <h1 class="post__title">{{ page.title }}</h1>
+      <h1 class="post__title">{{ display_title }}</h1>
       <p class="post__meta">{{ page.date | date: "%Y.%m.%d" }}</p>
     </header>
     <section class="post__content" id="postContent">

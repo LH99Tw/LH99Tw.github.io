@@ -10,6 +10,8 @@
       label: "CS"
     - id: javascript
       label: "JS"
+    - id: project
+      label: "Project"
 - id: finance
   label: "금융"
   items:

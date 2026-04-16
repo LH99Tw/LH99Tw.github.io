@@ -2022,6 +2022,8 @@ body.page-profile.sidebar-nav-exit .sidebar {
   font-size: clamp(2rem, 3.2vw, 2.72rem);
   letter-spacing: -0.028em;
   margin-bottom: 27px;
+  word-break: keep-all;
+  line-break: strict;
 }
 
 .post--reader .post__category-kicker {

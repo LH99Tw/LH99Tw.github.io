@@ -1,6 +1,6 @@
 ---
 title: "프로그래밍"
-description: "AI, Algorithm, JavaScript 관련 학습 기록과 실전 적용 노트를 모아보는 카테고리입니다."
+description: "AI, Algorithm, CS, JavaScript, Project 관련 학습 기록과 실전 적용 노트를 모아보는 카테고리입니다."
 layout: default
 category_board: true
 hide_topbar: true
@@ -12,7 +12,8 @@ seo:
 {% assign algorithm_posts = site.posts | where_exp: "post", "post.categories contains 'algorithm'" %}
 {% assign cs_posts = site.posts | where_exp: "post", "post.categories contains 'cs'" %}
 {% assign javascript_posts = site.posts | where_exp: "post", "post.categories contains 'javascript'" %}
-{% assign board_posts = ai_posts | concat: algorithm_posts | concat: cs_posts | concat: javascript_posts | uniq | sort: 'date' | reverse %}
+{% assign project_posts = site.posts | where_exp: "post", "post.categories contains 'project'" %}
+{% assign board_posts = ai_posts | concat: algorithm_posts | concat: cs_posts | concat: javascript_posts | concat: project_posts | uniq | sort: 'date' | reverse %}
 
 <section class="category-board" data-category-board data-per-page="8">
   <header class="cat-page-header">
@@ -26,6 +27,7 @@ seo:
     <a class="filter-tab" href="{{ '/categories/algorithm/' | relative_url }}">Algorithm</a>
     <a class="filter-tab" href="{{ '/categories/cs/' | relative_url }}">CS</a>
     <a class="filter-tab" href="{{ '/categories/javascript/' | relative_url }}">JS</a>
+    <a class="filter-tab" href="{{ '/categories/project/' | relative_url }}">Project</a>
   </nav>
 
   <div class="category-board__list">
@@ -47,6 +49,8 @@ seo:
             {% assign row_label = 'CS' %}
           {% elsif post.categories contains 'javascript' %}
             {% assign row_label = 'JS' %}
+          {% elsif post.categories contains 'project' %}
+            {% assign row_label = 'Project' %}
           {% endif %}
           <a class="post-item" href="{{ post.url | relative_url }}">
             <span class="post-item__cat">{{ row_label }}</span>

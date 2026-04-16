@@ -23,6 +23,7 @@ seo:
     <a class="filter-tab" href="{{ '/categories/algorithm/' | relative_url }}">Algorithm</a>
     <a class="filter-tab" href="{{ '/categories/cs/' | relative_url }}">CS</a>
     <a class="filter-tab" href="{{ '/categories/javascript/' | relative_url }}">JS</a>
+    <a class="filter-tab" href="{{ '/categories/project/' | relative_url }}">Project</a>
   </nav>
 
   <div class="category-board__list">

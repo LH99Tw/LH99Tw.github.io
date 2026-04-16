@@ -1,0 +1,25 @@
+import { contextBridge, ipcRenderer } from "electron";
+import type {
+  DraftInput,
+  EditorApi,
+  GitCommitPushInput,
+  PRInput,
+  UpdateInput
+} from "../shared/types";
+
+const api: EditorApi & { workspaceRoot: () => Promise<string> } = {
+  getCategories: () => ipcRenderer.invoke("editor:get-categories"),
+  listPosts: (categoryId?: string) => ipcRenderer.invoke("editor:list-posts", categoryId),
+  readPost: (filePath: string) => ipcRenderer.invoke("editor:read-post", filePath),
+  createPost: (input: DraftInput) => ipcRenderer.invoke("editor:create-post", input),
+  updatePost: (input: UpdateInput) => ipcRenderer.invoke("editor:update-post", input),
+  deletePost: (filePath: string) => ipcRenderer.invoke("editor:delete-post", filePath),
+  validateDraft: (input: DraftInput) => ipcRenderer.sendSync("editor:validate-draft", input),
+  gitStatus: () => ipcRenderer.invoke("editor:git-status"),
+  gitCommitPush: (input: GitCommitPushInput) => ipcRenderer.invoke("editor:git-commit-push", input),
+  createPullRequest: (input: PRInput) => ipcRenderer.invoke("editor:create-pr", input),
+  getBlogCss: () => ipcRenderer.invoke("editor:get-blog-css"),
+  workspaceRoot: () => ipcRenderer.invoke("editor:workspace-root")
+};
+
+contextBridge.exposeInMainWorld("editorApi", api);

@@ -285,6 +285,63 @@
   overflow-wrap: anywhere;
 }
 
+.toast-stack {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1400;
+  pointer-events: none;
+}
+
+.toast {
+  min-width: 280px;
+  max-width: min(520px, calc(100vw - 32px));
+  border-radius: 12px;
+  border: 1px solid var(--separator);
+  background: #ffffff;
+  box-shadow: 0 16px 34px rgba(30, 24, 22, 0.14), 0 3px 12px rgba(30, 24, 22, 0.06);
+  padding: 11px 42px 11px 12px;
+  color: var(--text-1);
+  position: relative;
+  pointer-events: auto;
+}
+
+.toast p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.toast--success {
+  border-color: color-mix(in srgb, var(--accent-soft) 80%, #ffffff);
+  background: linear-gradient(180deg, #fbf7f4 0%, #f6efe9 100%);
+}
+
+.toast--error {
+  border-color: rgba(180, 35, 24, 0.3);
+  background: linear-gradient(180deg, #fff8f7 0%, #fff2f1 100%);
+}
+
+.toast__close {
+  position: absolute;
+  right: 10px;
+  top: 9px;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--separator);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text-2);
+  cursor: pointer;
+  line-height: 1;
+  font-size: 16px;
+}
+
+.toast__close:hover {
+  background: #f9f9f9;
+}
+
 .app-main__editor-grid {
   min-height: 0;
   display: block;

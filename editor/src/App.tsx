@@ -22,6 +22,14 @@ interface DraftState {
   isNew: boolean;
 }
 
+type ToastKind = "info" | "success" | "error";
+
+interface ToastState {
+  id: number;
+  message: string;
+  kind: ToastKind;
+}
+
 const EMPTY_VALIDATION: ValidationResult = { errors: [], warnings: [] };
 
 const DEFAULT_BODY_TEMPLATE = `핵심 키워드를 첫 120자 안에 포함해 문제 맥락을 설명합니다.
@@ -86,11 +94,15 @@ export default function App() {
   const [prTitle, setPrTitle] = useState<string>("editor: update posts");
   const [prBody, setPrBody] = useState<string>("자동 생성된 로컬 에디터 변경사항입니다.");
   const [busy, setBusy] = useState<boolean>(false);
-  const [notice, setNotice] = useState<string>("");
+  const [toast, setToast] = useState<ToastState | null>(null);
   const [showGitFlow, setShowGitFlow] = useState<boolean>(false);
   const [isPreviewMode, setIsPreviewMode] = useState<boolean>(false);
   const [blogCssText, setBlogCssText] = useState<string>("");
   const [saveState, setSaveState] = useState<"idle" | "dirty" | "saved">("idle");
+
+  const showToast = (message: string, kind: ToastKind = "info"): void => {
+    setToast({ id: Date.now(), message, kind });
+  };
 
   const activeCategoryLabel = useMemo(() => {
     for (const group of categories) {
@@ -148,7 +160,7 @@ export default function App() {
         await refreshGitStatus();
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        setNotice(`초기화 실패: ${message}`);
+        showToast(`초기화 실패: ${message}`, "error");
       }
     })();
   }, []);
@@ -183,9 +195,9 @@ export default function App() {
       setShowGitFlow(false);
       setIsPreviewMode(false);
       setSaveState("idle");
-      setNotice("");
+      setToast(null);
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "글을 읽는 중 오류가 발생했습니다.");
+      showToast(error instanceof Error ? error.message : "글을 읽는 중 오류가 발생했습니다.", "error");
     } finally {
       setBusy(false);
     }
@@ -197,7 +209,7 @@ export default function App() {
     setShowGitFlow(false);
     setIsPreviewMode(false);
     setSaveState("dirty");
-    setNotice("");
+    setToast(null);
   };
 
   const handleSave = async (): Promise<void> => {
@@ -234,9 +246,9 @@ export default function App() {
 
       await refreshGitStatus();
       setSaveState("saved");
-      setNotice("");
+      setToast(null);
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "저장 중 오류가 발생했습니다.");
+      showToast(error instanceof Error ? error.message : "저장 중 오류가 발생했습니다.", "error");
     } finally {
       setBusy(false);
     }
@@ -257,9 +269,9 @@ export default function App() {
       setSaveState("idle");
       await loadPosts();
       await refreshGitStatus();
-      setNotice("글을 휴지통으로 이동했습니다.");
+      showToast("글을 휴지통으로 이동했습니다.", "success");
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "삭제 중 오류가 발생했습니다.");
+      showToast(error instanceof Error ? error.message : "삭제 중 오류가 발생했습니다.", "error");
     } finally {
       setBusy(false);
     }
@@ -280,9 +292,9 @@ export default function App() {
         branchSlug
       });
       await refreshGitStatus();
-      setNotice(`Push 완료: ${result.branch} (${result.commitHash.slice(0, 7)})`);
+      showToast(`Push 완료: ${result.branch} (${result.commitHash.slice(0, 7)})`, "success");
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "커밋/푸시 중 오류가 발생했습니다.");
+      showToast(error instanceof Error ? error.message : "커밋/푸시 중 오류가 발생했습니다.", "error");
     } finally {
       setBusy(false);
     }
@@ -296,9 +308,9 @@ export default function App() {
         body: prBody,
         draft: true
       });
-      setNotice(`Draft PR 생성: ${result.url}`);
+      showToast(`Draft PR 생성: ${result.url}`, "success");
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "PR 생성 중 오류가 발생했습니다.");
+      showToast(error instanceof Error ? error.message : "PR 생성 중 오류가 발생했습니다.", "error");
     } finally {
       setBusy(false);
     }
@@ -320,7 +332,7 @@ export default function App() {
       await refreshGitStatus();
       setShowGitFlow(true);
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : "Git 상태 조회 중 오류가 발생했습니다.");
+      showToast(error instanceof Error ? error.message : "Git 상태 조회 중 오류가 발생했습니다.", "error");
     } finally {
       setBusy(false);
     }
@@ -373,7 +385,6 @@ export default function App() {
             <button type="button" className="btn" onClick={() => setIsPreviewMode((prev) => !prev)}>
               {isPreviewMode ? "편집 모드" : "Preview 모드"}
             </button>
-            {notice && <div className="app-notice">{notice}</div>}
           </div>
         </header>
 
@@ -429,6 +440,22 @@ export default function App() {
               }}
               onClose={() => setShowGitFlow(false)}
             />
+          </div>
+        </div>
+      )}
+
+      {toast && (
+        <div className="toast-stack" aria-live="polite">
+          <div className={`toast toast--${toast.kind}`} key={toast.id}>
+            <p>{toast.message}</p>
+            <button
+              type="button"
+              className="toast__close"
+              aria-label="닫기"
+              onClick={() => setToast(null)}
+            >
+              ×
+            </button>
           </div>
         </div>
       )}

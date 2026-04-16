@@ -1,15 +1,15 @@
 ---
-title: "JavaScript"
-description: "실무에서 바로 쓰는 JavaScript 패턴과 비동기 처리 노트를 공유합니다."
+title: "CS"
+description: "컴퓨터 구조와 시스템 기초를 중심으로 핵심 개념을 정리합니다."
 layout: default
-category: javascript
+category: cs
 category_board: true
 hide_topbar: true
 seo:
   type: webpage
 ---
 
-{% assign board_posts = site.posts | where_exp: "post", "post.categories contains 'javascript'" | sort: 'date' | reverse %}
+{% assign board_posts = site.posts | where_exp: "post", "post.categories contains 'cs'" | sort: 'date' | reverse %}
 
 <section class="category-board" data-category-board data-per-page="8">
   <header class="cat-page-header">
@@ -21,8 +21,8 @@ seo:
     <a class="filter-tab" href="{{ '/categories/programming/' | relative_url }}">전체</a>
     <a class="filter-tab" href="{{ '/categories/ai/' | relative_url }}">AI</a>
     <a class="filter-tab" href="{{ '/categories/algorithm/' | relative_url }}">Algorithm</a>
-    <a class="filter-tab" href="{{ '/categories/cs/' | relative_url }}">CS</a>
-    <a class="filter-tab active" href="{{ '/categories/javascript/' | relative_url }}">JS</a>
+    <a class="filter-tab active" href="{{ '/categories/cs/' | relative_url }}">CS</a>
+    <a class="filter-tab" href="{{ '/categories/javascript/' | relative_url }}">JS</a>
   </nav>
 
   <div class="category-board__list">
@@ -36,7 +36,7 @@ seo:
       {% if board_posts.size > 0 %}
         {% for post in board_posts %}
           <a class="post-item" href="{{ post.url | relative_url }}">
-            <span class="post-item__cat">JS</span>
+            <span class="post-item__cat">CS</span>
             <span class="post-item__title">{{ post.title }}</span>
             <time class="post-item__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
           </a>

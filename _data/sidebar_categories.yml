@@ -6,6 +6,8 @@
       label: "AI"
     - id: algorithm
       label: "Algorithm"
+    - id: cs
+      label: "CS"
     - id: javascript
       label: "JS"
 - id: finance

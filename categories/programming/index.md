@@ -10,8 +10,9 @@ seo:
 
 {% assign ai_posts = site.posts | where_exp: "post", "post.categories contains 'ai'" %}
 {% assign algorithm_posts = site.posts | where_exp: "post", "post.categories contains 'algorithm'" %}
+{% assign cs_posts = site.posts | where_exp: "post", "post.categories contains 'cs'" %}
 {% assign javascript_posts = site.posts | where_exp: "post", "post.categories contains 'javascript'" %}
-{% assign board_posts = ai_posts | concat: algorithm_posts | concat: javascript_posts | uniq | sort: 'date' | reverse %}
+{% assign board_posts = ai_posts | concat: algorithm_posts | concat: cs_posts | concat: javascript_posts | uniq | sort: 'date' | reverse %}
 
 <section class="category-board" data-category-board data-per-page="8">
   <header class="cat-page-header">
@@ -23,6 +24,7 @@ seo:
     <a class="filter-tab active" href="{{ '/categories/programming/' | relative_url }}">전체</a>
     <a class="filter-tab" href="{{ '/categories/ai/' | relative_url }}">AI</a>
     <a class="filter-tab" href="{{ '/categories/algorithm/' | relative_url }}">Algorithm</a>
+    <a class="filter-tab" href="{{ '/categories/cs/' | relative_url }}">CS</a>
     <a class="filter-tab" href="{{ '/categories/javascript/' | relative_url }}">JS</a>
   </nav>
 
@@ -41,6 +43,8 @@ seo:
             {% assign row_label = 'AI' %}
           {% elsif post.categories contains 'algorithm' %}
             {% assign row_label = 'Algorithm' %}
+          {% elsif post.categories contains 'cs' %}
+            {% assign row_label = 'CS' %}
           {% elsif post.categories contains 'javascript' %}
             {% assign row_label = 'JS' %}
           {% endif %}

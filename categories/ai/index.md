@@ -21,6 +21,7 @@ seo:
     <a class="filter-tab" href="{{ '/categories/programming/' | relative_url }}">전체</a>
     <a class="filter-tab active" href="{{ '/categories/ai/' | relative_url }}">AI</a>
     <a class="filter-tab" href="{{ '/categories/algorithm/' | relative_url }}">Algorithm</a>
+    <a class="filter-tab" href="{{ '/categories/cs/' | relative_url }}">CS</a>
     <a class="filter-tab" href="{{ '/categories/javascript/' | relative_url }}">JS</a>
   </nav>
 

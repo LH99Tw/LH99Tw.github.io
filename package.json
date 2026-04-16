@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "editor:dev": "npm --prefix ./editor run dev",
+    "editor:build": "npm --prefix ./editor run build",
+    "editor:test": "npm --prefix ./editor run test",
     "sync:threads-reposts": "node ./scripts/sync-threads-reposts.mjs",
     "sync:ga4-visitors": "node ./scripts/sync-ga4-visitors.mjs",
     "seo:audit": "node ./scripts/seo-audit.cjs --build",

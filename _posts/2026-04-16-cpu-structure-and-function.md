@@ -8,8 +8,8 @@ tags:
   - cpu
   - fetch-cycle
   - interrupt
+  - computer-science
 ---
-
 ## 2.2.1 정리
 
 ## 1. Micro Operation & Clock Cycle
@@ -152,3 +152,4 @@ ISR (Interrupt Service Routine):
 - ADD와 LOAD의 차이는 연산 여부
 - 인터럽트에서는 PC를 먼저 저장한 후 ISR로 이동
 - Stack frame은 LIFO 구조
+

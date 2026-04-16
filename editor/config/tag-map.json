@@ -1,0 +1,37 @@
+{
+  "categoryDefaults": {
+    "ai": ["ai", "machine-learning"],
+    "algorithm": ["algorithm", "problem-solving"],
+    "cs": ["computer-science"],
+    "javascript": ["javascript", "web"],
+    "project": ["project"],
+    "investment-journal": ["investment", "journal"],
+    "investment-strategy": ["investment", "strategy"],
+    "economy-note": ["economy", "market-note"],
+    "routine": ["routine"],
+    "hobby": ["hobby"],
+    "journal": ["journal", "retrospective"]
+  },
+  "keywordRules": [
+    {
+      "match": ["cpu", "컴퓨터구조"],
+      "tags": ["cpu", "computer-architecture"]
+    },
+    {
+      "match": ["fetch", "interrupt", "인터럽트"],
+      "tags": ["fetch-cycle", "interrupt"]
+    },
+    {
+      "match": ["portfolio", "포트폴리오", "리밸런싱"],
+      "tags": ["portfolio", "rebalancing"]
+    },
+    {
+      "match": ["async", "비동기"],
+      "tags": ["async", "performance"]
+    },
+    {
+      "match": ["회고", "retrospective"],
+      "tags": ["retrospective"]
+    }
+  ]
+}

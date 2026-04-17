@@ -1875,6 +1875,25 @@ body.page-profile.sidebar-nav-exit .sidebar {
   color: var(--text-2);
 }
 
+.post__content a {
+  color: #8a6957;
+  text-decoration: underline;
+  text-decoration-color: rgba(138, 105, 87, 0.42);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease;
+}
+
+.post__content a:hover {
+  color: #634b3e;
+  text-decoration-color: rgba(99, 75, 62, 0.64);
+}
+
+.post__content a:focus-visible {
+  outline: 2px solid rgba(138, 105, 87, 0.32);
+  outline-offset: 2px;
+}
+
 .post__content ul,
 .post__content ol {
   padding-left: 20px;

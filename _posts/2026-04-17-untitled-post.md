@@ -33,7 +33,6 @@ tags:
 
 ## Snapocket의 핵심 기능
 
-1) 멀티모달 자동 분석
 이미지/문서: OCR + VLM 기반 정보 추출
 음성: ASR 기반 텍스트 변환
 공통 출력: JSON 형태의 정리된 메타데이터(제목, 요약, 태그, 핵심 개념 등)
@@ -52,6 +51,7 @@ tags:
 **Backend**: FastAPI (REST + GraphQL) <br/>
 **AI Service**: OCR/VLM + ASR 파이프라인, 로컬 추론 환경 기반 <br/>
 **Infra**: Docker, AWS <br/>
+
 
 
 

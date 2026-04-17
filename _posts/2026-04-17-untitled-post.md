@@ -5,8 +5,8 @@ categories:
   - project
 tags:
   - snanpocket
-  - kms
-  - knowledge-management-system
+  - pkm
+  - personal knowledge management
   - project
 ---
 # 프로젝트 개요
@@ -22,7 +22,7 @@ tags:
 ## 우리가 해결하려는 문제
 
 최근 비정형 데이터는 빠르게 늘고 있지만 이를 구조화해 활용하는 도구는 여전히 부족합니다.<br/>
-특히, 지식 관리 시스템(KMS)에 agent를 활용하고자 하는 경우 이미지/음성 등의 비정형 데이터는 큰 병목입니다.<br/>
+특히, 개인 지식 관리(PKM)에 agent를 활용하고자 하는 경우 이미지/음성 등의 비정형 데이터는 큰 병목입니다.<br/>
 따라서, 이 문제를 해결하기 위해
 
 - 이미지/문서/오디오 등 멀티모달 입력 처리
@@ -51,6 +51,7 @@ tags:
 **Backend**: FastAPI (REST + GraphQL) <br/>
 **AI Service**: OCR/VLM + ASR 파이프라인, 로컬 추론 환경 기반 <br/>
 **Infra**: Docker, AWS <br/>
+
 
 
 

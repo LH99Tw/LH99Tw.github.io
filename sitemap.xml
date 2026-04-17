@@ -1,37 +1,113 @@
----
-layout: null
----
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-{% assign site_base = site.url | append: site.baseurl %}
-{% for post in site.posts %}
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
-    <loc>{{ site_base }}{{ post.url | xml_escape }}</loc>
-    {% if post.lastmod %}
-    <lastmod>{{ post.lastmod | date_to_xmlschema }}</lastmod>
-    {% else %}
-    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-    {% endif %}
+    <loc>https://lh99tw.github.io/blog/2026/04/17/untitled-post/</loc>
+    <lastmod>2026-04-17T00:00:00+09:00</lastmod>
   </url>
-{% endfor %}
-{% for page in site.pages %}
-  {% assign is_core_page = false %}
-  {% if page.url == "/" or page.url == "/profile/" or page.url == "/site-map/" %}
-    {% assign is_core_page = true %}
-  {% elsif page.url and page.url contains "/categories/" %}
-    {% assign is_core_page = true %}
-  {% endif %}
-  {% if is_core_page and page.sitemap != false and page.url != "/sitemap.xml" and page.url != "/sitemap_index.xml" %}
   <url>
-    <loc>{{ site_base }}{{ page.url | xml_escape }}</loc>
-    {% if page.lastmod %}
-    <lastmod>{{ page.lastmod | date_to_xmlschema }}</lastmod>
-    {% elsif page.date %}
-    <lastmod>{{ page.date | date_to_xmlschema }}</lastmod>
-    {% endif %}
+    <loc>https://lh99tw.github.io/blog/2026/04/17/ocr%EC%9D%84-%EC%9C%84%ED%95%9C-vlm-%EC%84%A0%ED%83%9D%ED%95%98%EA%B8%B0/</loc>
+    <lastmod>2026-04-17T00:00:00+09:00</lastmod>
   </url>
-  {% endif %}
-{% endfor %}
+  <url>
+    <loc>https://lh99tw.github.io/blog/2026/04/16/%EB%B8%94%EB%A1%9C%EA%B7%B8-%EA%B8%80-%EC%97%90%EB%94%94%ED%84%B0-%EB%A7%8C%EB%93%A4%EA%B8%B0/</loc>
+    <lastmod>2026-04-16T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2026/04/16/cpu-structure-and-function/</loc>
+    <lastmod>2026-04-16T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2025/10/22/welcome/</loc>
+    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2025/10/22/javascript-tips/</loc>
+    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2025/10/22/investment-strategy/</loc>
+    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2025/10/22/investment-journal/</loc>
+    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2025/10/22/hobby-log/</loc>
+    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2025/10/22/economy-note/</loc>
+    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2025/10/22/daily-routine/</loc>
+    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2025/10/22/daily-journal/</loc>
+    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2025/10/22/algorithm-note/</loc>
+    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2025/10/22/ai-overview/</loc>
+    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/ai/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/algorithm/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/cs/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/daily/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/economy-note/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/finance/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/hobby/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/investment-journal/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/investment-strategy/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/javascript/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/journal/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/programming/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/project/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/categories/routine/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/profile/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/site-map/</loc>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/googleed3d8a5b391fd698.html</loc>
+  </url>
 </urlset>

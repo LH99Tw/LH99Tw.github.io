@@ -39,6 +39,11 @@ on:
         required: true
         default: false
         type: boolean
+      fail_on_zero_inspection:
+        description: "Fail workflow when all inspections fail"
+        required: true
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -91,6 +96,7 @@ jobs:
           MAX_URLS: "${{ github.event.inputs.max_urls }}"
           URL_FILTER: "${{ github.event.inputs.url_filter }}"
           STRICT_MODE: "${{ github.event.inputs.strict_mode }}"
+          FAIL_ON_ZERO_INSPECTION: "${{ github.event.inputs.fail_on_zero_inspection }}"
         run: node ./scripts/gsc-index-and-inspect.mjs
 
       - name: Upload Report

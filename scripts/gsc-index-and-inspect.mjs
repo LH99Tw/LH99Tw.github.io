@@ -47,6 +47,39 @@ function createUrlMatcher(filter) {
   return (url) => url.includes(filter);
 }
 
+function normalizeSiteProperty(value) {
+  if (!value) return value;
+  const raw = value.trim();
+  if (!raw) return raw;
+  if (raw.startsWith("sc-domain:")) {
+    return `sc-domain:${raw.slice("sc-domain:".length).toLowerCase()}`;
+  }
+
+  try {
+    const u = new URL(raw);
+    if (!u.pathname || u.pathname === "") u.pathname = "/";
+    if (!u.pathname.endsWith("/")) u.pathname = `${u.pathname}/`;
+    u.hash = "";
+    u.search = "";
+    return u.toString();
+  } catch {
+    return raw;
+  }
+}
+
+function topInspectErrors(results, limit = 5) {
+  const counts = new Map();
+  for (const item of results) {
+    if (item.inspect?.ok) continue;
+    const key = item.inspect?.error || "unknown error";
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([message, count]) => ({ message, count }));
+}
+
 async function sleep(ms) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -219,13 +252,14 @@ function buildSummaryMarkdown(report) {
 
 async function main() {
   const accessToken = env("GOOGLE_ACCESS_TOKEN");
-  const siteUrl = env("GSC_SITE_URL", "https://lh99tw.github.io/");
+  const siteUrl = normalizeSiteProperty(env("GSC_SITE_URL", "https://lh99tw.github.io/"));
   const sitemapUrl = env("SITEMAP_URL", "https://lh99tw.github.io/sitemap.xml");
   const mode = env("GSC_MODE", "inspect");
   const notifyType = env("INDEXING_NOTIFY_TYPE", "URL_UPDATED");
   const fetchMetadata = parseBool(env("FETCH_INDEXING_METADATA", "true"));
   const urlFilter = env("URL_FILTER", "/blog/");
   const strictMode = parseBool(env("STRICT_MODE", "false"));
+  const failOnZeroInspection = parseBool(env("FAIL_ON_ZERO_INSPECTION", "true"));
   const maxUrlsRaw = Number.parseInt(env("MAX_URLS", "30"), 10);
   const maxUrls = Number.isFinite(maxUrlsRaw) && maxUrlsRaw > 0 ? maxUrlsRaw : 30;
 
@@ -308,6 +342,7 @@ async function main() {
     metadataSuccess,
     metadataFail,
     strictMode,
+    failOnZeroInspection,
     results
   };
 
@@ -325,8 +360,15 @@ async function main() {
   }
 
   if (inspectSuccess === 0) {
+    const topErrors = topInspectErrors(results, 5);
     console.error("[gsc] All inspections failed.");
-    process.exit(1);
+    for (const e of topErrors) {
+      console.error(`[gsc] inspect error x${e.count}: ${e.message}`);
+    }
+    console.error("[gsc] Check GSC_SITE_URL exact property value, Search Console permission, and webmasters scope.");
+    if (failOnZeroInspection) {
+      process.exit(1);
+    }
   }
 
   if (strictMode && (inspectFail > 0 || indexFail > 0 || metadataFail > 0)) {

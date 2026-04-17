@@ -1,0 +1,7 @@
+---
+layout: null
+permalink: /ads.txt
+---
+# ads.txt
+# If you use Google AdSense, replace the line below with your real publisher ID.
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

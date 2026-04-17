@@ -1,7 +1,7 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
 - author: "cikoritait"
-  time: "2일"
+  time: "3일"
   text: "⚡ Redis 캐시 전략 없이 절대 붙이지마 1. 전략 없으면 장애 나 2. Cache-Aside 함정 있어 3. Stampede 모르면 큰일나 4. Write-Through 차이 알아 5. TTL 대충 잡지마 6. 무효화가 제일 어려워"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@cikoritait/post/DXGB-5zkpmS"

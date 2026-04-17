@@ -44,6 +44,11 @@ on:
         required: true
         default: true
         type: boolean
+      list_sites:
+        description: "List accessible Search Console properties for current token"
+        required: true
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -97,6 +102,7 @@ jobs:
           URL_FILTER: "${{ github.event.inputs.url_filter }}"
           STRICT_MODE: "${{ github.event.inputs.strict_mode }}"
           FAIL_ON_ZERO_INSPECTION: "${{ github.event.inputs.fail_on_zero_inspection }}"
+          GSC_LIST_SITES: "${{ github.event.inputs.list_sites }}"
         run: node ./scripts/gsc-index-and-inspect.mjs
 
       - name: Upload Report

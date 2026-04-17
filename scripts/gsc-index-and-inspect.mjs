@@ -6,6 +6,7 @@ import path from "node:path";
 const INSPECT_ENDPOINT = "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect";
 const INDEXING_ENDPOINT = "https://indexing.googleapis.com/v3/urlNotifications:publish";
 const INDEXING_METADATA_ENDPOINT = "https://indexing.googleapis.com/v3/urlNotifications/metadata";
+const SITES_LIST_ENDPOINT = "https://www.googleapis.com/webmasters/v3/sites";
 
 function env(name, fallback = "") {
   return (process.env[name] ?? fallback).trim();
@@ -268,6 +269,44 @@ async function requestIndexingMetadata({ accessToken, url }) {
   };
 }
 
+async function requestSitesList({ accessToken }) {
+  const { response, text } = await fetchText(SITES_LIST_ENDPOINT, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+
+  let parsed = null;
+  try {
+    parsed = text ? JSON.parse(text) : null;
+  } catch {
+    parsed = null;
+  }
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      status: response.status,
+      error: parsed?.error?.message || text || `HTTP ${response.status}`,
+      sites: []
+    };
+  }
+
+  const sites = Array.isArray(parsed?.siteEntry)
+    ? parsed.siteEntry.map((s) => ({
+        siteUrl: s.siteUrl || "",
+        permissionLevel: s.permissionLevel || ""
+      }))
+    : [];
+
+  return {
+    ok: true,
+    status: response.status,
+    sites
+  };
+}
+
 function buildSummaryMarkdown(report) {
   const lines = [];
   lines.push("## GSC URL Inspection / Indexing Report");
@@ -279,6 +318,11 @@ function buildSummaryMarkdown(report) {
   lines.push(`- URL filter: \`${report.urlFilter || "(none)"}\``);
   lines.push(`- Target URLs: **${report.totalUrls}**`);
   lines.push(`- Inspection success/fail: **${report.inspectSuccess} / ${report.inspectFail}**`);
+  if (report.sitesList?.ok) {
+    lines.push(`- Accessible properties via token: **${report.sitesList.sites.length}**`);
+  } else if (report.sitesList) {
+    lines.push(`- Accessible properties lookup: fail (${report.sitesList.error})`);
+  }
   if (report.mode === "inspect_and_index") {
     lines.push(`- Indexing publish success/fail: **${report.indexSuccess} / ${report.indexFail}**`);
     lines.push(`- Metadata success/fail: **${report.metadataSuccess} / ${report.metadataFail}**`);
@@ -316,6 +360,7 @@ async function main() {
   const strictMode = parseBool(env("STRICT_MODE", "false"));
   const failOnZeroInspection = parseBool(env("FAIL_ON_ZERO_INSPECTION", "true"));
   const autoDetectSiteProperty = parseBool(env("AUTO_DETECT_SITE_PROPERTY", "true"));
+  const listSitesEnabled = parseBool(env("GSC_LIST_SITES", "true"));
   const maxUrlsRaw = Number.parseInt(env("MAX_URLS", "30"), 10);
   const maxUrls = Number.isFinite(maxUrlsRaw) && maxUrlsRaw > 0 ? maxUrlsRaw : 30;
 
@@ -364,6 +409,23 @@ async function main() {
       console.log(`[gsc] Property probe ok: ${row.siteUrl}`);
     } else {
       console.log(`[gsc] Property probe fail: ${row.siteUrl} -> ${row.probe.error}`);
+    }
+  }
+
+  let sitesList = null;
+  if (listSitesEnabled) {
+    sitesList = await requestSitesList({ accessToken });
+    if (sitesList.ok) {
+      const preview = sitesList.sites.slice(0, 10);
+      console.log(`[gsc] Accessible properties (${sitesList.sites.length}):`);
+      for (const s of preview) {
+        console.log(`[gsc] - ${s.siteUrl} (${s.permissionLevel})`);
+      }
+      if (sitesList.sites.length > preview.length) {
+        console.log(`[gsc] ... and ${sitesList.sites.length - preview.length} more`);
+      }
+    } else {
+      console.log(`[gsc] Accessible properties lookup failed: ${sitesList.error}`);
     }
   }
 
@@ -421,7 +483,9 @@ async function main() {
     strictMode,
     failOnZeroInspection,
     autoDetectSiteProperty,
+    listSitesEnabled,
     sitePropertyProbeResults: propertyResolution.probeResults,
+    sitesList,
     results
   };
 

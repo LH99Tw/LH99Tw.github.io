@@ -2,7 +2,6 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import yaml from "js-yaml";
-import tagMap from "../../config/tag-map.json";
 import {
   buildFrontMatter,
   buildPostFileName,
@@ -194,12 +193,12 @@ export class BlogService {
   }
 
   validateDraft(input: DraftInput): ValidationResult {
-    const frontMatter = buildFrontMatter(input, tagMap);
+    const frontMatter = buildFrontMatter(input);
     return validateFrontMatter(frontMatter);
   }
 
   async createPost(input: DraftInput): Promise<PostDocument> {
-    const frontMatter = buildFrontMatter(input, tagMap);
+    const frontMatter = buildFrontMatter(input);
     const validation = validateFrontMatter(frontMatter);
 
     if (validation.errors.length > 0) {
@@ -237,8 +236,7 @@ export class BlogService {
         categories: input.frontMatter.categories,
         tags: input.frontMatter.tags,
         body: input.body
-      },
-      tagMap
+      }
     );
     const validation = validateFrontMatter(mappedFrontMatter);
 

@@ -225,6 +225,7 @@ export default function EditorPane({
 
           <button type="button" className="icon-btn" title="Bold" onClick={() => insertAroundSelection("**")}>B</button>
           <button type="button" className="icon-btn" title="Italic" onClick={() => insertAroundSelection("*")}>I</button>
+          <button type="button" className="icon-btn" title="Highlight" onClick={() => insertAroundSelection("<mark>", "</mark>")}>🖍</button>
           <button type="button" className="icon-btn" title="Strike" onClick={() => insertAroundSelection("~~")}>S</button>
           <button type="button" className="icon-btn" title="Underline" onClick={() => insertAroundSelection("<u>", "</u>")}>U</button>
           <button type="button" className="icon-btn" title="Code Block" onClick={insertCodeFence}>{"</>"}</button>

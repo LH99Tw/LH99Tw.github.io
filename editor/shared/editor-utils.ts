@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { DraftInput, PostFrontMatter, TagMapConfig, ValidationResult } from "./types";
+import type { DraftInput, PostFrontMatter, ValidationResult } from "./types";
 
 const TITLE_MIN = 8;
 const TITLE_MAX = 70;
@@ -12,7 +12,7 @@ const frontMatterSchema = z.object({
   title: z.string().trim().min(TITLE_MIN).max(TITLE_MAX),
   description: z.string().trim().min(DESC_MIN).max(DESC_MAX),
   categories: z.array(z.string().trim().min(1)).min(1),
-  tags: z.array(z.string().trim().min(1)).min(1)
+  tags: z.array(z.string().trim().min(1))
 });
 
 export function formatDate(date = new Date()): string {
@@ -68,32 +68,12 @@ function normalizeTags(tags: string[]): string[] {
   return result;
 }
 
-export function recommendTags(title: string, categories: string[], tagMap: TagMapConfig): string[] {
-  const tags: string[] = [];
-
-  for (const category of categories) {
-    const categoryTags = tagMap.categoryDefaults[category] ?? [];
-    tags.push(...categoryTags);
-  }
-
-  const titleLower = title.toLowerCase();
-  for (const rule of tagMap.keywordRules) {
-    const matches = rule.match.some((token) => titleLower.includes(token.toLowerCase()));
-    if (matches) {
-      tags.push(...rule.tags);
-    }
-  }
-
-  return normalizeTags(tags);
-}
-
-export function buildFrontMatter(input: DraftInput, tagMap: TagMapConfig): PostFrontMatter {
+export function buildFrontMatter(input: DraftInput): PostFrontMatter {
   const title = input.title.trim();
   const description = (input.description ?? "").trim() || inferDescriptionFromBody(input.body);
   const categories = input.categories.map((category) => category.trim()).filter(Boolean);
   const manualTags = (input.tags ?? []).map((tag) => tag.trim()).filter(Boolean);
-  const autoTags = recommendTags(title, categories, tagMap);
-  const tags = normalizeTags([...manualTags, ...autoTags]);
+  const tags = normalizeTags(manualTags);
 
   return {
     title,

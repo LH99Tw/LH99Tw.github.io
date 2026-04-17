@@ -80,6 +80,21 @@ function toDraft(doc: PostDocument): DraftState {
   };
 }
 
+function deriveDateLabel(input?: string): string {
+  if (!input) return "";
+  const match = input.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (match) {
+    return `${match[1]}.${match[2]}.${match[3]}`;
+  }
+
+  const date = new Date(input);
+  if (Number.isNaN(date.getTime())) return "";
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}.${m}.${d}`;
+}
+
 export default function App() {
   const [workspaceRoot, setWorkspaceRoot] = useState<string>("");
   const [categories, setCategories] = useState<CategoryGroup[]>([]);
@@ -123,6 +138,16 @@ export default function App() {
     [categories]
   );
 
+  const categoryLabelById = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const group of categories) {
+      for (const item of group.items) {
+        map.set(item.id, item.label);
+      }
+    }
+    return map;
+  }, [categories]);
+
   const postCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     for (const post of posts) {
@@ -132,6 +157,12 @@ export default function App() {
     }
     return counts;
   }, [posts]);
+
+  const previewCategoryId = draft?.frontMatter.categories[0] ?? "";
+  const previewCategoryLabel = previewCategoryId
+    ? categoryLabelById.get(previewCategoryId) ?? previewCategoryId
+    : "";
+  const previewDateLabel = deriveDateLabel(draft?.fileName || draft?.createdAt);
 
   const loadCategories = async (): Promise<void> => {
     const data = await editorApi.getCategories();
@@ -479,7 +510,14 @@ export default function App() {
               }}
             />
           ) : (
-            <PreviewPane body={draft?.body ?? ""} blogCssText={blogCssText} workspaceRoot={workspaceRoot} />
+            <PreviewPane
+              body={draft?.body ?? ""}
+              frontMatter={draft?.frontMatter ?? null}
+              dateLabel={previewDateLabel}
+              categoryLabel={previewCategoryLabel}
+              blogCssText={blogCssText}
+              workspaceRoot={workspaceRoot}
+            />
           )}
         </div>
 

@@ -3,14 +3,18 @@ import { marked } from "marked";
 import DOMPurify from "dompurify";
 import hljs from "highlight.js";
 import highlightCss from "highlight.js/styles/github-dark.css?inline";
+import type { PostFrontMatter } from "../../../shared/types";
 
 interface PreviewPaneProps {
   body: string;
+  frontMatter?: PostFrontMatter | null;
+  dateLabel?: string;
+  categoryLabel?: string;
   blogCssText: string;
   workspaceRoot: string;
 }
 
-marked.setOptions({ breaks: true, gfm: true });
+marked.setOptions({ breaks: false, gfm: true });
 
 const renderer = new marked.Renderer();
 renderer.code = ({ text, lang }) => {
@@ -32,13 +36,42 @@ function normalizeAssetPaths(html: string, workspaceRoot: string): string {
     .replace(/href=\"\/(assets\/[^\"]+)\"/g, (_m, pathSegment: string) => `href=\"${rootUrl}/${pathSegment}\"`);
 }
 
-export default function PreviewPane({ body, blogCssText, workspaceRoot }: PreviewPaneProps) {
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export default function PreviewPane({
+  body,
+  frontMatter,
+  dateLabel,
+  categoryLabel,
+  blogCssText,
+  workspaceRoot
+}: PreviewPaneProps) {
   const srcDoc = useMemo(() => {
     const rendered = marked.parse(body || "", { async: false, renderer }) as string;
     const sanitized = DOMPurify.sanitize(rendered, {
       ADD_ATTR: ["style", "width", "height", "loading", "class"]
     });
     const normalizedHtml = normalizeAssetPaths(sanitized, workspaceRoot);
+    const title = escapeHtml(frontMatter?.title?.trim() || "제목 없음");
+    const categoryId = frontMatter?.categories?.[0]?.trim() || "";
+    const category = escapeHtml((categoryLabel || categoryId || "").trim());
+    const renderedDate = escapeHtml((dateLabel || "").trim());
+    const tags = Array.isArray(frontMatter?.tags) ? frontMatter.tags.filter(Boolean) : [];
+    const tagsHtml =
+      tags.length > 0
+        ? `<footer class="post__tail" aria-label="태그">
+            <ul class="post__tags">
+              ${tags.map((tag) => `<li class="post__tag">${escapeHtml(tag)}</li>`).join("")}
+            </ul>
+          </footer>`
+        : "";
 
     return `<!doctype html>
 <html lang=\"ko\">
@@ -57,15 +90,10 @@ export default function PreviewPane({ body, blogCssText, workspaceRoot }: Previe
       }
       .preview-root {
         min-height: 100vh;
-        display: flex;
-        justify-content: center;
+        width: 100%;
       }
       .preview-shell {
-        width: min(860px, calc(100vw - 48px));
-        margin: 24px auto 48px;
-      }
-      .preview-post {
-        margin: 0;
+        width: 100%;
       }
       .preview-post .post__content img {
         max-width: 100%;
@@ -77,13 +105,9 @@ export default function PreviewPane({ body, blogCssText, workspaceRoot }: Previe
     <style>${blogCssText}</style>
     <style>${highlightCss}</style>
     <style>
-      .preview-post.post--reader {
-        --post-reader-shift: 0;
-        padding-left: 0 !important;
-      }
-      .preview-post .post__header {
-        min-height: auto !important;
-        padding-top: 0 !important;
+      .preview-post .post__header::after {
+        clip-path: none !important;
+        -webkit-clip-path: none !important;
       }
       .preview-post .post__content pre code.hljs {
         display: block;
@@ -93,16 +117,24 @@ export default function PreviewPane({ body, blogCssText, workspaceRoot }: Previe
     </style>
   </head>
   <body class=\"preview-root\">
-    <main class=\"preview-shell\">
-      <article class=\"post preview-post\">
-        <section class=\"post__content\" id=\"postContent\">
-          ${normalizedHtml}
-        </section>
-      </article>
+    <main class=\"preview-shell site-content\">
+      <div class=\"post-view\">
+        <article class=\"post post--reader preview-post\">
+          <header class=\"post__header\">
+            ${category ? `<p class=\"post__category-kicker\">${category}</p>` : ""}
+            <h1 class=\"post__title\">${title}</h1>
+            ${renderedDate ? `<p class=\"post__meta\">${renderedDate}</p>` : ""}
+          </header>
+          <section class=\"post__content\" id=\"postContent\">
+            ${normalizedHtml}
+          </section>
+          ${tagsHtml}
+        </article>
+      </div>
     </main>
   </body>
 </html>`;
-  }, [body, blogCssText, workspaceRoot]);
+  }, [body, frontMatter, dateLabel, categoryLabel, blogCssText, workspaceRoot]);
 
   return (
     <section className="preview-pane preview-pane--fullscreen" aria-label="미리보기">

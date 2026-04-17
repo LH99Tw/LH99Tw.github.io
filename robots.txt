@@ -1,8 +1,10 @@
 ---
 layout: null
 permalink: /robots.txt
+sitemap: false
 ---
 User-agent: *
 Allow: /
 
 Sitemap: {{ site.url | append: site.baseurl }}/sitemap.xml
+Sitemap: {{ site.url | append: site.baseurl }}/sitemap_index.xml

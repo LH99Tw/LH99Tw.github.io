@@ -44,7 +44,9 @@ exclude:
   - .sass-cache/
   - _site/
   - node_modules/
+  - node_modules/**
   - editor/
+  - editor/**
   - scripts/
   - chachayelmo.github.io-main/
 

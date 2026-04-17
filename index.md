@@ -94,6 +94,10 @@ seo:
         {% endif %}
       </div>
 
+      <p class="cat-block__all-link">
+        <a href="{{ '/site-map/' | relative_url }}">전체 글/카테고리 맵 보기</a>
+      </p>
+
     </div>
   </div>
 

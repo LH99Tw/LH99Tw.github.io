@@ -1347,6 +1347,25 @@ body.page-profile.sidebar-nav-exit .sidebar {
   color: var(--text-2);
 }
 
+.cat-block__all-link {
+  margin: 0;
+  padding: 10px 16px 12px;
+  border-top: 1px solid var(--separator);
+  background: #fcfcfd;
+  text-align: right;
+  font-size: 0.78rem;
+}
+
+.cat-block__all-link a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.cat-block__all-link a:hover {
+  text-decoration: underline;
+}
+
 .widget-col {
   display: flex;
   flex-direction: column;
@@ -2124,6 +2143,34 @@ body.page-profile.sidebar-nav-exit .sidebar {
 
 .post--reader .post__tail .post__tags {
   margin-top: 0;
+}
+
+.post-next-links {
+  margin-top: 28px;
+}
+
+.post-next-links__title {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  color: #444247;
+}
+
+.post-next-links__list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.post-next-links__item {
+  margin: 4px 0;
+}
+
+.post-next-links__item a {
+  color: #6f5247;
+  text-decoration: none;
+}
+
+.post-next-links__item a:hover {
+  text-decoration: underline;
 }
 
 .post--reader .post__feed-divider {

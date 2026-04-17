@@ -1,6 +1,7 @@
 ---
 layout: null
 permalink: /ads.txt
+sitemap: false
 ---
 # ads.txt
 # If you use Google AdSense, replace the line below with your real publisher ID.

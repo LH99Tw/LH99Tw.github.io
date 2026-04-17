@@ -17,7 +17,13 @@ layout: null
   </url>
 {% endfor %}
 {% for page in site.pages %}
-  {% unless page.sitemap == false or page.url == "/sitemap.xml" %}
+  {% assign is_core_page = false %}
+  {% if page.url == "/" or page.url == "/profile/" or page.url == "/site-map/" %}
+    {% assign is_core_page = true %}
+  {% elsif page.url and page.url contains "/categories/" %}
+    {% assign is_core_page = true %}
+  {% endif %}
+  {% if is_core_page and page.sitemap != false and page.url != "/sitemap.xml" and page.url != "/sitemap_index.xml" %}
   <url>
     <loc>{{ site_base }}{{ page.url | xml_escape }}</loc>
     {% if page.lastmod %}
@@ -26,6 +32,6 @@ layout: null
     <lastmod>{{ page.date | date_to_xmlschema }}</lastmod>
     {% endif %}
   </url>
-  {% endunless %}
+  {% endif %}
 {% endfor %}
 </urlset>

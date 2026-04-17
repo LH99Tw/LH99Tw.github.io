@@ -80,6 +80,61 @@ function topInspectErrors(results, limit = 5) {
     .map(([message, count]) => ({ message, count }));
 }
 
+function isOwnershipError(message) {
+  const m = String(message || "").toLowerCase();
+  return m.includes("do not own this site") || m.includes("not part of this property");
+}
+
+function deriveSitePropertyCandidates(siteUrl, sampleUrl) {
+  const out = [];
+  const add = (v) => {
+    const n = normalizeSiteProperty(v);
+    if (n && !out.includes(n)) out.push(n);
+  };
+
+  add(siteUrl);
+  try {
+    const u = new URL(sampleUrl);
+    add(`https://${u.hostname}/`);
+    add(`sc-domain:${u.hostname.toLowerCase()}`);
+  } catch {
+    // no-op
+  }
+  return out;
+}
+
+async function resolveSiteProperty({ accessToken, configuredSiteUrl, sampleUrl, autoDetect }) {
+  if (!autoDetect || !sampleUrl) {
+    return {
+      siteUrl: configuredSiteUrl,
+      probeResults: []
+    };
+  }
+
+  const candidates = deriveSitePropertyCandidates(configuredSiteUrl, sampleUrl);
+  const probeResults = [];
+  let selected = configuredSiteUrl;
+
+  for (const candidate of candidates) {
+    const probe = await requestInspect({
+      accessToken,
+      siteUrl: candidate,
+      inspectionUrl: sampleUrl
+    });
+    probeResults.push({ siteUrl: candidate, probe });
+    if (probe.ok) {
+      selected = candidate;
+      break;
+    }
+    if (!isOwnershipError(probe.error)) {
+      selected = candidate;
+      break;
+    }
+  }
+
+  return { siteUrl: selected, probeResults };
+}
+
 async function sleep(ms) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -252,7 +307,7 @@ function buildSummaryMarkdown(report) {
 
 async function main() {
   const accessToken = env("GOOGLE_ACCESS_TOKEN");
-  const siteUrl = normalizeSiteProperty(env("GSC_SITE_URL", "https://lh99tw.github.io/"));
+  const configuredSiteUrl = normalizeSiteProperty(env("GSC_SITE_URL", "https://lh99tw.github.io/"));
   const sitemapUrl = env("SITEMAP_URL", "https://lh99tw.github.io/sitemap.xml");
   const mode = env("GSC_MODE", "inspect");
   const notifyType = env("INDEXING_NOTIFY_TYPE", "URL_UPDATED");
@@ -260,6 +315,7 @@ async function main() {
   const urlFilter = env("URL_FILTER", "/blog/");
   const strictMode = parseBool(env("STRICT_MODE", "false"));
   const failOnZeroInspection = parseBool(env("FAIL_ON_ZERO_INSPECTION", "true"));
+  const autoDetectSiteProperty = parseBool(env("AUTO_DETECT_SITE_PROPERTY", "true"));
   const maxUrlsRaw = Number.parseInt(env("MAX_URLS", "30"), 10);
   const maxUrls = Number.isFinite(maxUrlsRaw) && maxUrlsRaw > 0 ? maxUrlsRaw : 30;
 
@@ -288,6 +344,27 @@ async function main() {
   if (targetUrls.length === 0) {
     console.error("[gsc] No URLs matched filter.");
     process.exit(1);
+  }
+
+  const propertyResolution = await resolveSiteProperty({
+    accessToken,
+    configuredSiteUrl,
+    sampleUrl: targetUrls[0],
+    autoDetect: autoDetectSiteProperty
+  });
+  const siteUrl = propertyResolution.siteUrl;
+  console.log(`[gsc] Site property configured: ${configuredSiteUrl}`);
+  if (siteUrl !== configuredSiteUrl) {
+    console.log(`[gsc] Site property selected via probe: ${siteUrl}`);
+  } else {
+    console.log(`[gsc] Site property selected: ${siteUrl}`);
+  }
+  for (const row of propertyResolution.probeResults) {
+    if (row.probe.ok) {
+      console.log(`[gsc] Property probe ok: ${row.siteUrl}`);
+    } else {
+      console.log(`[gsc] Property probe fail: ${row.siteUrl} -> ${row.probe.error}`);
+    }
   }
 
   console.log(
@@ -343,6 +420,8 @@ async function main() {
     metadataFail,
     strictMode,
     failOnZeroInspection,
+    autoDetectSiteProperty,
+    sitePropertyProbeResults: propertyResolution.probeResults,
     results
   };
 

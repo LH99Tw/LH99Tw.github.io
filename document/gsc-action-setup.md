@@ -49,6 +49,7 @@ robots: "noindex, nofollow"
   - `url_filter`: URL 문자열 필터(예: `/blog/`, 또는 `regex:^https://...`)
   - `strict_mode`: 실패 발생 시 워크플로 실패 처리 여부
   - `fail_on_zero_inspection`: 모든 URL 검사 실패 시 워크플로 실패 처리 여부
+  - `AUTO_DETECT_SITE_PROPERTY`(기본 true): 샘플 URL로 `https://.../`와 `sc-domain:...` 후보를 자동 탐지
 
 ## 3) 필수 권한/자격 증명
 

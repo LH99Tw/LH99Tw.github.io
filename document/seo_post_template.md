@@ -1,3 +1,10 @@
+---
+title: "SEO Post Template (KR)"
+description: "블로그 글 작성 시 사용할 SEO 템플릿 문서"
+sitemap: false
+robots: "noindex, nofollow"
+---
+
 # SEO Post Template (KR)
 
 ```markdown

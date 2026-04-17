@@ -1,3 +1,10 @@
+---
+title: "로컬에서 블로그 실행하기"
+description: "Jekyll 기반 GitHub Pages 블로그를 로컬에서 실행하는 개발용 가이드"
+sitemap: false
+robots: "noindex, nofollow"
+---
+
 # 로컬에서 블로그 실행하기
 
 이 문서는 `LH99Tw.github.io` 프로젝트를 로컬 환경에서 실행하는 방법을 정리한 가이드입니다. macOS 기준으로 작성되었지만, Ruby와 Bundler가 설치된 환경이라면 동일하게 적용할 수 있습니다.
@@ -64,7 +71,3 @@ bundle exec jekyll serve --livereload
 - GitHub Pages 배포 정보: <https://docs.github.com/en/pages>
 
 이 가이드를 따라 환경을 구성하면 로컬에서 안전하게 블로그를 편집하고 미리볼 수 있습니다.
-
-
-eval "$(rbenv init - zsh)"
-bundle exec jekyll serve

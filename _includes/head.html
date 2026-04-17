@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" />
   {% feed_meta %}
   {% seo %}
+  {% if page.robots %}
+    <meta name="robots" content="{{ page.robots }}" />
+  {% endif %}
   {% if site.ga4.measurement_id %}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga4.measurement_id }}"></script>
     <script>

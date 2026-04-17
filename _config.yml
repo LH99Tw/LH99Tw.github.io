@@ -45,6 +45,7 @@ exclude:
   - .sass-cache/
   - _site/
   - node_modules/
+  - editor/
   - scripts/
   - chachayelmo.github.io-main/
 
@@ -71,6 +72,24 @@ defaults:
       layout: category
       seo:
         type: "webpage"
+  - scope:
+      path: "search"
+      type: "pages"
+    values:
+      sitemap: false
+      robots: "noindex, follow"
+  - scope:
+      path: "document"
+      type: "pages"
+    values:
+      sitemap: false
+      robots: "noindex, nofollow"
+  - scope:
+      path: "editor"
+      type: "pages"
+    values:
+      sitemap: false
+      robots: "noindex, nofollow"
 
 social:
   name: "이주한"

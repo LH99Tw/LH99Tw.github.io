@@ -1,0 +1,101 @@
+name: GSC Inspect And Index
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "inspect | inspect_and_index"
+        required: true
+        default: "inspect"
+        type: choice
+        options:
+          - inspect
+          - inspect_and_index
+      notify_type:
+        description: "Indexing API notification type"
+        required: true
+        default: "URL_UPDATED"
+        type: choice
+        options:
+          - URL_UPDATED
+          - URL_DELETED
+      fetch_metadata:
+        description: "Fetch indexing notification metadata after publish"
+        required: true
+        default: true
+        type: boolean
+      max_urls:
+        description: "Maximum URLs to process"
+        required: true
+        default: "30"
+        type: string
+      url_filter:
+        description: "URL filter (substring, or regex:pattern)"
+        required: true
+        default: "/blog/"
+        type: string
+      strict_mode:
+        description: "Fail workflow when any URL fails"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  inspect-and-index:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Google Auth (OIDC)
+        id: auth_oidc
+        if: ${{ vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '' }}
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: "${{ vars.GCP_WIF_PROVIDER }}"
+          service_account: "${{ vars.GCP_SERVICE_ACCOUNT }}"
+          token_format: "access_token"
+          access_token_scopes: |
+            https://www.googleapis.com/auth/webmasters.readonly
+            https://www.googleapis.com/auth/indexing
+
+      - name: Google Auth (JSON Key Fallback)
+        id: auth_json
+        if: ${{ !(vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '') }}
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+          token_format: "access_token"
+          access_token_scopes: |
+            https://www.googleapis.com/auth/webmasters.readonly
+            https://www.googleapis.com/auth/indexing
+
+      - name: Run URL Inspection / Indexing
+        env:
+          GOOGLE_ACCESS_TOKEN: "${{ steps.auth_oidc.outputs.access_token || steps.auth_json.outputs.access_token }}"
+          GSC_SITE_URL: "${{ vars.GSC_SITE_URL || 'https://lh99tw.github.io/' }}"
+          SITEMAP_URL: "${{ vars.GSC_SITEMAP_URL || 'https://lh99tw.github.io/sitemap.xml' }}"
+          GSC_MODE: "${{ github.event.inputs.mode }}"
+          INDEXING_NOTIFY_TYPE: "${{ github.event.inputs.notify_type }}"
+          FETCH_INDEXING_METADATA: "${{ github.event.inputs.fetch_metadata }}"
+          MAX_URLS: "${{ github.event.inputs.max_urls }}"
+          URL_FILTER: "${{ github.event.inputs.url_filter }}"
+          STRICT_MODE: "${{ github.event.inputs.strict_mode }}"
+        run: node ./scripts/gsc-index-and-inspect.mjs
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: gsc-report-${{ github.run_id }}
+          path: artifacts/*.json
+          if-no-files-found: warn

@@ -1,0 +1,102 @@
+name: GSC Post CRUD Indexing
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_sha:
+        description: "Base commit SHA (optional for manual run)"
+        required: false
+        default: ""
+        type: string
+      head_sha:
+        description: "Head commit SHA (optional for manual run)"
+        required: false
+        default: ""
+        type: string
+      strict_mode:
+        description: "Fail workflow when publish errors exist"
+        required: true
+        default: false
+        type: boolean
+  push:
+    paths:
+      - "_posts/**"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  post-crud-index:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Resolve SHA range
+        id: range
+        shell: bash
+        run: |
+          BASE_INPUT="${{ github.event.inputs.base_sha }}"
+          HEAD_INPUT="${{ github.event.inputs.head_sha }}"
+          if [ -n "$BASE_INPUT" ]; then
+            BASE="$BASE_INPUT"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            BASE="${{ github.event.before }}"
+          else
+            BASE="$(git rev-parse HEAD~1)"
+          fi
+
+          if [ -n "$HEAD_INPUT" ]; then
+            HEAD="$HEAD_INPUT"
+          else
+            HEAD="${{ github.sha }}"
+          fi
+
+          echo "base_sha=$BASE" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$HEAD" >> "$GITHUB_OUTPUT"
+
+      - name: Google Auth (OIDC)
+        id: auth_oidc
+        if: ${{ vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '' }}
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: "${{ vars.GCP_WIF_PROVIDER }}"
+          service_account: "${{ vars.GCP_SERVICE_ACCOUNT }}"
+          token_format: "access_token"
+          access_token_scopes: |
+            https://www.googleapis.com/auth/indexing
+
+      - name: Google Auth (JSON Key Fallback)
+        id: auth_json
+        if: ${{ !(vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '') }}
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+          token_format: "access_token"
+          access_token_scopes: |
+            https://www.googleapis.com/auth/indexing
+
+      - name: Run post CRUD indexing
+        env:
+          GOOGLE_ACCESS_TOKEN: "${{ steps.auth_oidc.outputs.access_token || steps.auth_json.outputs.access_token }}"
+          GSC_SITE_URL: "${{ vars.GSC_SITE_URL || 'https://lh99tw.github.io/' }}"
+          BASE_SHA: "${{ steps.range.outputs.base_sha }}"
+          HEAD_SHA: "${{ steps.range.outputs.head_sha }}"
+          STRICT_MODE: "${{ github.event.inputs.strict_mode || 'false' }}"
+        run: node ./scripts/gsc-post-crud-notify.mjs
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: gsc-post-crud-report-${{ github.run_id }}
+          path: artifacts/*.json
+          if-no-files-found: warn

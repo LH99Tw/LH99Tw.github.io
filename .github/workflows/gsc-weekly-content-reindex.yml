@@ -1,0 +1,75 @@
+name: GSC Weekly Content Reindex
+
+on:
+  workflow_dispatch:
+    inputs:
+      days_back:
+        description: "How many days to look back"
+        required: true
+        default: "7"
+        type: string
+      strict_mode:
+        description: "Fail workflow when publish errors exist"
+        required: true
+        default: false
+        type: boolean
+  schedule:
+    - cron: "15 1 * * 1"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  weekly-reindex:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Google Auth (OIDC)
+        id: auth_oidc
+        if: ${{ vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '' }}
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: "${{ vars.GCP_WIF_PROVIDER }}"
+          service_account: "${{ vars.GCP_SERVICE_ACCOUNT }}"
+          token_format: "access_token"
+          access_token_scopes: |
+            https://www.googleapis.com/auth/webmasters.readonly
+            https://www.googleapis.com/auth/indexing
+
+      - name: Google Auth (JSON Key Fallback)
+        id: auth_json
+        if: ${{ !(vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '') }}
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+          token_format: "access_token"
+          access_token_scopes: |
+            https://www.googleapis.com/auth/webmasters.readonly
+            https://www.googleapis.com/auth/indexing
+
+      - name: Run weekly changed-content reindex
+        env:
+          GOOGLE_ACCESS_TOKEN: "${{ steps.auth_oidc.outputs.access_token || steps.auth_json.outputs.access_token }}"
+          GSC_SITE_URL: "${{ vars.GSC_SITE_URL || 'https://lh99tw.github.io/' }}"
+          SITEMAP_URL: "${{ vars.GSC_SITEMAP_URL || 'https://lh99tw.github.io/sitemap.xml' }}"
+          DAYS_BACK: "${{ github.event.inputs.days_back || '7' }}"
+          STRICT_MODE: "${{ github.event.inputs.strict_mode || 'false' }}"
+        run: node ./scripts/gsc-weekly-changed-reindex.mjs
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: gsc-weekly-report-${{ github.run_id }}
+          path: artifacts/*.json
+          if-no-files-found: warn

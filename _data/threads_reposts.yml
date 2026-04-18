@@ -27,17 +27,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@unclejobs.ai/post/DWvdL25CaAE"
   avatar_color: "#E5E5EA"
-
-- author: "chanworks0416"
-  time: "2026-04-05"
-  text: "@chanworks0416님에게 남긴 답글 지금 해외 개발자 커뮤니티인 해커뉴스에서 난리 난 오픈소스가 하나 있어요. 'TurboQuant-WASM'이라는 건데요. 이름이 좀 어렵지만 핵심은 간단합니다. 구글의 AI 압축 기술(벡터 양자화)을 가져와서, 웹어셈블리(WASM)라는 기술을 통해 아예 **웹 브라우저 안에서 AI가 돌아가게** 만든 거예요."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@chanworks0416/post/DWu_EnrjZVZ"
-  avatar_color: "#F5F5F5"
-
-- author: "unclejobs.ai"
-  time: "2026-04-03"
-  text: "AI Threads \"코드보다 지식 정리에 토큰을 더 많이 쓰고 있습니다.\" 안드레이 카파시는 요즘 바뀐 업무 방식을 이렇게 설명합니다. raw 자료를 모으고, LLM이 markdown wiki로 엮고, 그 위에 질문과 결과물을 다시 쌓는 방식입니다."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@unclejobs.ai/post/DWptOZCiQEb"
-  avatar_color: "#EDE3DC"

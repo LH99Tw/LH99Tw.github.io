@@ -1,7 +1,7 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
 - author: "cikoritait"
-  time: "6일"
+  time: "2026-04-13"
   text: "⚡ Redis 캐시 전략 없이 절대 붙이지마 1. 전략 없으면 장애 나 2. Cache-Aside 함정 있어 3. Stampede 모르면 큰일나 4. Write-Through 차이 알아 5. TTL 대충 잡지마 6. 무효화가 제일 어려워"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@cikoritait/post/DXGB-5zkpmS"
@@ -23,21 +23,7 @@
 
 - author: "qjc.ai"
   time: "2026-04-06"
-  text: "NousResearch가 Hermes Agent를 공개했습니다. \"스스로 학습하는 AI 에이전트\"가 나왔어요. 오픈소스, MIT 라이선스. 번역하기"
+  text: "NousResearch가 Hermes Agent를 공개했습니다. \"스스로 학습하는 AI 에이전트\"가 나왔어요. 오픈소스, MIT 라이선스."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@qjc.ai/post/DWycqJIk264"
   avatar_color: "#E5E5EA"
-
-- author: "unclejobs.ai"
-  time: "05 일"
-  text: "AI Threads 일기 2,500개를 AI에 넣었더니 개인 위키피디아 400페이지가 나왔습니다. buildspace 창업자가 한 일이에요. a16z에서 약 146억 원($10M) 투자받은 사람이죠. 10년치 일기, Apple Notes, iMessage 대화를 Claude Code 스킬 하나에 넣었습니다."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@unclejobs.ai/post/DWvdL25CaAE"
-  avatar_color: "#F5F5F5"
-
-- author: "chanworks0416"
-  time: "2026-04-05"
-  text: "@chanworks0416님에게 남긴 답글 지금 해외 개발자 커뮤니티인 해커뉴스에서 난리 난 오픈소스가 하나 있어요. 'TurboQuant-WASM'이라는 건데요. 이름이 좀 어렵지만 핵심은 간단합니다. 구글의 AI 압축 기술(벡터 양자화)을 가져와서, 웹어셈블리(WASM)라는 기술을 통해 아예 **웹 브라우저 안에서 AI가 돌아가게** 만든 거예요."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@chanworks0416/post/DWu_EnrjZVZ"
-  avatar_color: "#EDE3DC"

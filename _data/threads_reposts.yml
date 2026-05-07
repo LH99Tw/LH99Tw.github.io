@@ -15,14 +15,14 @@
   avatar_color: "#E8E0DA"
 
 - author: "tatum_hq"
-  time: "4일"
+  time: "5일"
   text: "왜 세션과 토큰을 구분해야 하는가 세션 : 서버가 기억합니다 로그아웃하면 서버에서 지웁니다 JWT : 서버가 기억 안 합니다 로그아웃해도 토큰은 살아있습니다 JWT 쓰면서 로그아웃 구현했다고 생각하는 서비스 실제로 토큰 여전히 유효합니다"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@tatum_hq/post/DX1KTl7kuNj"
   avatar_color: "#F0ECE8"
 
 - author: "cokac_com"
-  time: "4일"
+  time: "5일"
   text: "코딩을 한다면 당연히 바꿔야하는 macOS에서의 설정 번역하기"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@cokac_com/post/DX1nb3GES83"

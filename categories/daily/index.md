@@ -1,60 +1,12 @@
 ---
 title: "일상"
-description: "루틴, 취미, 회고를 통해 성장 과정을 기록하는 일상 카테고리입니다."
+description: "경험, 취미, 회고를 통해 성장 과정을 기록하는 일상 카테고리입니다."
 layout: default
+category_group: daily
 category_board: true
 hide_topbar: true
 seo:
   type: webpage
 ---
 
-{% assign routine_posts = site.posts | where_exp: "post", "post.categories contains 'routine'" %}
-{% assign hobby_posts = site.posts | where_exp: "post", "post.categories contains 'hobby'" %}
-{% assign journal_posts = site.posts | where_exp: "post", "post.categories contains 'journal'" %}
-{% assign board_posts = routine_posts | concat: hobby_posts | concat: journal_posts | uniq | sort: 'date' | reverse %}
-
-<section class="category-board" data-category-board data-per-page="8">
-  <header class="cat-page-header">
-    <h1 class="cat-page-header__title">일상</h1>
-    <span class="cat-page-header__count">{{ board_posts.size }}편</span>
-  </header>
-
-  <nav class="filter-row" aria-label="카테고리 필터">
-    <a class="filter-tab active" href="{{ '/categories/daily/' | relative_url }}">전체</a>
-    <a class="filter-tab" href="{{ '/categories/routine/' | relative_url }}">루틴</a>
-    <a class="filter-tab" href="{{ '/categories/hobby/' | relative_url }}">취미</a>
-    <a class="filter-tab" href="{{ '/categories/journal/' | relative_url }}">회고</a>
-  </nav>
-
-  <div class="category-board__list">
-    <div class="list-header">
-      <span>카테고리</span>
-      <span>글 제목</span>
-      <span>날짜</span>
-    </div>
-
-    <div class="category-rows" data-category-rows>
-      {% if board_posts.size > 0 %}
-        {% for post in board_posts %}
-          {% assign row_label = '기타' %}
-          {% if post.categories contains 'routine' %}
-            {% assign row_label = '루틴' %}
-          {% elsif post.categories contains 'hobby' %}
-            {% assign row_label = '취미' %}
-          {% elsif post.categories contains 'journal' %}
-            {% assign row_label = '회고' %}
-          {% endif %}
-          <a class="post-item" href="{{ post.url | relative_url }}">
-            <span class="post-item__cat">{{ row_label }}</span>
-            <span class="post-item__title">{{ post.title }}</span>
-            <time class="post-item__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
-          </a>
-        {% endfor %}
-      {% else %}
-        <div class="post-list__empty">등록된 포스트가 없습니다.</div>
-      {% endif %}
-    </div>
-
-    <div class="pagination" data-category-pagination></div>
-  </div>
-</section>
+{% include category-board.html %}

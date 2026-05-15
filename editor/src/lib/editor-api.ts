@@ -28,11 +28,12 @@ const initialMockCategories: CategoryGroup[] = [
     ]
   },
   {
-    id: "journal",
-    label: "Journal",
+    id: "daily",
+    label: "일상",
     items: [
-      { id: "daily", label: "Daily" },
-      { id: "routine", label: "Routine" }
+      { id: "experience", label: "경험" },
+      { id: "hobby", label: "취미" },
+      { id: "journal", label: "회고" }
     ]
   }
 ];

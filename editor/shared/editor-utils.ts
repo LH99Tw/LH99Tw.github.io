@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { DraftInput, PostFrontMatter, ValidationResult } from "./types";
+import type { DraftInput, PostFrontMatter, TagMapConfig, ValidationResult } from "./types";
 
 const TITLE_MIN = 8;
 const TITLE_MAX = 70;
@@ -68,12 +68,31 @@ function normalizeTags(tags: string[]): string[] {
   return result;
 }
 
-export function buildFrontMatter(input: DraftInput): PostFrontMatter {
+export function recommendTags(title: string, categories: string[], tagMap?: TagMapConfig): string[] {
+  if (!tagMap) {
+    return [];
+  }
+
+  const recommended = [
+    ...categories.flatMap((category) => tagMap.categoryDefaults[category] ?? [])
+  ];
+  const haystack = `${title} ${categories.join(" ")}`.toLowerCase();
+
+  for (const rule of tagMap.keywordRules) {
+    if (rule.match.some((keyword) => haystack.includes(keyword.toLowerCase()))) {
+      recommended.push(...rule.tags);
+    }
+  }
+
+  return normalizeTags(recommended);
+}
+
+export function buildFrontMatter(input: DraftInput, tagMap?: TagMapConfig): PostFrontMatter {
   const title = input.title.trim();
   const description = (input.description ?? "").trim() || inferDescriptionFromBody(input.body);
   const categories = input.categories.map((category) => category.trim()).filter(Boolean);
   const manualTags = (input.tags ?? []).map((tag) => tag.trim()).filter(Boolean);
-  const tags = normalizeTags(manualTags);
+  const tags = normalizeTags([...manualTags, ...recommendTags(`${title} ${input.body}`, categories, tagMap)]);
 
   return {
     title,

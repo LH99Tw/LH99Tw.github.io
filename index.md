@@ -20,9 +20,9 @@ seo:
 
     <div class="cat-block">
       <div class="cat-tabs" id="catTabs">
-        <button class="cat-tab active" data-target="programming">프로그래밍</button>
-        <button class="cat-tab" data-target="finance">금융</button>
-        <button class="cat-tab" data-target="daily">일상</button>
+        {% for group in site.data.sidebar_categories %}
+          <button class="cat-tab{% if forloop.first %} active{% endif %}" data-target="{{ group.id }}">{{ group.label }}</button>
+        {% endfor %}
         <div class="cat-tabs__search-meta" id="homeSearchMeta" hidden>
           <span class="cat-tabs__search-label" id="homeSearchStatus">검색 결과</span>
           <div class="cat-tabs__pager" id="homeSearchPager" hidden>
@@ -38,61 +38,27 @@ seo:
         <div class="cat-search__list" id="homeSearchList"></div>
       </div>
 
-      {% assign program_ai_posts = site.posts | where_exp: "post", "post.categories contains 'ai'" %}
-      {% assign program_algo_posts = site.posts | where_exp: "post", "post.categories contains 'algorithm'" %}
-      {% assign program_cs_posts = site.posts | where_exp: "post", "post.categories contains 'cs'" %}
-      {% assign program_js_posts = site.posts | where_exp: "post", "post.categories contains 'javascript'" %}
-      {% assign program_project_posts = site.posts | where_exp: "post", "post.categories contains 'project'" %}
-      {% assign programming_posts = program_ai_posts | concat: program_algo_posts | concat: program_cs_posts | concat: program_js_posts | concat: program_project_posts | uniq | sort: 'date' | reverse %}
-      <div class="cat-panel active" id="panel-programming">
-        {% if programming_posts.size > 0 %}
-          {% for post in programming_posts limit: 5 %}
-            <a class="cat-post" href="{{ post.url | relative_url }}">
-              <span class="cat-post__num">{{ forloop.index }}</span>
-              <span class="cat-post__title">{{ post.title }}</span>
-              <span class="cat-post__date">{{ post.date | date: "%m.%d" }}</span>
-            </a>
-          {% endfor %}
-        {% else %}
-          <div class="cat-post cat-post--empty">등록된 글이 없습니다.</div>
-        {% endif %}
-      </div>
-
-      {% assign finance_journal_posts = site.posts | where_exp: "post", "post.categories contains 'investment-journal'" %}
-      {% assign finance_strategy_posts = site.posts | where_exp: "post", "post.categories contains 'investment-strategy'" %}
-      {% assign finance_economy_posts = site.posts | where_exp: "post", "post.categories contains 'economy-note'" %}
-      {% assign finance_posts = finance_journal_posts | concat: finance_strategy_posts | concat: finance_economy_posts | uniq | sort: 'date' | reverse %}
-      <div class="cat-panel" id="panel-finance">
-        {% if finance_posts.size > 0 %}
-          {% for post in finance_posts limit: 5 %}
-            <a class="cat-post" href="{{ post.url | relative_url }}">
-              <span class="cat-post__num">{{ forloop.index }}</span>
-              <span class="cat-post__title">{{ post.title }}</span>
-              <span class="cat-post__date">{{ post.date | date: "%m.%d" }}</span>
-            </a>
-          {% endfor %}
-        {% else %}
-          <div class="cat-post cat-post--empty">등록된 글이 없습니다.</div>
-        {% endif %}
-      </div>
-
-      {% assign daily_routine_posts = site.posts | where_exp: "post", "post.categories contains 'routine'" %}
-      {% assign daily_hobby_posts = site.posts | where_exp: "post", "post.categories contains 'hobby'" %}
-      {% assign daily_journal_posts = site.posts | where_exp: "post", "post.categories contains 'journal'" %}
-      {% assign daily_posts = daily_routine_posts | concat: daily_hobby_posts | concat: daily_journal_posts | uniq | sort: 'date' | reverse %}
-      <div class="cat-panel" id="panel-daily">
-        {% if daily_posts.size > 0 %}
-          {% for post in daily_posts limit: 5 %}
-            <a class="cat-post" href="{{ post.url | relative_url }}">
-              <span class="cat-post__num">{{ forloop.index }}</span>
-              <span class="cat-post__title">{{ post.title }}</span>
-              <span class="cat-post__date">{{ post.date | date: "%m.%d" }}</span>
-            </a>
-          {% endfor %}
-        {% else %}
-          <div class="cat-post cat-post--empty">등록된 글이 없습니다.</div>
-        {% endif %}
-      </div>
+      {% for group in site.data.sidebar_categories %}
+        {% assign group_posts = "" | split: "" %}
+        {% for item in group.items %}
+          {% assign item_posts = site.posts | where_exp: "post", "post.categories contains item.id" %}
+          {% assign group_posts = group_posts | concat: item_posts %}
+        {% endfor %}
+        {% assign group_posts = group_posts | uniq | sort: 'date' | reverse %}
+        <div class="cat-panel{% if forloop.first %} active{% endif %}" id="panel-{{ group.id }}">
+          {% if group_posts.size > 0 %}
+            {% for post in group_posts limit: 5 %}
+              <a class="cat-post" href="{{ post.url | relative_url }}">
+                <span class="cat-post__num">{{ forloop.index }}</span>
+                <span class="cat-post__title">{{ post.title }}</span>
+                <span class="cat-post__date">{{ post.date | date: "%m.%d" }}</span>
+              </a>
+            {% endfor %}
+          {% else %}
+            <div class="cat-post cat-post--empty">등록된 글이 없습니다.</div>
+          {% endif %}
+        </div>
+      {% endfor %}
 
       <p class="cat-block__all-link">
         <a href="{{ '/site-map/' | relative_url }}">전체 글/카테고리 맵 보기</a>

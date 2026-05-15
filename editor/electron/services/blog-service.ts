@@ -13,6 +13,7 @@ import type {
   CategoryCreateInput,
   CategoryDeleteInput,
   CategoryGroup,
+  CategoryItem,
   CategoryUpdateInput,
   DraftInput,
   PostDocument,
@@ -39,11 +40,13 @@ function toRelative(workspaceRoot: string, absolutePath: string): string {
 export class BlogService {
   private readonly workspaceRoot: string;
   private readonly postsDir: string;
+  private readonly categoriesDir: string;
   private readonly categoryDataFile: string;
 
   constructor(workspaceRoot: string) {
     this.workspaceRoot = path.resolve(workspaceRoot);
     this.postsDir = path.join(this.workspaceRoot, "_posts");
+    this.categoriesDir = path.join(this.workspaceRoot, "categories");
     this.categoryDataFile = path.join(this.workspaceRoot, "_data", "sidebar_categories.yml");
   }
 
@@ -73,6 +76,7 @@ export class BlogService {
     group.items.push({ id: normalizedId, label: normalizedLabel });
     group.items.sort((a, b) => a.label.localeCompare(b.label, "ko"));
 
+    await this.ensureCategoryPage(group, { id: normalizedId, label: normalizedLabel });
     await this.writeCategoriesFile(categories);
     return categories;
   }
@@ -106,8 +110,10 @@ export class BlogService {
 
     if (nextId !== input.categoryId) {
       await this.replaceCategoryIdInPosts(input.categoryId, nextId);
+      await this.renameCategoryPage(input.categoryId, nextId);
     }
 
+    await this.ensureCategoryPage(group, target);
     await this.writeCategoriesFile(categories);
     return categories;
   }
@@ -131,6 +137,7 @@ export class BlogService {
     }
 
     group.items = nextItems;
+    await this.trashCategoryPage(input.categoryId);
     await this.writeCategoriesFile(categories);
     return categories;
   }
@@ -283,6 +290,71 @@ export class BlogService {
     await fs.writeFile(this.categoryDataFile, nextYaml, "utf8");
   }
 
+  private async ensureCategoryPage(group: CategoryGroup, item: CategoryItem): Promise<void> {
+    const categoryDir = path.join(this.categoriesDir, item.id);
+    const pagePath = path.join(categoryDir, "index.md");
+    await fs.mkdir(categoryDir, { recursive: true });
+
+    const source = [
+      "---",
+      `title: "${escapeYamlString(item.label)}"`,
+      `description: "${escapeYamlString(`${item.label} 카테고리의 글을 정리합니다.`)}"`,
+      "layout: default",
+      `category: ${item.id}`,
+      `category_group: ${group.id}`,
+      "category_board: true",
+      "hide_topbar: true",
+      "seo:",
+      "  type: webpage",
+      "---",
+      "",
+      "{% include category-board.html %}",
+      ""
+    ].join("\n");
+
+    if (!(await exists(pagePath))) {
+      await fs.writeFile(pagePath, source, "utf8");
+      return;
+    }
+
+    const current = await fs.readFile(pagePath, "utf8");
+    const parsed = matter(current);
+    const data = parsed.data as Record<string, unknown>;
+    data.title = item.label;
+    data.layout = "default";
+    data.category = item.id;
+    data.category_group = group.id;
+    data.category_board = true;
+    data.hide_topbar = true;
+    data.seo = typeof data.seo === "object" && data.seo !== null ? data.seo : { type: "webpage" };
+
+    const body = parsed.content.trim() || "{% include category-board.html %}";
+    await fs.writeFile(pagePath, matter.stringify(`${body}\n`, data), "utf8");
+  }
+
+  private async renameCategoryPage(previousId: string, nextId: string): Promise<void> {
+    const previousDir = path.join(this.categoriesDir, previousId);
+    const nextDir = path.join(this.categoriesDir, nextId);
+
+    if (!(await exists(previousDir)) || (await exists(nextDir))) {
+      return;
+    }
+
+    await fs.mkdir(this.categoriesDir, { recursive: true });
+    await fs.rename(previousDir, nextDir);
+  }
+
+  private async trashCategoryPage(categoryId: string): Promise<void> {
+    const categoryDir = path.join(this.categoriesDir, categoryId);
+    if (!(await exists(categoryDir))) {
+      return;
+    }
+
+    const trashDir = path.join(this.categoriesDir, ".trash");
+    await fs.mkdir(trashDir, { recursive: true });
+    await fs.rename(categoryDir, path.join(trashDir, `${Date.now()}-${categoryId}`));
+  }
+
   private async countPostsForCategory(categoryId: string): Promise<number> {
     const posts = await this.listPosts(categoryId);
     return posts.length;
@@ -323,4 +395,8 @@ async function exists(targetPath: string): Promise<boolean> {
 
 function normalizeCategoryId(value: string): string {
   return value.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-_]/g, "");
+}
+
+function escapeYamlString(value: string): string {
+  return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }

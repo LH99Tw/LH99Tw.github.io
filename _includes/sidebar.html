@@ -51,12 +51,22 @@
           {% assign is_active = true %}
         {% endif %}
       {% endfor %}
-      <a class="sidebar__link sidebar__nav-link sidebar__link--group{% if is_active %} active{% endif %}" href="{{ group_url | relative_url }}" data-sidebar-nav>
-        <span>{{ group.label }}</span>
-        {% if is_active %}
-          <span class="sidebar__group-arrow" aria-hidden="true">›</span>
-        {% endif %}
-      </a>
+      <details class="sidebar__cat" {% if is_active or group.default_open %}open{% endif %}>
+        <summary>
+          <a class="sidebar__link sidebar__nav-link sidebar__link--group{% if page.url == group_url %} active{% endif %}" href="{{ group_url | relative_url }}" data-sidebar-nav>
+            <span>{{ group.label }}</span>
+          </a>
+          <span class="sidebar__chevron" aria-hidden="true"></span>
+        </summary>
+        <ul class="sidebar__sub">
+          {% for item in group.items %}
+            {% assign item_url = '/categories/' | append: item.id | append: '/' %}
+            <li>
+              <a class="{% if page.category == item.id %}active{% endif %}" href="{{ item_url | relative_url }}" data-sidebar-nav>{{ item.label }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
     {% endfor %}
   </nav>
 </aside>

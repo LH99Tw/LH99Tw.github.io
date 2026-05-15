@@ -1,8 +1,8 @@
 ---
-title: "취미"
-description: "드로잉 등 취미 활동 과정과 배운 점을 기록합니다."
+title: "경험"
+description: "직무 경험과 실습 과정에서 얻은 배움과 기록을 정리합니다."
 layout: default
-category: hobby
+category: experience
 category_group: daily
 category_board: true
 hide_topbar: true

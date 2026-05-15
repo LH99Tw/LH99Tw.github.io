@@ -10,9 +10,12 @@ seo:
 
 ## 카테고리 허브
 
-- [프로그래밍]({{ '/categories/programming/' | relative_url }})
-- [금융]({{ '/categories/finance/' | relative_url }})
-- [일상]({{ '/categories/daily/' | relative_url }})
+{% for group in site.data.sidebar_categories %}
+- [{{ group.label }}]({{ '/categories/' | append: group.id | append: '/' | relative_url }})
+{% for item in group.items %}
+  - [{{ item.label }}]({{ '/categories/' | append: item.id | append: '/' | relative_url }})
+{% endfor %}
+{% endfor %}
 
 ## 전체 포스트
 

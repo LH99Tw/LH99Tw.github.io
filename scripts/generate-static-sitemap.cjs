@@ -99,8 +99,9 @@ function collectCategoryEntries(siteBase) {
   if (!fs.existsSync(CATEGORIES_DIR)) return [];
   const dirs = fs
     .readdirSync(CATEGORIES_DIR, { withFileTypes: true })
-    .filter((d) => d.isDirectory())
+    .filter((d) => d.isDirectory() && !d.name.startsWith("."))
     .map((d) => d.name)
+    .filter((name) => fs.existsSync(path.join(CATEGORIES_DIR, name, "index.md")))
     .sort();
   return dirs.map((name) => ({ loc: `${siteBase}/categories/${encodeURIComponent(name)}/`, lastmod: null }));
 }

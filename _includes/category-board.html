@@ -1,0 +1,82 @@
+{% assign active_category = page.category | default: "" %}
+{% assign active_group_id = page.category_group | default: "" %}
+{% assign active_group = nil %}
+
+{% for group in site.data.sidebar_categories %}
+  {% if group.id == active_group_id %}
+    {% assign active_group = group %}
+  {% endif %}
+{% endfor %}
+
+{% if active_group == nil and active_category != "" %}
+  {% for group in site.data.sidebar_categories %}
+    {% for item in group.items %}
+      {% if item.id == active_category %}
+        {% assign active_group = group %}
+        {% assign active_group_id = group.id %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endif %}
+
+{% assign board_posts = "" | split: "" %}
+{% if active_category != "" %}
+  {% assign board_posts = site.posts | where_exp: "post", "post.categories contains active_category" | sort: "date" | reverse %}
+{% elsif active_group %}
+  {% for item in active_group.items %}
+    {% assign item_posts = site.posts | where_exp: "post", "post.categories contains item.id" %}
+    {% assign board_posts = board_posts | concat: item_posts %}
+  {% endfor %}
+  {% assign board_posts = board_posts | uniq | sort: "date" | reverse %}
+{% endif %}
+
+<section class="category-board" data-category-board data-per-page="8">
+  <header class="cat-page-header">
+    <h1 class="cat-page-header__title">{{ active_group.label | default: page.title }}</h1>
+    <span class="cat-page-header__count">{{ board_posts.size }}편</span>
+  </header>
+
+  {% if active_group %}
+    <nav class="filter-row" aria-label="카테고리 필터">
+      {% assign group_url = "/categories/" | append: active_group.id | append: "/" %}
+      <a class="filter-tab{% if active_category == "" %} active{% endif %}" href="{{ group_url | relative_url }}">전체</a>
+      {% for item in active_group.items %}
+        {% assign item_url = "/categories/" | append: item.id | append: "/" %}
+        <a class="filter-tab{% if active_category == item.id %} active{% endif %}" href="{{ item_url | relative_url }}">{{ item.label }}</a>
+      {% endfor %}
+    </nav>
+  {% endif %}
+
+  <div class="category-board__list">
+    <div class="list-header">
+      <span>카테고리</span>
+      <span>글 제목</span>
+      <span>날짜</span>
+    </div>
+
+    <div class="category-rows" data-category-rows>
+      {% if board_posts.size > 0 %}
+        {% for post in board_posts %}
+          {% assign row_label = page.title %}
+          {% if active_group %}
+            {% for item in active_group.items %}
+              {% if post.categories contains item.id %}
+                {% assign row_label = item.label %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          <a class="post-item" href="{{ post.url | relative_url }}">
+            <span class="post-item__cat">{{ row_label }}</span>
+            <span class="post-item__title">{{ post.title }}</span>
+            <time class="post-item__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+          </a>
+        {% endfor %}
+      {% else %}
+        <div class="post-list__empty">등록된 포스트가 없습니다.</div>
+      {% endif %}
+    </div>
+
+    <div class="pagination" data-category-pagination></div>
+  </div>
+</section>

@@ -8,7 +8,7 @@
     "investment-journal": ["investment", "journal"],
     "investment-strategy": ["investment", "strategy"],
     "economy-note": ["economy", "market-note"],
-    "routine": ["routine"],
+    "experience": ["experience"],
     "hobby": ["hobby"],
     "journal": ["journal", "retrospective"]
   },

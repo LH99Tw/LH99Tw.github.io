@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
+    <loc>https://lh99tw.github.io/blog/2026/05/15/rs-232-%ED%86%B5%EC%8B%A0%EA%B3%BC-filesystemwatcher-%EC%8B%A4%EC%8A%B5/</loc>
+    <lastmod>2026-05-15T00:00:00+09:00</lastmod>
+  </url>
+  <url>
+    <loc>https://lh99tw.github.io/blog/2026/05/14/paddleocr-vl-15-%EB%B6%84%EC%84%9D%ED%95%98%EA%B8%B0/</loc>
+    <lastmod>2026-05-14T00:00:00+09:00</lastmod>
+  </url>
+  <url>
     <loc>https://lh99tw.github.io/blog/2026/04/17/untitled-post/</loc>
     <lastmod>2026-04-17T00:00:00+09:00</lastmod>
   </url>
@@ -41,10 +49,6 @@
     <lastmod>2025-10-22T00:00:00+09:00</lastmod>
   </url>
   <url>
-    <loc>https://lh99tw.github.io/blog/2025/10/22/daily-routine/</loc>
-    <lastmod>2025-10-22T00:00:00+09:00</lastmod>
-  </url>
-  <url>
     <loc>https://lh99tw.github.io/blog/2025/10/22/daily-journal/</loc>
     <lastmod>2025-10-22T00:00:00+09:00</lastmod>
   </url>
@@ -72,6 +76,9 @@
     <loc>https://lh99tw.github.io/categories/economy-note/</loc>
   </url>
   <url>
+    <loc>https://lh99tw.github.io/categories/experience/</loc>
+  </url>
+  <url>
     <loc>https://lh99tw.github.io/categories/finance/</loc>
   </url>
   <url>
@@ -94,9 +101,6 @@
   </url>
   <url>
     <loc>https://lh99tw.github.io/categories/project/</loc>
-  </url>
-  <url>
-    <loc>https://lh99tw.github.io/categories/routine/</loc>
   </url>
   <url>
     <loc>https://lh99tw.github.io/</loc>

@@ -83,6 +83,7 @@ describe("BlogService integration", () => {
     });
 
     expect(createdCategories[0].items.some((item) => item.id === "reading-note")).toBe(true);
+    await expect(fs.access(path.join(tempRoot, "categories", "reading-note", "index.md"))).resolves.toBeUndefined();
 
     await service.createPost({
       title: "카테고리 리네임 테스트 제목",
@@ -100,6 +101,7 @@ describe("BlogService integration", () => {
     });
 
     expect(updatedCategories[0].items.some((item) => item.id === "book-note")).toBe(true);
+    await expect(fs.access(path.join(tempRoot, "categories", "book-note", "index.md"))).resolves.toBeUndefined();
 
     const bookPosts = await service.listPosts("book-note");
     expect(bookPosts.length).toBe(1);

@@ -46,6 +46,13 @@ export interface PostSummary {
   updatedAt: string;
 }
 
+export interface PostSeriesItem {
+  title: string;
+  url?: string;
+  date: string;
+  isCurrent: boolean;
+}
+
 export interface PostDocument {
   filePath: string;
   fileName: string;

@@ -10,6 +10,7 @@ import type {
   GitStatus,
   PostDocument,
   PostFrontMatter,
+  PostSeriesItem,
   PostSummary,
   ValidationResult
 } from "../shared/types";
@@ -95,6 +96,24 @@ function deriveDateLabel(input?: string): string {
   return `${y}.${m}.${d}`;
 }
 
+function parseSeriesTitle(title: string): { series: string; title: string } | null {
+  const trimmed = title.trim();
+  if (!trimmed.startsWith("[") || !trimmed.includes("]")) return null;
+
+  const end = trimmed.indexOf("]");
+  const series = trimmed.slice(1, end).trim();
+  if (!series) return null;
+
+  const displayTitle = trimmed.slice(end + 1).trim() || trimmed;
+  return { series, title: displayTitle };
+}
+
+function postUrlFromFileName(fileName: string): string | undefined {
+  const match = fileName.match(/^(\d{4})-(\d{2})-(\d{2})-(.+)\.md$/);
+  if (!match) return undefined;
+  return `/blog/${match[1]}/${match[2]}/${match[3]}/${match[4]}/`;
+}
+
 export default function App() {
   const [workspaceRoot, setWorkspaceRoot] = useState<string>("");
   const [categories, setCategories] = useState<CategoryGroup[]>([]);
@@ -163,6 +182,42 @@ export default function App() {
     ? categoryLabelById.get(previewCategoryId) ?? previewCategoryId
     : "";
   const previewDateLabel = deriveDateLabel(draft?.fileName || draft?.createdAt);
+  const previewSeriesPosts = useMemo<PostSeriesItem[]>(() => {
+    const currentTitle = draft?.frontMatter.title ?? "";
+    const currentSeries = parseSeriesTitle(currentTitle);
+    if (!draft || !currentSeries) return [];
+
+    const currentFilePath = draft.filePath ?? "";
+    const existingItems = posts
+      .filter((post) => post.filePath !== currentFilePath)
+      .map((post) => {
+        const parsed = parseSeriesTitle(post.title);
+        if (!parsed || parsed.series !== currentSeries.series) return null;
+        return {
+          title: parsed.title,
+          url: postUrlFromFileName(post.fileName),
+          date: post.date,
+          isCurrent: false
+        } satisfies PostSeriesItem;
+      })
+      .filter((post): post is PostSeriesItem => Boolean(post));
+
+    const currentDate =
+      draft.fileName?.slice(0, 10) ||
+      draft.createdAt?.slice(0, 10) ||
+      new Date().toISOString().slice(0, 10);
+    const items: PostSeriesItem[] = [
+      ...existingItems,
+      {
+        title: currentSeries.title,
+        url: draft.fileName ? postUrlFromFileName(draft.fileName) : undefined,
+        date: currentDate,
+        isCurrent: true
+      }
+    ];
+
+    return items.sort((a, b) => b.date.localeCompare(a.date));
+  }, [draft, posts]);
 
   const loadCategories = async (): Promise<void> => {
     const data = await editorApi.getCategories();
@@ -515,6 +570,7 @@ export default function App() {
               frontMatter={draft?.frontMatter ?? null}
               dateLabel={previewDateLabel}
               categoryLabel={previewCategoryLabel}
+              seriesPosts={previewSeriesPosts}
               blogCssText={blogCssText}
               workspaceRoot={workspaceRoot}
             />

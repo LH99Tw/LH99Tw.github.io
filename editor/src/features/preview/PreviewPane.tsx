@@ -193,8 +193,8 @@ export default function PreviewPane({
             ${category ? `<p class=\"post__category-kicker\">${category}</p>` : ""}
             <h1 class=\"post__title\">${title}</h1>
             ${renderedDate ? `<p class=\"post__meta\">${renderedDate}</p>` : ""}
+            ${seriesHtml}
           </header>
-          ${seriesHtml}
           <section class=\"post__content\" id=\"postContent\">
             ${normalizedHtml}
           </section>

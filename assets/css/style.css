@@ -2222,26 +2222,54 @@ body.page-profile.sidebar-nav-exit .sidebar {
 .post-series {
   position: relative;
   width: min(760px, 100%);
-  margin: 26px auto 0;
+  margin: 28px auto 0;
   overflow: hidden;
-  border-top: 1px solid rgba(122, 94, 87, 0.16);
-  border-bottom: 1px solid rgba(122, 94, 87, 0.1);
+  border: 1px solid rgba(122, 94, 87, 0.14);
+  border-radius: 8px;
   background:
-    radial-gradient(circle at 18px 24px, rgba(122, 94, 87, 0.2) 0 2px, transparent 2.8px),
-    radial-gradient(circle at 18px 46px, rgba(122, 94, 87, 0.16) 0 2px, transparent 2.8px),
-    radial-gradient(circle at 18px 68px, rgba(122, 94, 87, 0.13) 0 2px, transparent 2.8px),
     repeating-linear-gradient(
       to bottom,
       transparent 0,
-      transparent 27px,
-      rgba(122, 94, 87, 0.055) 28px
+      transparent 29px,
+      rgba(122, 94, 87, 0.052) 30px
     ),
-    linear-gradient(90deg, rgba(237, 227, 220, 0.58) 0 38px, transparent 38px),
-    linear-gradient(180deg, rgba(247, 242, 239, 0.5), rgba(255, 255, 255, 0));
+    linear-gradient(90deg, rgba(237, 227, 220, 0.62) 0 50px, rgba(255, 255, 255, 0) 50px),
+    linear-gradient(180deg, rgba(250, 247, 244, 0.98), rgba(255, 255, 255, 0.96));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.86) inset, 0 10px 24px rgba(58, 42, 40, 0.055);
+}
+
+.post-series::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 27px;
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(122, 94, 87, 0.13);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 24px 0 rgba(255, 255, 255, 0.72),
+    0 24px 0 1px rgba(122, 94, 87, 0.13),
+    0 48px 0 rgba(255, 255, 255, 0.72),
+    0 48px 0 1px rgba(122, 94, 87, 0.13),
+    0 72px 0 rgba(255, 255, 255, 0.72),
+    0 72px 0 1px rgba(122, 94, 87, 0.1);
+}
+
+.post-series::after {
+  content: "";
+  position: absolute;
+  left: 49px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: rgba(122, 94, 87, 0.12);
 }
 
 .post-series__summary {
   position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
   grid-template-areas:
@@ -2249,11 +2277,12 @@ body.page-profile.sidebar-nav-exit .sidebar {
     "toggle status nav";
   align-items: end;
   gap: 8px 14px;
-  min-height: 96px;
-  padding: 18px 4px 17px 38px;
+  min-height: 104px;
+  padding: 22px 22px 18px 70px;
   color: #534340;
   cursor: pointer;
   list-style: none;
+  border-bottom: 1px solid rgba(122, 94, 87, 0.075);
 }
 
 .post-series__summary::-webkit-details-marker {
@@ -2262,11 +2291,12 @@ body.page-profile.sidebar-nav-exit .sidebar {
 
 .post-series__bookmark {
   position: absolute;
-  left: 34px;
-  top: 0;
-  width: 1px;
-  height: 100%;
-  background: rgba(122, 94, 87, 0.13);
+  left: 50px;
+  top: 18px;
+  width: 3px;
+  height: calc(100% - 36px);
+  border-radius: 999px;
+  background: rgba(187, 153, 129, 0.2);
 }
 
 .post-series__title {
@@ -2274,8 +2304,8 @@ body.page-profile.sidebar-nav-exit .sidebar {
   min-width: 0;
   padding-left: 0;
   font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.6vw, 1.18rem);
-  font-weight: 600;
+  font-size: clamp(1.06rem, 1.55vw, 1.22rem);
+  font-weight: 700;
   line-height: 1.35;
   color: #534340;
   word-break: keep-all;
@@ -2290,7 +2320,7 @@ body.page-profile.sidebar-nav-exit .sidebar {
   padding-left: 0;
   font-family: var(--font-sans);
   font-size: 0.78rem;
-  color: rgba(83, 67, 64, 0.72);
+  color: rgba(83, 67, 64, 0.66);
 }
 
 .post-series__toggle::before {
@@ -2361,8 +2391,10 @@ body.page-profile.sidebar-nav-exit .sidebar {
 }
 
 .post-series__list {
-  margin: -2px 0 19px;
-  padding: 0 4px 0 52px;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 16px 22px 22px 70px;
   list-style: none;
 }
 
@@ -2371,10 +2403,10 @@ body.page-profile.sidebar-nav-exit .sidebar {
   grid-template-columns: 28px minmax(0, 1fr);
   gap: 8px;
   align-items: baseline;
-  min-height: 28px;
+  min-height: 30px;
   color: #4b4542;
   font-size: 0.86rem;
-  line-height: 1.58;
+  line-height: 1.7;
 }
 
 .post-series__index {
@@ -3236,18 +3268,32 @@ body.page-profile.sidebar-nav-exit .sidebar {
 
   .post-series {
     margin-top: 20px;
+    border-radius: 7px;
     background:
-      radial-gradient(circle at 14px 23px, rgba(122, 94, 87, 0.2) 0 1.8px, transparent 2.6px),
-      radial-gradient(circle at 14px 45px, rgba(122, 94, 87, 0.16) 0 1.8px, transparent 2.6px),
-      radial-gradient(circle at 14px 67px, rgba(122, 94, 87, 0.13) 0 1.8px, transparent 2.6px),
       repeating-linear-gradient(
         to bottom,
         transparent 0,
-        transparent 27px,
-        rgba(122, 94, 87, 0.055) 28px
+        transparent 29px,
+        rgba(122, 94, 87, 0.052) 30px
       ),
-      linear-gradient(90deg, rgba(237, 227, 220, 0.58) 0 29px, transparent 29px),
-      linear-gradient(180deg, rgba(247, 242, 239, 0.5), rgba(255, 255, 255, 0));
+      linear-gradient(90deg, rgba(237, 227, 220, 0.62) 0 38px, rgba(255, 255, 255, 0) 38px),
+      linear-gradient(180deg, rgba(250, 247, 244, 0.98), rgba(255, 255, 255, 0.96));
+  }
+
+  .post-series::before {
+    left: 14px;
+    top: 26px;
+    width: 7px;
+    height: 7px;
+    box-shadow:
+      0 23px 0 rgba(255, 255, 255, 0.72),
+      0 23px 0 1px rgba(122, 94, 87, 0.13),
+      0 46px 0 rgba(255, 255, 255, 0.72),
+      0 46px 0 1px rgba(122, 94, 87, 0.13);
+  }
+
+  .post-series::after {
+    left: 37px;
   }
 
   .post-series__summary {
@@ -3256,16 +3302,16 @@ body.page-profile.sidebar-nav-exit .sidebar {
       "title title"
       "toggle toggle"
       "status nav";
-    min-height: 108px;
+    min-height: 106px;
     gap: 8px 10px;
-    padding: 17px 2px 16px 31px;
+    padding: 18px 14px 16px 52px;
   }
 
   .post-series__bookmark {
-    left: 27px;
-    top: 0;
-    width: 1px;
-    height: 100%;
+    left: 38px;
+    top: 17px;
+    width: 3px;
+    height: calc(100% - 34px);
   }
 
   .post-series__title {
@@ -3295,8 +3341,8 @@ body.page-profile.sidebar-nav-exit .sidebar {
   }
 
   .post-series__list {
-    margin: -1px 0 17px;
-    padding-left: 43px;
+    margin: 0;
+    padding: 14px 14px 18px 52px;
   }
 
   .post-series__item {

@@ -60,11 +60,6 @@ function parseSeriesTitle(title: string): { series: string; title: string } | nu
   };
 }
 
-function withSeriesOpenParam(url: string): string {
-  const separator = url.includes("?") ? "&" : "?";
-  return `${url}${separator}series=open`;
-}
-
 function renderSeriesHtml(seriesName: string, seriesPosts: PostSeriesItem[]): string {
   if (!seriesName || seriesPosts.length === 0) return "";
 
@@ -75,7 +70,7 @@ function renderSeriesHtml(seriesName: string, seriesPosts: PostSeriesItem[]): st
     currentIndex >= 0 && currentIndex < seriesPosts.length - 1 ? seriesPosts[currentIndex + 1] : null;
   const renderNav = (post: PostSeriesItem | null, label: string, ariaPrefix: string) =>
     post?.url
-      ? `<a class=\"post-series__nav-btn\" href=\"${escapeHtml(withSeriesOpenParam(post.url))}\" aria-label=\"${escapeHtml(
+      ? `<a class=\"post-series__nav-btn\" href=\"${escapeHtml(post.url)}\" aria-label=\"${escapeHtml(
           `${ariaPrefix}: ${post.title}`
         )}\">${label}</a>`
       : `<span class=\"post-series__nav-btn is-disabled\" aria-hidden=\"true\">${label}</span>`;
@@ -86,7 +81,7 @@ function renderSeriesHtml(seriesName: string, seriesPosts: PostSeriesItem[]): st
       const body =
         post.isCurrent || !post.url
           ? `<strong class=\"post-series__current\">${title}</strong>`
-          : `<a class=\"post-series__link\" href=\"${escapeHtml(withSeriesOpenParam(post.url))}\">${title}</a>`;
+          : `<a class=\"post-series__link\" href=\"${escapeHtml(post.url)}\">${title}</a>`;
 
       return `<li class=\"post-series__item${post.isCurrent ? " is-current" : ""}\">
         <span class=\"post-series__index\">${index + 1}.</span>

@@ -2224,18 +2224,12 @@ body.page-profile.sidebar-nav-exit .sidebar {
   width: min(760px, 100%);
   margin: 28px auto 0;
   overflow: hidden;
-  border: 1px solid rgba(122, 94, 87, 0.14);
+  border: 1px solid rgba(29, 29, 31, 0.07);
   border-radius: 8px;
   background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 29px,
-      rgba(122, 94, 87, 0.052) 30px
-    ),
-    linear-gradient(90deg, rgba(237, 227, 220, 0.62) 0 50px, rgba(255, 255, 255, 0) 50px),
-    linear-gradient(180deg, rgba(250, 247, 244, 0.98), rgba(255, 255, 255, 0.96));
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.86) inset, 0 10px 24px rgba(58, 42, 40, 0.055);
+    linear-gradient(90deg, #534340 0, #3a2a28 50px, transparent 50px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(252, 252, 251, 0.98));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.92) inset, 0 8px 18px rgba(29, 29, 31, 0.035);
 }
 
 .post-series::before {
@@ -2245,16 +2239,16 @@ body.page-profile.sidebar-nav-exit .sidebar {
   top: 27px;
   width: 8px;
   height: 8px;
-  border: 1px solid rgba(122, 94, 87, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.26);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.72);
   box-shadow:
     0 24px 0 rgba(255, 255, 255, 0.72),
-    0 24px 0 1px rgba(122, 94, 87, 0.13),
+    0 24px 0 1px rgba(255, 255, 255, 0.24),
     0 48px 0 rgba(255, 255, 255, 0.72),
-    0 48px 0 1px rgba(122, 94, 87, 0.13),
+    0 48px 0 1px rgba(255, 255, 255, 0.22),
     0 72px 0 rgba(255, 255, 255, 0.72),
-    0 72px 0 1px rgba(122, 94, 87, 0.1);
+    0 72px 0 1px rgba(255, 255, 255, 0.18);
 }
 
 .post-series::after {
@@ -2264,7 +2258,7 @@ body.page-profile.sidebar-nav-exit .sidebar {
   top: 0;
   width: 1px;
   height: 100%;
-  background: rgba(122, 94, 87, 0.12);
+  background: rgba(58, 42, 40, 0.24);
 }
 
 .post-series__summary {
@@ -2279,10 +2273,10 @@ body.page-profile.sidebar-nav-exit .sidebar {
   gap: 8px 14px;
   min-height: 104px;
   padding: 22px 22px 18px 70px;
-  color: #534340;
+  color: #444247;
   cursor: pointer;
   list-style: none;
-  border-bottom: 1px solid rgba(122, 94, 87, 0.075);
+  border-bottom: 1px solid rgba(29, 29, 31, 0.055);
 }
 
 .post-series__summary::-webkit-details-marker {
@@ -2296,7 +2290,7 @@ body.page-profile.sidebar-nav-exit .sidebar {
   width: 3px;
   height: calc(100% - 36px);
   border-radius: 999px;
-  background: rgba(187, 153, 129, 0.2);
+  background: rgba(83, 67, 64, 0.46);
 }
 
 .post-series__title {
@@ -2307,7 +2301,7 @@ body.page-profile.sidebar-nav-exit .sidebar {
   font-size: clamp(1.06rem, 1.55vw, 1.22rem);
   font-weight: 700;
   line-height: 1.35;
-  color: #534340;
+  color: #444247;
   word-break: keep-all;
 }
 
@@ -2320,7 +2314,7 @@ body.page-profile.sidebar-nav-exit .sidebar {
   padding-left: 0;
   font-family: var(--font-sans);
   font-size: 0.78rem;
-  color: rgba(83, 67, 64, 0.66);
+  color: rgba(68, 66, 71, 0.64);
 }
 
 .post-series__toggle::before {
@@ -2329,7 +2323,7 @@ body.page-profile.sidebar-nav-exit .sidebar {
   height: 0;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
-  border-top: 5px solid rgba(83, 67, 64, 0.72);
+  border-top: 5px solid rgba(68, 66, 71, 0.68);
   transition: transform 0.2s ease;
 }
 
@@ -2367,10 +2361,10 @@ body.page-profile.sidebar-nav-exit .sidebar {
   justify-content: center;
   width: 28px;
   height: 28px;
-  border: 1px solid rgba(122, 94, 87, 0.16);
+  border: 1px solid rgba(29, 29, 31, 0.12);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.62);
-  color: rgba(122, 94, 87, 0.78);
+  color: rgba(68, 66, 71, 0.72);
   font-family: var(--font-sans);
   font-size: 1.06rem;
   line-height: 1;
@@ -2379,14 +2373,14 @@ body.page-profile.sidebar-nav-exit .sidebar {
 }
 
 .post-series__nav-btn:not(.is-disabled):hover {
-  border-color: rgba(122, 94, 87, 0.34);
-  background: rgba(247, 242, 239, 0.86);
-  color: #534340;
+  border-color: rgba(29, 29, 31, 0.22);
+  background: rgba(245, 245, 247, 0.92);
+  color: #444247;
   transform: translateY(-1px);
 }
 
 .post-series__nav-btn.is-disabled {
-  color: rgba(122, 94, 87, 0.22);
+  color: rgba(68, 66, 71, 0.22);
   background: transparent;
 }
 
@@ -2404,7 +2398,7 @@ body.page-profile.sidebar-nav-exit .sidebar {
   gap: 8px;
   align-items: baseline;
   min-height: 30px;
-  color: #4b4542;
+  color: #454345;
   font-size: 0.86rem;
   line-height: 1.7;
 }
@@ -2423,11 +2417,11 @@ body.page-profile.sidebar-nav-exit .sidebar {
 }
 
 .post-series__link:hover {
-  color: #7a5e57;
+  color: #5f5a57;
 }
 
 .post-series__item.is-current {
-  color: #7a5e57;
+  color: #5f5a57;
 }
 
 .post-series__current {
@@ -3270,14 +3264,8 @@ body.page-profile.sidebar-nav-exit .sidebar {
     margin-top: 20px;
     border-radius: 7px;
     background:
-      repeating-linear-gradient(
-        to bottom,
-        transparent 0,
-        transparent 29px,
-        rgba(122, 94, 87, 0.052) 30px
-      ),
-      linear-gradient(90deg, rgba(237, 227, 220, 0.62) 0 38px, rgba(255, 255, 255, 0) 38px),
-      linear-gradient(180deg, rgba(250, 247, 244, 0.98), rgba(255, 255, 255, 0.96));
+      linear-gradient(90deg, #534340 0, #3a2a28 38px, transparent 38px),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(252, 252, 251, 0.98));
   }
 
   .post-series::before {
@@ -3285,11 +3273,12 @@ body.page-profile.sidebar-nav-exit .sidebar {
     top: 26px;
     width: 7px;
     height: 7px;
+    border-color: rgba(255, 255, 255, 0.26);
     box-shadow:
       0 23px 0 rgba(255, 255, 255, 0.72),
-      0 23px 0 1px rgba(122, 94, 87, 0.13),
+      0 23px 0 1px rgba(255, 255, 255, 0.24),
       0 46px 0 rgba(255, 255, 255, 0.72),
-      0 46px 0 1px rgba(122, 94, 87, 0.13);
+      0 46px 0 1px rgba(255, 255, 255, 0.22);
   }
 
   .post-series::after {

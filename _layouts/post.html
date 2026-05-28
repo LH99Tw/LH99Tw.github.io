@@ -75,7 +75,7 @@ layout: default
               {% if series_post.url == page.url %}
                 <strong class="post-series__current">{{ series_post_display_title }}</strong>
               {% else %}
-                <a class="post-series__link" href="{{ series_post.url | relative_url }}?series=open">{{ series_post_display_title }}</a>
+                <a class="post-series__link" href="{{ series_post.url | relative_url }}">{{ series_post_display_title }}</a>
               {% endif %}
             </li>
           {% endcapture %}
@@ -105,12 +105,12 @@ layout: default
           <span class="post-series__status">{{ series_position | default: 1 }}/{{ series_count }}</span>
           <span class="post-series__nav" aria-label="시리즈 글 이동">
             {% if series_newer_url != '' %}
-              <a class="post-series__nav-btn" href="{{ series_newer_url }}?series=open" aria-label="최신 방향 글: {{ series_newer_title }}">‹</a>
+              <a class="post-series__nav-btn" href="{{ series_newer_url }}" aria-label="최신 방향 글: {{ series_newer_title }}">‹</a>
             {% else %}
               <span class="post-series__nav-btn is-disabled" aria-hidden="true">‹</span>
             {% endif %}
             {% if series_older_url != '' %}
-              <a class="post-series__nav-btn" href="{{ series_older_url }}?series=open" aria-label="이전 방향 글: {{ series_older_title }}">›</a>
+              <a class="post-series__nav-btn" href="{{ series_older_url }}" aria-label="이전 방향 글: {{ series_older_title }}">›</a>
             {% else %}
               <span class="post-series__nav-btn is-disabled" aria-hidden="true">›</span>
             {% endif %}
@@ -229,8 +229,19 @@ layout: default
           window.localStorage.setItem(storageKey, seriesDetails.open ? "open" : "closed");
         });
         seriesDetails.querySelectorAll("a").forEach((link) => {
-          link.addEventListener("click", () => {
-            window.localStorage.setItem(storageKey, "open");
+          link.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const nextState = seriesDetails.open ? "open" : "closed";
+            window.localStorage.setItem(storageKey, nextState);
+            if (seriesDetails.open) {
+              try {
+                const nextUrl = new URL(link.href);
+                nextUrl.searchParams.set("series", "open");
+                link.href = nextUrl.toString();
+              } catch (_urlError) {
+                // Keep the original link if URL parsing is unavailable.
+              }
+            }
           });
         });
       } catch (_error) {

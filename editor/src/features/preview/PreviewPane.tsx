@@ -193,13 +193,15 @@ export default function PreviewPane({
             ${category ? `<p class=\"post__category-kicker\">${category}</p>` : ""}
             <h1 class=\"post__title\">${title}</h1>
             ${renderedDate ? `<p class=\"post__meta\">${renderedDate}</p>` : ""}
-            ${seriesHtml}
           </header>
           <section class=\"post__content\" id=\"postContent\">
             ${normalizedHtml}
           </section>
           ${tagsHtml}
         </article>
+        <aside class=\"post-rail\" aria-label=\"글 보조 정보\">
+          ${seriesHtml}
+        </aside>
       </div>
     </main>
   </body>

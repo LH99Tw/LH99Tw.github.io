@@ -92,34 +92,6 @@ layout: default
       {% endif %}
       <h1 class="post__title">{{ display_title }}</h1>
       <p class="post__meta">{{ page.date | date: "%Y.%m.%d" }}</p>
-      {% if title_subcategory != '' and series_count > 0 %}
-        <details class="post-series" data-series-key="{{ title_subcategory | escape }}">
-          <summary class="post-series__summary">
-            <span class="post-series__bookmark" aria-hidden="true"></span>
-            <span class="post-series__title">{{ title_subcategory }}</span>
-            <span class="post-series__toggle">
-              <span class="post-series__toggle-open">목록 보기</span>
-              <span class="post-series__toggle-close">숨기기</span>
-            </span>
-            <span class="post-series__status">{{ series_position | default: 1 }}/{{ series_count }}</span>
-            <span class="post-series__nav" aria-label="시리즈 글 이동">
-              {% if series_newer_url != '' %}
-                <a class="post-series__nav-btn" href="{{ series_newer_url }}" aria-label="최신 방향 글: {{ series_newer_title }}">‹</a>
-              {% else %}
-                <span class="post-series__nav-btn is-disabled" aria-hidden="true">‹</span>
-              {% endif %}
-              {% if series_older_url != '' %}
-                <a class="post-series__nav-btn" href="{{ series_older_url }}" aria-label="이전 방향 글: {{ series_older_title }}">›</a>
-              {% else %}
-                <span class="post-series__nav-btn is-disabled" aria-hidden="true">›</span>
-              {% endif %}
-            </span>
-          </summary>
-          <ol class="post-series__list">
-            {{ series_items_html }}
-          </ol>
-        </details>
-      {% endif %}
     </header>
     <section class="post__content" id="postContent">
       {{ content }}
@@ -192,6 +164,34 @@ layout: default
   </article>
 
   <aside class="post-rail" aria-label="글 보조 정보">
+    {% if title_subcategory != '' and series_count > 0 %}
+      <details class="post-series" data-series-key="{{ title_subcategory | escape }}">
+        <summary class="post-series__summary">
+          <span class="post-series__bookmark" aria-hidden="true"></span>
+          <span class="post-series__title">{{ title_subcategory }}</span>
+          <span class="post-series__toggle">
+            <span class="post-series__toggle-open">목록 보기</span>
+            <span class="post-series__toggle-close">숨기기</span>
+          </span>
+          <span class="post-series__status">{{ series_position | default: 1 }}/{{ series_count }}</span>
+          <span class="post-series__nav" aria-label="시리즈 글 이동">
+            {% if series_newer_url != '' %}
+              <a class="post-series__nav-btn" href="{{ series_newer_url }}" aria-label="최신 방향 글: {{ series_newer_title }}">‹</a>
+            {% else %}
+              <span class="post-series__nav-btn is-disabled" aria-hidden="true">‹</span>
+            {% endif %}
+            {% if series_older_url != '' %}
+              <a class="post-series__nav-btn" href="{{ series_older_url }}" aria-label="이전 방향 글: {{ series_older_title }}">›</a>
+            {% else %}
+              <span class="post-series__nav-btn is-disabled" aria-hidden="true">›</span>
+            {% endif %}
+          </span>
+        </summary>
+        <ol class="post-series__list">
+          {{ series_items_html }}
+        </ol>
+      </details>
+    {% endif %}
     <div class="post-outline" id="postOutline" aria-label="글 목차" hidden>
       <h2>Contents</h2>
       <nav>

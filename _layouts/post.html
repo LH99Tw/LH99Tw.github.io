@@ -38,53 +38,6 @@ layout: default
       {% assign display_category_kicker = title_subcategory %}
     {% endif %}
   {% endif %}
-  {% assign series_count = 0 %}
-  {% assign series_position = 0 %}
-  {% assign series_newer_url = '' %}
-  {% assign series_newer_title = '' %}
-  {% assign series_older_url = '' %}
-  {% assign series_older_title = '' %}
-  {% assign series_found_current = false %}
-  {% assign series_last_url = '' %}
-  {% assign series_last_title = '' %}
-  {% capture series_items_html %}{% endcapture %}
-  {% if title_subcategory != '' %}
-    {% for series_post in site.posts %}
-      {% assign series_post_head = series_post.title | slice: 0, 1 %}
-      {% if series_post_head == '[' and series_post.title contains ']' %}
-        {% assign series_post_bracket = series_post.title | split: ']' | first %}
-        {% assign series_post_key = series_post_bracket | remove_first: '[' | strip %}
-        {% if series_post_key == title_subcategory %}
-          {% assign series_count = series_count | plus: 1 %}
-          {% assign series_post_display_title = series_post.title | remove_first: series_post_bracket | remove_first: ']' | strip %}
-          {% if series_post_display_title == '' %}
-            {% assign series_post_display_title = series_post.title %}
-          {% endif %}
-          {% if series_post.url == page.url %}
-            {% assign series_position = series_count %}
-            {% assign series_found_current = true %}
-            {% assign series_newer_url = series_last_url %}
-            {% assign series_newer_title = series_last_title %}
-          {% elsif series_found_current and series_older_url == '' %}
-            {% assign series_older_url = series_post.url | relative_url %}
-            {% assign series_older_title = series_post_display_title %}
-          {% endif %}
-          {% capture series_items_html %}{{ series_items_html }}
-            <li class="post-series__item{% if series_post.url == page.url %} is-current{% endif %}">
-              <span class="post-series__index">{{ series_count }}.</span>
-              {% if series_post.url == page.url %}
-                <strong class="post-series__current">{{ series_post_display_title }}</strong>
-              {% else %}
-                <a class="post-series__link" href="{{ series_post.url | relative_url }}">{{ series_post_display_title }}</a>
-              {% endif %}
-            </li>
-          {% endcapture %}
-          {% assign series_last_url = series_post.url | relative_url %}
-          {% assign series_last_title = series_post_display_title %}
-        {% endif %}
-      {% endif %}
-    {% endfor %}
-  {% endif %}
   <article class="post post--reader" id="postArticle">
     <header class="post__header">
       {% if display_category_kicker and display_category_kicker != '' %}
@@ -164,34 +117,6 @@ layout: default
   </article>
 
   <aside class="post-rail" aria-label="글 보조 정보">
-    {% if title_subcategory != '' and series_count > 0 %}
-      <details class="post-series" data-series-key="{{ title_subcategory | escape }}">
-        <summary class="post-series__summary">
-          <span class="post-series__bookmark" aria-hidden="true"></span>
-          <span class="post-series__title">{{ title_subcategory }}</span>
-          <span class="post-series__toggle">
-            <span class="post-series__toggle-open">목록 보기</span>
-            <span class="post-series__toggle-close">숨기기</span>
-          </span>
-          <span class="post-series__status">{{ series_position | default: 1 }}/{{ series_count }}</span>
-          <span class="post-series__nav" aria-label="시리즈 글 이동">
-            {% if series_newer_url != '' %}
-              <a class="post-series__nav-btn" href="{{ series_newer_url }}" aria-label="최신 방향 글: {{ series_newer_title }}">‹</a>
-            {% else %}
-              <span class="post-series__nav-btn is-disabled" aria-hidden="true">‹</span>
-            {% endif %}
-            {% if series_older_url != '' %}
-              <a class="post-series__nav-btn" href="{{ series_older_url }}" aria-label="이전 방향 글: {{ series_older_title }}">›</a>
-            {% else %}
-              <span class="post-series__nav-btn is-disabled" aria-hidden="true">›</span>
-            {% endif %}
-          </span>
-        </summary>
-        <ol class="post-series__list">
-          {{ series_items_html }}
-        </ol>
-      </details>
-    {% endif %}
     <div class="post-outline" id="postOutline" aria-label="글 목차" hidden>
       <h2>Contents</h2>
       <nav>
@@ -213,41 +138,7 @@ layout: default
     const feedPager = document.getElementById("postFeedPager");
     const feedCount = document.getElementById("postFeedCount");
     const feedDataNode = document.getElementById("postFeedData");
-    const seriesDetails = document.querySelector(".post-series");
     if (!article || !content || !progressBar || !outline || !outlineList) return;
-
-    if (seriesDetails) {
-      const seriesKey = seriesDetails.getAttribute("data-series-key") || "default";
-      const storageKey = `post-series:${seriesKey}`;
-      try {
-        const shouldOpenFromUrl = new URLSearchParams(window.location.search).get("series") === "open";
-        if (shouldOpenFromUrl || window.localStorage.getItem(storageKey) === "open") {
-          seriesDetails.open = true;
-          window.localStorage.setItem(storageKey, "open");
-        }
-        seriesDetails.addEventListener("toggle", () => {
-          window.localStorage.setItem(storageKey, seriesDetails.open ? "open" : "closed");
-        });
-        seriesDetails.querySelectorAll("a").forEach((link) => {
-          link.addEventListener("click", (event) => {
-            event.stopPropagation();
-            const nextState = seriesDetails.open ? "open" : "closed";
-            window.localStorage.setItem(storageKey, nextState);
-            if (seriesDetails.open) {
-              try {
-                const nextUrl = new URL(link.href);
-                nextUrl.searchParams.set("series", "open");
-                link.href = nextUrl.toString();
-              } catch (_urlError) {
-                // Keep the original link if URL parsing is unavailable.
-              }
-            }
-          });
-        });
-      } catch (_error) {
-        // Ignore storage restrictions; the native details toggle still works.
-      }
-    }
 
     const headings = Array.from(content.querySelectorAll("h2, h3, h4"));
     const slugify = (text, idx) => {

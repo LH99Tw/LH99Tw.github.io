@@ -166,6 +166,33 @@ function toYamlString(value) {
   return JSON.stringify(value ?? "");
 }
 
+async function readExistingItems(filePath) {
+  try {
+    const raw = await fs.readFile(filePath, "utf8");
+    return raw
+      .split(/\n(?=- author: )/)
+      .filter((block) => block.trim().startsWith("- author:"))
+      .map((block) => {
+        const item = {};
+        for (const line of block.split("\n")) {
+          const match = line.match(/^\s*-?\s*([a-z_]+):\s*(.*)$/);
+          if (!match) continue;
+          const [, key, value] = match;
+          try {
+            item[key] = JSON.parse(value);
+          } catch {
+            item[key] = value.replace(/^"|"$/g, "");
+          }
+        }
+        return item;
+      })
+      .filter((item) => item.author && item.text);
+  } catch (error) {
+    if (error && error.code === "ENOENT") return [];
+    throw error;
+  }
+}
+
 function toYaml(items) {
   const body = items
     .map((item) => {
@@ -273,11 +300,15 @@ async function extractReposts() {
 
 async function main() {
   const reposts = await extractReposts();
-  const yaml = toYaml(reposts);
   const abs = path.resolve(outputPath);
+  const existing = await readExistingItems(abs);
+  const merged = dedupeItems([...reposts, ...existing], limit);
+  const yaml = toYaml(merged);
   await fs.mkdir(path.dirname(abs), { recursive: true });
   await fs.writeFile(abs, yaml, "utf8");
-  console.log(`Updated ${outputPath} with ${reposts.length} entries.`);
+  console.log(
+    `Updated ${outputPath} with ${merged.length} entries (${reposts.length} fetched, ${existing.length} existing).`
+  );
 }
 
 main().catch((err) => {

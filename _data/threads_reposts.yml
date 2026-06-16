@@ -1,25 +1,32 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
+- author: "unclejobs.ai"
+  time: "1일"
+  text: "AI Threads \"바퀴를 재발명하지마.\" 어느 팀에나 있죠. 긴 포니테일에 둥근 안경, 버전관리보다 오래 다닌 사람. 남이 짠 50줄을 말없이 들여다보더니, 한 줄로 바꿔놓는 그 선배요."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@unclejobs.ai/post/DZltCqEib6l"
+  avatar_color: "#EDE3DC"
+
 - author: "choi.openai"
-  time: "3일"
+  time: "4일"
   text: "정말 유용한 스킬 하나가 있어서 추천해드립니다. Diffusion Studio가 text-to-lottie라는 오픈소스 스킬을 공개했는데, Claude Code나 Codex 터미널에서 텍스트 프롬프트 하나로 웹이나 앱에 바로 쓸 수 있는 Lottie JSON 파일을 생성해 줍니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@choi.openai/post/DZeGfoNj8nI"
-  avatar_color: "#EDE3DC"
+  avatar_color: "#E8E0DA"
 
 - author: "joshproductletter"
   time: "5일"
   text: "@joshproductletter님에게 남긴 답글 Gary Tan의 뇌를 복사하고 있습니다. 이런 뇌 복사 시스템이 앞으로 더 각광받지 않을까 합니다. github.com/garry… GitHub - garrytan/gbrain: Garry's Opinionated OpenClaw/Hermes Agent Brain"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@joshproductletter/post/DZZTSVviavu"
-  avatar_color: "#E8E0DA"
+  avatar_color: "#F0ECE8"
 
 - author: "feelfree_ai"
   time: "5일"
   text: "AI Threads PDF나 Word 문서로 RAG를 구축하면서 데이터 파싱 때문에 스트레스받으셨던 분들이라면 무조건 주목해야 할 소식입니다. IBM Docling 팀과 엔비디아, 레드햇 등이 손잡고 AI가 바로 읽고 완벽하게 이해할 수 있는 전용 문서 표준 포맷인 'DocLang'을 오픈소스로 발표했습니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@feelfree_ai/post/DZZknNZjlTm"
-  avatar_color: "#F0ECE8"
+  avatar_color: "#E5E5EA"
 
 - author: "robertchoi0631"
   time: "6일"
@@ -34,10 +41,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@think.5x/post/DZW_w6pk4Z0"
   avatar_color: "#E5E5EA"
-
-- author: "robin_just_ship_it"
-  time: "6일"
-  text: "이번 주 GitHub에서 주목받고 있는 AI 오픈소스 10개 모음✨ 1. Headroom 도구 출력·로그·파일·RAG 청크를 LLM에 보내기 전에 압축. 품질은 유지하면서 토큰을 60~95% 절감 2. Hermes-agent"
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@robin_just_ship_it/post/DZXDFogEaqh"
-  avatar_color: "#F5F5F5"

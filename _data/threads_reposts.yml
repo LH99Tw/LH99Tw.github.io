@@ -1,25 +1,32 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
+- author: "bunniesossdev"
+  time: "1일"
+  text: "죄송합니다. 진지한 이야기 한 번만 들어주세요.... 새로운 오픈소스 벡터 DB 증분 인덱싱을 도와주는 \"MinSync\"입니다. 이게 왜 필요하냐? RAG 하다보면 파일이 계속 바뀌는 경우가 있습니다. 그러면 파일을 통째로 다시 임베딩 벡터로 바꾸던지 아니면 최신성을 유지하지 못합니다. 귀찮게 재인덱싱 vs 최신성 버리기 죽음의 이지선다 입니다."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@bunniesossdev/post/DZkRd8Lkx0n"
+  avatar_color: "#EDE3DC"
+
 - author: "unclejobs.ai"
   time: "1일"
   text: "AI Threads \"바퀴를 재발명하지마.\" 어느 팀에나 있죠. 긴 포니테일에 둥근 안경, 버전관리보다 오래 다닌 사람. 남이 짠 50줄을 말없이 들여다보더니, 한 줄로 바꿔놓는 그 선배요."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@unclejobs.ai/post/DZltCqEib6l"
-  avatar_color: "#EDE3DC"
+  avatar_color: "#E8E0DA"
 
 - author: "choi.openai"
   time: "4일"
   text: "정말 유용한 스킬 하나가 있어서 추천해드립니다. Diffusion Studio가 text-to-lottie라는 오픈소스 스킬을 공개했는데, Claude Code나 Codex 터미널에서 텍스트 프롬프트 하나로 웹이나 앱에 바로 쓸 수 있는 Lottie JSON 파일을 생성해 줍니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@choi.openai/post/DZeGfoNj8nI"
-  avatar_color: "#E8E0DA"
+  avatar_color: "#F0ECE8"
 
 - author: "joshproductletter"
-  time: "5일"
+  time: "6일"
   text: "@joshproductletter님에게 남긴 답글 Gary Tan의 뇌를 복사하고 있습니다. 이런 뇌 복사 시스템이 앞으로 더 각광받지 않을까 합니다. github.com/garry… GitHub - garrytan/gbrain: Garry's Opinionated OpenClaw/Hermes Agent Brain"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@joshproductletter/post/DZZTSVviavu"
-  avatar_color: "#F0ECE8"
+  avatar_color: "#E5E5EA"
 
 - author: "feelfree_ai"
   time: "5일"
@@ -33,11 +40,4 @@
   text: "이번 주 GitHub에서 급상승한 AI 리포지토리 10선: 1. headroom 도구의 출력·로그·파일·RAG의 덩어리를 AI에 넘기기 전에 압축. 토큰을 60~95% 줄여도 답변은 변하지 않음. 라이브러리·프록시·MCP 서버로 사용할 수 있음."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@robertchoi0631/post/DZXDfSJD6Uy"
-  avatar_color: "#E5E5EA"
-
-- author: "think.5x"
-  time: "6일"
-  text: "마이크로소프트가 PostgreSQL로 Airflow와 Temporal을 대체하는 익스텐션을 공개했습니다. pg_durable. 외부 인프라 없이 SQL만으로 장애 내성 워크플로를 정의합니다. 이번 주 GitHub 트렌딩 1위."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@think.5x/post/DZW_w6pk4Z0"
   avatar_color: "#E5E5EA"

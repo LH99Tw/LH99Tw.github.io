@@ -15,18 +15,11 @@
   avatar_color: "#E8E0DA"
 
 - author: "unclejobs.ai"
-  time: "4일"
+  time: "5일"
   text: "AI Threads \"바퀴를 재발명하지마.\" 어느 팀에나 있죠. 긴 포니테일에 둥근 안경, 버전관리보다 오래 다닌 사람. 남이 짠 50줄을 말없이 들여다보더니, 한 줄로 바꿔놓는 그 선배요."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@unclejobs.ai/post/DZltCqEib6l"
   avatar_color: "#F0ECE8"
-
-- author: "choi.openai"
-  time: "2026-06-11"
-  text: "정말 유용한 스킬 하나가 있어서 추천해드립니다. Diffusion Studio가 text-to-lottie라는 오픈소스 스킬을 공개했는데, Claude Code나 Codex 터미널에서 텍스트 프롬프트 하나로 웹이나 앱에 바로 쓸 수 있는 Lottie JSON 파일을 생성해 줍니다."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@choi.openai/post/DZeGfoNj8nI"
-  avatar_color: "#E5E5EA"
 
 - author: "joshproductletter"
   time: "2026-06-10"
@@ -41,3 +34,10 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@feelfree_ai/post/DZZknNZjlTm"
   avatar_color: "#F5F5F5"
+
+- author: "robertchoi0631"
+  time: "2026-06-09"
+  text: "이번 주 GitHub에서 급상승한 AI 리포지토리 10선: 1. headroom 도구의 출력·로그·파일·RAG의 덩어리를 AI에 넘기기 전에 압축. 토큰을 60~95% 줄여도 답변은 변하지 않음. 라이브러리·프록시·MCP 서버로 사용할 수 있음."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@robertchoi0631/post/DZXDfSJD6Uy"
+  avatar_color: "#EDE3DC"

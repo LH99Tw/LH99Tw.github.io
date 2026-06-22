@@ -1,25 +1,32 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
+- author: "aicoffeechat"
+  time: "3시간"
+  text: "야무지다.. 이 스킬 써보세요. 인터페이스의 완성도를 높여주는 다양한 팁이 들어있는 스킬입니다. 현재 진행하는 프로젝트에 적용시켜보세요. 만들어높은 UI를 해당 스킬로 개선해보세요. 죄송합니다. 이 동영상을 재생하는 중 문제가 발생했습니다."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@aicoffeechat/post/DZ3ug-eCj2W"
+  avatar_color: "#EDE3DC"
+
 - author: "ai_dogi_kitten"
   time: "4일"
   text: "AI Threads 벡터 데이터베이스는 공식적으로 망했다 🤯 이 리포지토리는 60백만 개의 텍스트 청크를 201GB에서 단 6GB로 축소하면서 정확도 손실 없이 처리합니다. → 97% 더 작은 저장 공간 → 클라우드 없음. GPU 없음."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@ai_dogi_kitten/post/DZr1Kl-EltJ"
-  avatar_color: "#EDE3DC"
+  avatar_color: "#E8E0DA"
 
 - author: "bunniesossdev"
   time: "2026-06-14"
   text: "죄송합니다. 진지한 이야기 한 번만 들어주세요.... 새로운 오픈소스 벡터 DB 증분 인덱싱을 도와주는 \"MinSync\"입니다. 이게 왜 필요하냐? RAG 하다보면 파일이 계속 바뀌는 경우가 있습니다. 그러면 파일을 통째로 다시 임베딩 벡터로 바꾸던지 아니면 최신성을 유지하지 못합니다. 귀찮게 재인덱싱 vs 최신성 버리기 죽음의 이지선다 입니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@bunniesossdev/post/DZkRd8Lkx0n"
-  avatar_color: "#E8E0DA"
+  avatar_color: "#F0ECE8"
 
 - author: "unclejobs.ai"
-  time: "6일"
+  time: "2026-06-14"
   text: "AI Threads \"바퀴를 재발명하지마.\" 어느 팀에나 있죠. 긴 포니테일에 둥근 안경, 버전관리보다 오래 다닌 사람. 남이 짠 50줄을 말없이 들여다보더니, 한 줄로 바꿔놓는 그 선배요."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@unclejobs.ai/post/DZltCqEib6l"
-  avatar_color: "#F0ECE8"
+  avatar_color: "#E5E5EA"
 
 - author: "choi.openai"
   time: "2026-06-11"
@@ -34,10 +41,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@joshproductletter/post/DZZTSVviavu"
   avatar_color: "#E5E5EA"
-
-- author: "feelfree_ai"
-  time: "2026-06-10"
-  text: "AI Threads PDF나 Word 문서로 RAG를 구축하면서 데이터 파싱 때문에 스트레스받으셨던 분들이라면 무조건 주목해야 할 소식입니다. IBM Docling 팀과 엔비디아, 레드햇 등이 손잡고 AI가 바로 읽고 완벽하게 이해할 수 있는 전용 문서 표준 포맷인 'DocLang'을 오픈소스로 발표했습니다."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@feelfree_ai/post/DZZknNZjlTm"
-  avatar_color: "#F5F5F5"

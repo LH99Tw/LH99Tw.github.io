@@ -1,18 +1,32 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
+- author: "incu_career"
+  time: "5시간"
+  text: "백엔드기술면접 [오늘의 백엔드 질문] 분산 트랜잭션을 처리할 때, 왜 2PC 대신 Saga 패턴을 선택했나요? 요즘 이력서에 MSA, Kafka, Outbox, Saga 자주등장하는 키워드야. 면접에서는 “써봤다”보다 “왜 그 방식을 선택했는지”를 더 깊게 물어보는 경우가 많아."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@incu_career/post/DaKs4ChCTh1"
+  avatar_color: "#EDE3DC"
+
+- author: "think_lighthouse"
+  time: "1일"
+  text: "백엔드 주니어 신입 쓸 것들 - mysql explain 을 통해 쿼리개선 - 로컬캐시를 이용한 성능개선 - 래디스를 이용한 성능개선 및 데이터 정합성 - tcpdump 를 이용한 패킷분석 장애해결 - claude 를 이용하여 token 및 context 절약"
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@think_lighthouse/post/DaIL1_vHUe7"
+  avatar_color: "#E8E0DA"
+
 - author: "eddmpython"
-  time: "2일"
+  time: "3일"
   text: "회계쟁이와 투자자여러분들 상장사 데이터 여기에 많습니다. 매일 업데이트 됩니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@eddmpython/post/DaCYczYHfxm"
-  avatar_color: "#EDE3DC"
+  avatar_color: "#F0ECE8"
 
 - author: "yeon.gyu.kim"
   time: "3일"
   text: "LazyCodex 방금 Codex 가 프론트엔드를 못하는 문제를 고쳤습니다 죄송합니다. 이 동영상을 재생하는 중 문제가 발생했습니다. 더 알아보기"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@yeon.gyu.kim/post/DaCEJflCqzk"
-  avatar_color: "#E8E0DA"
+  avatar_color: "#E5E5EA"
 
 - author: "aicoffeechat"
   time: "2026-06-21"
@@ -27,17 +41,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@ai_dogi_kitten/post/DZr1Kl-EltJ"
   avatar_color: "#E5E5EA"
-
-- author: "bunniesossdev"
-  time: "2026-06-14"
-  text: "죄송합니다. 진지한 이야기 한 번만 들어주세요.... 새로운 오픈소스 벡터 DB 증분 인덱싱을 도와주는 \"MinSync\"입니다. 이게 왜 필요하냐? RAG 하다보면 파일이 계속 바뀌는 경우가 있습니다. 그러면 파일을 통째로 다시 임베딩 벡터로 바꾸던지 아니면 최신성을 유지하지 못합니다. 귀찮게 재인덱싱 vs 최신성 버리기 죽음의 이지선다 입니다."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@bunniesossdev/post/DZkRd8Lkx0n"
-  avatar_color: "#F5F5F5"
-
-- author: "unclejobs.ai"
-  time: "2026-06-15"
-  text: "AI Threads \"바퀴를 재발명하지마.\" 어느 팀에나 있죠. 긴 포니테일에 둥근 안경, 버전관리보다 오래 다닌 사람. 남이 짠 50줄을 말없이 들여다보더니, 한 줄로 바꿔놓는 그 선배요."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@unclejobs.ai/post/DZltCqEib6l"
-  avatar_color: "#EDE3DC"

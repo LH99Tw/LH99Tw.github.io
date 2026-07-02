@@ -22,7 +22,7 @@
   avatar_color: "#F0ECE8"
 
 - author: "think.5x"
-  time: "1일"
+  time: "2일"
   text: "현존 가장 가벼운 로컬 LLM 서버는 Ollama일까요? Rust로 짜인 단일 바이너리 Shimmy가 5,555 stars로 떠올랐어요. Ollama 대비 어디까지 줄였는지 4가지로 짚어봅니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@think.5x/post/DaNEdchFJS5"

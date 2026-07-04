@@ -8,7 +8,7 @@
   avatar_color: "#EDE3DC"
 
 - author: "choi.openai"
-  time: "1일"
+  time: "2일"
   text: "Meta가 8년 동안 내부에서만 쓰던 디자인 시스템을 공개했습니다. 사람뿐 아니라 AI 코딩 에이전트까지 고려해 설계된 'Astryx'입니다. 13,000개 이상의 사내 앱에서 검증됐고, 150개 이상의 UI 컴포넌트와 테마, 브랜드 스킨까지 제공합니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@choi.openai/post/DaSiwPBEdEc"
@@ -22,21 +22,21 @@
   avatar_color: "#F0ECE8"
 
 - author: "think.5x"
-  time: "3일"
+  time: "4일"
   text: "현존 가장 가벼운 로컬 LLM 서버는 Ollama일까요? Rust로 짜인 단일 바이너리 Shimmy가 5,555 stars로 떠올랐어요. Ollama 대비 어디까지 줄였는지 4가지로 짚어봅니다. 번역하기"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@think.5x/post/DaNEdchFJS5"
   avatar_color: "#E5E5EA"
 
 - author: "incu_career"
-  time: "4일"
+  time: "5일"
   text: "백엔드기술면접 [오늘의 백엔드 질문] 분산 트랜잭션을 처리할 때, 왜 2PC 대신 Saga 패턴을 선택했나요? 요즘 이력서에 MSA, Kafka, Outbox, Saga 자주등장하는 키워드야. 면접에서는 “써봤다”보다 “왜 그 방식을 선택했는지”를 더 깊게 물어보는 경우가 많아."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@incu_career/post/DaKs4ChCTh1"
   avatar_color: "#F5F5F5"
 
 - author: "think_lighthouse"
-  time: "5일"
+  time: "6일"
   text: "백엔드 주니어 신입 쓸 것들 - mysql explain 을 통해 쿼리개선 - 로컬캐시를 이용한 성능개선 - 래디스를 이용한 성능개선 및 데이터 정합성 - tcpdump 를 이용한 패킷분석 장애해결 - claude 를 이용하여 token 및 context 절약"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@think_lighthouse/post/DaIL1_vHUe7"

@@ -8,8 +8,8 @@
   avatar_color: "#EDE3DC"
 
 - author: "ai_tusol"
-  time: "6일"
-  text: "지금 단 하나의 툴을 AI에게 연결시켜야 한다면 저는 이걸 연결할겁니다 번역하기"
+  time: "2026-07-18"
+  text: "지금 단 하나의 툴을 AI에게 연결시켜야 한다면 저는 이걸 연결할겁니다"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@ai_tusol/post/Da709dIkmiv"
   avatar_color: "#E8E0DA"
@@ -20,6 +20,13 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@testcode/post/Da38iJ3ExnI"
   avatar_color: "#F0ECE8"
+
+- author: "specal1849"
+  time: "2026-07-15"
+  text: "AI Threads 와 씨... 진짜 거의 다깍았다... 요즘 취미생활 요즘은 codex랑 claudecode로 스킬및 영상효과를 넣는 AI컴포넌트 작업을 하고있습니다. 아래는 순수 codex로 만들어진 녀석으로 수많은 그래프 덱들을 연결하고있고"
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@specal1849/post/Da0JRAqkZBz"
+  avatar_color: "#E5E5EA"
 
 - author: "qjc.ai"
   time: "5개월"
@@ -34,10 +41,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@qjc.ai/post/Da1pJOKE5vL"
   avatar_color: "#F5F5F5"
-
-- author: "choi.openai"
-  time: "2026-07-15"
-  text: "🚨 속보) SpaceXAI, 코딩 에이전트 Grok Build 오픈소스 공개. 번역하기"
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@choi.openai/post/Da1MB90kxix"
-  avatar_color: "#EDE3DC"

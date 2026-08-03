@@ -1,8 +1,8 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
 - author: "gangjoon_not_ai"
-  time: "21시간"
-  text: "@semi_is_busy님에게 남긴 답글 저라면 이거 씁니다. select.codes 번역하기 Select Codes · First-Party UI Component Library"
+  time: "1일"
+  text: "@semi_is_busy님에게 남긴 답글 저라면 이거 씁니다. select.codes Select Codes · First-Party UI Component Library"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@gangjoon_not_ai/post/Dbibo5uIMpq"
   avatar_color: "#EDE3DC"
@@ -15,11 +15,18 @@
   avatar_color: "#E8E0DA"
 
 - author: "takepage_"
-  time: "4일"
-  text: "3달만에 1.2만 스타를 받은 오픈소스가 있어요. AI가 영상 편집을 직접 할 수 있도록 만든 비디오 에디터를 통쨰로 풀었습니다. 왜 신기한건지, 어떻게 사용하는지 구조를 직접 뜯어봤습니다. 번역하기"
+  time: "5일"
+  text: "3달만에 1.2만 스타를 받은 오픈소스가 있어요. AI가 영상 편집을 직접 할 수 있도록 만든 비디오 에디터를 통쨰로 풀었습니다. 왜 신기한건지, 어떻게 사용하는지 구조를 직접 뜯어봤습니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@takepage_/post/DbYIy1zj4o1"
   avatar_color: "#F0ECE8"
+
+- author: "hoing_zz"
+  time: "6일"
+  text: "backend 1인 개발자분들은 결제 Webhook 실패,에러 처리를 어떻게 하시나요?? 이번에 Paddle을 붙이면서 결제 이벤트를 Webhook으로 받아 서비스 로직을 처리하고 있습니다. 그런데 Webhook 요청이 들어왔을 때"
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@hoing_zz/post/DbVGTjEEft1"
+  avatar_color: "#E5E5EA"
 
 - author: "crazy.codex"
   time: "6일"
@@ -34,10 +41,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@info__sum/post/DbU5EcUEgy7"
   avatar_color: "#F5F5F5"
-
-- author: "dong_hun_leee"
-  time: "2025-04-06"
-  text: "@dong_hun_leee님에게 남긴 답글 4. OSM (Open Street Map) - 무료 - 데이터 기여 가능 - 국내 정확도가 낮은 경우가 있음 - OSRM을 활용하여 다양한 API 사용 가능 (길찾기, 거리행렬 계산 등등)"
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@dong_hun_leee/post/DIG-1PKyZnA"
-  avatar_color: "#EDE3DC"

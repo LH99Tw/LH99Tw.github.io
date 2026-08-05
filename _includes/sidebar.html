@@ -30,13 +30,6 @@
 
   <nav class="sidebar__nav" aria-label="메인 네비게이션">
     <a class="sidebar__link sidebar__nav-link{% if page.url == '/' %} active{% endif %}" href="{{ '/' | relative_url }}" data-sidebar-nav>홈</a>
-    <a
-      class="sidebar__link sidebar__nav-link{% if page.url == '/profile/' %} active{% endif %}"
-      href="https://lee-juhan-project-reel.vercel.app/about"
-      data-sidebar-nav
-    >
-      프로필
-    </a>
 
     <div class="sidebar__section-label">카테고리</div>
     {% assign category_groups = site.data.sidebar_categories %}

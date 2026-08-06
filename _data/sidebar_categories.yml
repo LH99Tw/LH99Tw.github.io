@@ -12,6 +12,8 @@
       label: JS
     - id: project
       label: Project
+    - id: se
+      label: Software Engineering
 - id: finance
   label: 금융
   items:

@@ -1,18 +1,32 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
+- author: "2weekhun"
+  time: "2w"
+  text: "프론트엔드 React 앱이 느리면 일단 memo부터 붙이고 싶어집니다. useMemo도 넣고, 코드가 많아 보이면 React.lazy도 쓰고, 계산이 보이면 Worker도 떠올려요. 그런데 정작 가장 먼저 확인해야 할 질문은 따로 있습니다."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@2weekhun/post/Dbt2DpMARwo"
+  avatar_color: "#EDE3DC"
+
+- author: "junyoung.ai"
+  time: "7시간"
+  text: "책 한 권을 통째로 AI한테 넣어두고, 일할 때마다 그 책의 기준대로 시키는 방법이 있습니다. book-to-skill이라는 오픈소스입니다. 책 PDF를 넣으면 요약본을 만드는 게 아니라, 책의 프레임워크와 판단 기준을 뽑아서 클로드 코드가 쓰는 '스킬'로 바꿔줍니다. 깃허브 별 13,000개가 넘습니다."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@junyoung.ai/post/DbvMJt0AC6I"
+  avatar_color: "#E8E0DA"
+
 - author: "_codemango"
-  time: "15시간"
+  time: "21시간"
   text: "⭐️ 진짜 디자인 1도 몰라도 됨! 복붙해서 쳇지피티에 넣으면 타이포그래피 포스터 완성!! 히히 공짜 프롬프트 가져가 💙💙💙"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@_codemango/post/DbtvFOkE9FV"
-  avatar_color: "#EDE3DC"
+  avatar_color: "#F0ECE8"
 
 - author: "code4_social"
   time: "2일"
   text: "AI한테 코딩 시키면 멋대로 추측하고 안 시킨 것까지 건드리죠 AI 대가 카파시의 그 불평을 한 개발자가 파일 하나로 해결했습니다 깃허브 별 19만 개 AI가 멋대로 못 하게 묶는 규칙 4줄이 전부입니다 추측 금지, 최소한만, 시킨 곳만, 기준 먼저"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@code4_social/post/DbpKptcE3lZ"
-  avatar_color: "#E8E0DA"
+  avatar_color: "#E5E5EA"
 
 - author: "unclejobs.ai"
   time: "3일"
@@ -27,17 +41,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@gangjoon__/post/Dbibo5uIMpq"
   avatar_color: "#E5E5EA"
-
-- author: "_0.beomi_"
-  time: "6일"
-  text: "AI에게 “세련되게 만들어줘”라고 하면 결과는 대부분 비슷해집니다. 대신 원하는 UI의 이름을 정확히 지정해보세요. 글래스모피즘부터 브루탈리즘, 벤토 그리드, Y2K까지 이번에 웹앱을 디자인하며 참고한 10가지 스타일을 정리했습니다."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@_0.beomi_/post/DbceZkdiVR_"
-  avatar_color: "#E5E5EA"
-
-- author: "takepage_"
-  time: "3달"
-  text: "3달만에 1.2만 스타를 받은 오픈소스가 있어요. AI가 영상 편집을 직접 할 수 있도록 만든 비디오 에디터를 통쨰로 풀었습니다. 왜 신기한건지, 어떻게 사용하는지 구조를 직접 뜯어봤습니다. 번역하기"
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@takepage_/post/DbYIy1zj4o1"
-  avatar_color: "#F5F5F5"

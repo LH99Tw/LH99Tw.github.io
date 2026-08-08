@@ -14,6 +14,8 @@
       label: Project
     - id: se
       label: Software Engineering
+    - id: devops
+      label: DevOps
 - id: finance
   label: 금융
   items:

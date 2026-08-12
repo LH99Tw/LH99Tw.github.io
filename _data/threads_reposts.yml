@@ -1,14 +1,14 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
 - author: "takepage_"
-  time: "14시간"
-  text: "1달만에 스킬 하나에 스타가 1만개 달렸습니다. 이름은 img2threejs 스킬 이름대로 사진을 넣으면 코드로 다시 지어 브라우저에서 돌아가는 3D로 만들어주는 스킬입니다. 죄송합니다. 이 동영상을 재생하는 중 문제가 발생했습니다."
+  time: "19시간"
+  text: "1달만에 스킬 하나에 스타가 1만개 달렸습니다. 이름은 img2threejs 스킬 이름대로 사진을 넣으면 코드로 다시 지어 브라우저에서 돌아가는 3D로 만들어주는 스킬입니다. 번역하기 죄송합니다. 이 동영상을 재생하는 중 문제가 발생했습니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@takepage_/post/Db5mV95D-Cj"
   avatar_color: "#EDE3DC"
 
 - author: "jaelyung_kim"
-  time: "2일"
+  time: "3일"
   text: "1인 앱 개발 시작했으면 App Store Small Business Program 이건 무조건 신청해야돼! 애플이 유료 앱 판매랑 인앱 결제 수수료를 반토막 낸 15%만 받거든. 30% 내던 거 생각하면 진짜 큼."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@jaelyung_kim/post/DbzfGQGj9H6"
@@ -20,13 +20,6 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@nchime72/post/DbzJ9EGEoV6"
   avatar_color: "#F0ECE8"
-
-- author: "mori_mement0"
-  time: "4일"
-  text: "AI Threads 🎨 디자이너라면 한 번쯤은 저장해둘 만한 오픈소스입니다. Sketchbook은 디자이너이자 개발자인 Meng To가 공개한 UI 디자인 리소스 모음입니다. 단순한 예제 파일이 아니라 실무에서 바로 활용할 수 있는 디자인 시스템, 컴포넌트, 아이콘, 애니메이션, 3D 요소 등을 한곳에 모아 제공합니다. (SourceForge)"
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@mori_mement0/post/DbwpPJqGPgv"
-  avatar_color: "#E5E5EA"
 
 - author: "nerdboard.official"
   time: "3일"
@@ -41,3 +34,10 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@richardlee0202/post/DbwlLEnAXSl"
   avatar_color: "#F5F5F5"
+
+- author: "rich_l_2024"
+  time: "4일"
+  text: "“Snowflake, ClickHouse, BigQuery가 등장한 이유는 같은 테이블에서 조회와 쓰기를 동시에 잘할 수 없기 때문이다“ 많은 개발자는 하나의 데이터베이스 스키마로 쓰기(Write)와 읽기(Read)를 모두 최적화하려고 한다."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@rich_l_2024/post/DbwNG4MAlsY"
+  avatar_color: "#EDE3DC"

@@ -1,25 +1,32 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
+- author: "incu_career"
+  time: "6시간"
+  text: "토스뱅크백엔드 이번 토스뱅크 백엔드 인턴 서류 합격 이력서들의 공통 패턴을 분석해봤어. 단순히 “Spring Boot 썼다”, “프로젝트 했다”가 아니야. 1.정합성 문제를 다룬다 결제, 잔액, 이력, 알림, 데이터 처리에서"
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@incu_career/post/Dcz8gmbiXdw"
+  avatar_color: "#EDE3DC"
+
 - author: "splendor.kim"
   time: "2일"
   text: "@splendor.kim님에게 남긴 답글 스킬 세개를 섞어 쓴다 SVG (스킬은 아니긴 해) + ELI5 + Archify SVG 는 시각화, ELI5 는 언어, Archify 는 구조화를 담당한다. 물론 셋 중 하나만 써도, 그냥 설명하는것보단 한참 낫긴 함"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@splendor.kim/post/DcuOeUuk0WZ"
-  avatar_color: "#EDE3DC"
+  avatar_color: "#E8E0DA"
 
 - author: "takepage_"
   time: "6일"
   text: "오픈소스 하나가 5개월 만에 스타 4.8만개를 넘겼습니다. 이름은 CLI-Anything 블렌더나 OBS처럼 마우스로 쓰던 프로그램을 명령어로 조작되는 형태로 바꿔놓는 물건이에요. 그 명령어는 AI가 칩니다. 어떻게 돌아가는건지 뜯어봤습니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@takepage_/post/Dciz0uvD29D"
-  avatar_color: "#E8E0DA"
+  avatar_color: "#F0ECE8"
 
 - author: "minimin.dsgn"
   time: "73 s"
   text: "AI 디자인 못생겨서 혈압오를땐? 밤티 디자인 팩폭 때려주고 밤티 스코어 매겨주고 고칠것들 나열해주는 스킬 써보세요! npx -y @gessobuild/anti-slop install github.com/Gesso…"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@minimin.dsgn/post/DccRh2ZGnbS"
-  avatar_color: "#F0ECE8"
+  avatar_color: "#E5E5EA"
 
 - author: "info__sum"
   time: "2026-08-24"
@@ -34,10 +41,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@nerdboard.official/post/Dca4hb1j5fy"
   avatar_color: "#F5F5F5"
-
-- author: "takepage_"
-  time: "2026-08-24"
-  text: "스타 1.4만개가 눌린 SEO 스킬이 있습니다. 이름은 claude-seo 클로드 코드에 주소 하나만 던지면 사이트를 훑어서 고칠 목록을 뽑아줍니다. AI한테 \"내 사이트 SEO 최적화 해줘\"라고 하는 거랑 뭐가 차별점이 있을지 짚어봤습니다."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@takepage_/post/DcbMRx8DxaN"
-  avatar_color: "#EDE3DC"

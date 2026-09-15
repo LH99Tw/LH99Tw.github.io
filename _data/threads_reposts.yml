@@ -1,25 +1,32 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
+- author: "axiomorient"
+  time: "7시간"
+  text: "Ios앱 만드니? Xcode27 설치했니? 그럼 아래 내용을 에이전트에게 주면 개발이 편해짐 Xcode 27 내장 에이전트에게 직접 테스트 돌리고 버그 잡으라고 시키고, 파편화된 창은 Device Hub 하나로 통합되어서 시뮬레이터 검증해. 실기기 검증은 맥의 아이폰 미러링으로 띄워두고 로그 던져줘서 작업해. 앱스토어 배포는 asc CLI로 에이전트 사용해서 날리고, 외부 에이전트는 Xcod"
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@axiomorient/post/DdSybO4gTMN"
+  avatar_color: "#EDE3DC"
+
 - author: "aicoffeechat"
-  time: "5시간"
+  time: "12시간"
   text: "더 이상 레퍼런스 없이 코드 짜지 마세요 Inspo MCP인데요. 심지어 무료입니다. Inspo에는 보기 좋은 웹사이트가 800개 넘게 모여 있어요. 에이전트가 화면을 만들 때 Inspo가 이 사이트들을 뒤져서 지금 작업에 맞는 디자인 참고 자료를 찾아 건네줍니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@aicoffeechat/post/DdSQIokCv4r"
-  avatar_color: "#EDE3DC"
+  avatar_color: "#E8E0DA"
 
 - author: "choi.openai"
   time: "4일"
   text: "정말 오픈AI가 모든 시장을 다 먹으려는 것처럼 보입니다. 오픈AI가 금융권 전용 ChatGPT인 ChatGPT for Financial Services를 공개했습니다. GPT-6 Astra와 Daloopa, PitchBook, LSEG News, Crunchbase 같은 금융 데이터를 함께 활용해 기업 조사, 재무 분석, 가치평가 모델, 리서치 노트, 피치북까지 만들 수 있습니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@choi.openai/post/DdILm8QE-ZL"
-  avatar_color: "#E8E0DA"
+  avatar_color: "#F0ECE8"
 
 - author: "ai__frontier"
-  time: "1일"
+  time: "2일"
   text: "AI Threads GPT-6 Astra한테 \"OO 웹 하나 만들어줘\"라고 바로 시키지마. 작업 시키기 전에 PRD → 기능명세서 → 유저플로우 → 와이어프레임 이 4개부터 잡아야 결과물이 달라진다. 여기까진 하위 모델로 잡고"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@ai__frontier/post/DdN2Rd7E-Yc"
-  avatar_color: "#F0ECE8"
+  avatar_color: "#E5E5EA"
 
 - author: "prompt_what"
   time: "1일"
@@ -34,10 +41,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@aialnam/post/DdFszyEE4XY"
   avatar_color: "#F5F5F5"
-
-- author: "feelfree_ai"
-  time: "2026-09-08"
-  text: "AI Threads 문서로만 아키텍처 규칙을 강조해봤자 코드 리뷰나 바쁜 일정 속에서 결국 구멍이 뚫리기 마련입니다. 우아한형제들에서는 ArchUnit을 활용해 레이어 의존성 규칙을 테스트 코드로 아예 강제해버리는 방식을 도입했더군요."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@feelfree_ai/post/DdAs2mjk7_X"
-  avatar_color: "#EDE3DC"

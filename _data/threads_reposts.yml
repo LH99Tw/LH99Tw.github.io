@@ -1,18 +1,32 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
+- author: "choi.openai"
+  time: "2시간"
+  text: "@choi.openai님에게 남긴 답글 12/ Jev로 웹사이트의 사용자 행동 로그 300만 건을 분석해 오류와 불편 구간을 찾는 시스템이 공개됐습니다. 3,247개 세션에서 rage click 132건, dead click 116건, JavaScript 오류 95건을 40초에 분석했으며 비용은 2.17달러였습니다."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@choi.openai/post/DdfeM26DZSr"
+  avatar_color: "#EDE3DC"
+
+- author: "choi.openai"
+  time: "2시간"
+  text: "@choi.openai님에게 남긴 답글 10/ Jev로 Reddit·X·Bluesky 등에서 수집한 170만 건의 게시물을 분석해 구매 가능성이 높은 고객을 찾는 시스템이 공개됐습니다. 약 53초 만에 구매 신호를 분류하고 6,752개 답글 초안까지 작성했으며 비용은 0.65달러였습니다."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@choi.openai/post/DdfePs9jVS2"
+  avatar_color: "#E8E0DA"
+
 - author: "unclejobs.ai"
-  time: "10시간"
+  time: "19시간"
   text: "@unclejobs.ai님에게 남긴 답글 그리고 하루 만에 쿠아가 한 발 더 갔습니다. 젭을 쓰는 데서 멈추지 않고 직접 모델을 만들어 열었습니다. CUA-S1-FORMS. 폼 채우기만 하는 70만 파라미터, 파일 크기는 2.8메가입니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@unclejobs.ai/post/DddtGhriS6d"
-  avatar_color: "#EDE3DC"
+  avatar_color: "#F0ECE8"
 
 - author: "dori.2678"
   time: "1일"
   text: "@dori.2678님에게 남긴 답글 ⑥ Figma Education UI/UX, 웹, 앱 기획한다면 거의 필수급. 학생 인증 시 Figma Professional급 기능을 무료로 이용 가능. Professional Full Seat 기준 연 약 27만 원 상당."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@dori.2678/post/DdbSW9an8mf"
-  avatar_color: "#E8E0DA"
+  avatar_color: "#E5E5EA"
 
 - author: "unclejobs.ai"
   time: "1일"
@@ -27,17 +41,3 @@
   repost_label: "hhannn001"
   url: "https://www.threads.com/@miito._.y/post/DdZKy9Vkkea"
   avatar_color: "#E5E5EA"
-
-- author: "hjunhuh"
-  time: "3일"
-  text: "영상편집 @hjunhuh님에게 남긴 답글 GitHub: github.com/carte… GitHub - cartesiancs/cartcut: Video Editor for AI agents, built on the belief that open source can beat commercial tools"
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@hjunhuh/post/DdV6FbrE3ep"
-  avatar_color: "#E5E5EA"
-
-- author: "juuouse"
-  time: "2일"
-  text: "AI Threads 바이브코딩 UI 컴포넌트 용어 110개 정리해봤어요 (어플편!!) 저장하고 이걸로 지시해보세요! 「화면 뜨면 나오는거 뭐지 그거 해줘」 ❌ 「스플래시 @@이렇게 수정 해줘」 ⭕️ ① 화면 뼈대 (9)"
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@juuouse/post/DdVxGkBEped"
-  avatar_color: "#F5F5F5"

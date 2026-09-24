@@ -1,25 +1,32 @@
 # AUTO-GENERATED FILE. DO NOT EDIT MANUALLY.
 # Source: https://www.threads.com/@hhannn001/reposts?hl=ko
+- author: "dextune"
+  time: "1일"
+  text: "LUNA GPT-6 Sol Hig로 써도. GPT-5.6 Luna Max 급 가격이네. Devin SWE-2 섞어쓰니까. 그냥 토큰 걱정이 없네."
+  repost_label: "hhannn001"
+  url: "https://www.threads.com/@dextune/post/DdoLU5ekxRB"
+  avatar_color: "#EDE3DC"
+
 - author: "whitep.life"
   time: "1일"
   text: "@whitep.life님에게 남긴 답글 그래서 오늘 열심히 찾아보니 figma MCP를 대체할 수 있는 무료 오픈소스가 있어서 공유해. 바로 figwright이야. 무료인데 AI가 figma를 읽고 쓰게 만들어줘(웹이 아니라 figma 앱을 깔아야함). 아래에 figwright의 동작 방식과 github 링크 첨부해둘테니 확인해봐."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@whitep.life/post/DdmM8rVj-2g"
-  avatar_color: "#EDE3DC"
+  avatar_color: "#E8E0DA"
 
 - author: "cc.dev_"
   time: "5일"
   text: "AI Threads Cua는 앞에서 한 번 소개했는데 몇 시간 만에 다시 볼 이유가 생겼습니다. 이번엔 Cua Driver에 TypeSafe JEV를 붙이는 공식 예제가 들어왔습니다. 쉽게 말하면 → 컴퓨터를 보고 움직이고"
   repost_label: "hhannn001"
   url: "https://www.threads.com/@cc.dev_/post/DdcZGc-E10e"
-  avatar_color: "#E8E0DA"
+  avatar_color: "#F0ECE8"
 
 - author: "2weekhun"
   time: "2w"
   text: "프론트엔드 React를 공부하다 보면 Mount, Update, Render, Commit, Effect를 각각은 아는데 한 줄로 이어보려고 하면 갑자기 헷갈립니다. 이유는 간단해요. 서로 다른 두 흐름을 하나로 섞어서 보기 쉽기 때문입니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@2weekhun/post/DdkSlF7Ajs_"
-  avatar_color: "#F0ECE8"
+  avatar_color: "#E5E5EA"
 
 - author: "aitamguso"
   time: "3일"
@@ -33,11 +40,4 @@
   text: "@choi.openai님에게 남긴 답글 12/ Jev로 웹사이트의 사용자 행동 로그 300만 건을 분석해 오류와 불편 구간을 찾는 시스템이 공개됐습니다. 3,247개 세션에서 rage click 132건, dead click 116건, JavaScript 오류 95건을 40초에 분석했으며 비용은 2.17달러였습니다."
   repost_label: "hhannn001"
   url: "https://www.threads.com/@choi.openai/post/DdfeM26DZSr"
-  avatar_color: "#E5E5EA"
-
-- author: "choi.openai"
-  time: "2일"
-  text: "@choi.openai님에게 남긴 답글 10/ Jev로 Reddit·X·Bluesky 등에서 수집한 170만 건의 게시물을 분석해 구매 가능성이 높은 고객을 찾는 시스템이 공개됐습니다. 약 53초 만에 구매 신호를 분류하고 6,752개 답글 초안까지 작성했으며 비용은 0.65달러였습니다."
-  repost_label: "hhannn001"
-  url: "https://www.threads.com/@choi.openai/post/DdfePs9jVS2"
   avatar_color: "#E5E5EA"
